@@ -1,5 +1,6 @@
 package com.littlejoys.service;
 
+import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -47,6 +48,36 @@ public class UserService {
 
 	public String getEncodedPassword(String password) {
 		return passwordEncoder.encode(password);
+	}
+	
+	public User createNewUser(User user) throws Exception, SQLException {
+		if (user.getStatus() != null) {
+			user.setStatus("active");
+			return userDao.save(user);
+		} else {
+
+			Role role = roleDao.findById("user").get();
+
+			Set<Role> roles = new HashSet<>();
+			roles.add(role);
+			User userToBeFoundByName = userDao.findByName(user.getName());
+			User userToBeFoundByMobile = userDao.findByMobile(user.getMobile());
+			User userToBeFoundByEmail = userDao.findByEmail(user.getEmail());
+
+			if (userToBeFoundByName != null) {
+				throw new ResourceAlreadyExistException("A user already exist with this account");
+			} else if (userToBeFoundByEmail != null) {
+				throw new ResourceAlreadyExistException("A user with this email already exist");
+			} else if (userToBeFoundByMobile != null) {
+				throw new ResourceAlreadyExistException("A user with that mobile already exist");
+			} else {
+				user.setStatus("inactive");
+				user.setRole(roles);
+				user.setPassword(getEncodedPassword(user.getPassword()));
+				createAndSendConfirmationTokenViaEmail(user);
+				return userDao.save(user);
+			}
+		}
 	}
 
 }
