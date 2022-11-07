@@ -30,4 +30,9 @@ public class JwtUtil {
 		return getClaimFromToken(token, Claims::getExpiration);
 	}
 	
+	private Boolean isTokenExpired(String token) {
+		final Date expirationDate = getExpirationDateFromToken(token);
+		return expirationDate.before(new Date());
+	}
+	
 }
