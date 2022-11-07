@@ -28,4 +28,13 @@ public class AddOnsService {
 		return addonDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Addon(id) does not exist"));
 	}
 	
+	public AddOns deleteAddOnById(long id) throws Exception {
+		AddOns addOnsToDelete= findAddOnById(id);
+		if (addOnsToDelete != null) {
+			addonDao.deleteById(id);
+			return addOnsToDelete;
+		}
+		throw new ResourceNotFoundException("Addon(id) does not exist");
+	}
+	
 }
