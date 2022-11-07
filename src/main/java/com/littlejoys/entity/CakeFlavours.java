@@ -1,0 +1,20 @@
+package com.littlejoys.entity;
+
+public enum CakeFlavours {
+	CHOCOLATE, 
+	VANILLA,
+	STRAWBERRY,
+	ORANGE,
+	MANGO,
+	RASBERRY,
+	BLUEBERRY,
+	BLACK_FOREST,
+	BANANA,
+	BUTTERSCOTCH,
+	RED_VELVET,
+	FRUIT,
+	PINEAPPLE,
+	RASMALAI,
+	CHEESECAKE,
+	CUSTOM
+}
