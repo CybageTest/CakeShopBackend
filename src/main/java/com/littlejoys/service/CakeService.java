@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.littlejoys.dao.ICakeDao;
 import com.littlejoys.entity.Cake;
+import com.littlejoys.entity.CakeCategory;
+import com.littlejoys.exception.ResourceNotFoundException;
 
 @Service
 public class CakeService {
@@ -28,6 +30,10 @@ public class CakeService {
 	
 	public Cake findCakeById(long id) {
 		return cakeDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Cake(id) does not exist"));
+	}
+	
+	public List<Cake> findCakeByCategory(CakeCategory category) {
+		return cakeDao.findByCategory(category);
 	}
 	
 
