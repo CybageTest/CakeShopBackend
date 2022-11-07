@@ -1,5 +1,7 @@
 package com.littlejoys.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,10 @@ public class CakeService {
 
 	public Cake addCake(Cake cake) {
 		return cakeDao.save(cake);
+	}
+
+	public List<Cake> addCakeList(List<Cake> cakeList) {
+		return cakeDao.saveAll(cakeList);
 	}
 
 
