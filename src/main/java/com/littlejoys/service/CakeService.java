@@ -26,5 +26,9 @@ public class CakeService {
 		return cakeDao.findAll();
 	}
 	
+	public Cake findCakeById(long id) {
+		return cakeDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Cake(id) does not exist"));
+	}
+	
 
 }
