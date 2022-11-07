@@ -38,9 +38,9 @@ public class JwtService implements UserDetailsService {
 		final UserDetails userDetails = loadUserByUsername(username);
 		String newJwtToken = jwtUtil.generateToken(userDetails);
 		User user= userDao.findById(username).get();
-		int otp= otpService.generateotp(username);
-		String message = ("Your OTP for login is " + otp + " and will be valid for 5 minutes.");
-		System.out.println("OTP JWT: "+message );
+		//int otp= otpService.generateotp(username);
+		//String message = ("Your OTP for login is " + otp + " and will be valid for 5 minutes.");
+		//System.out.println("OTP JWT: "+message );
 		//emailService.sendEmail(user.getEmail(), "Otp for login", message);
 		return new JwtResponse(user, newJwtToken);
 	}
