@@ -1,5 +1,7 @@
 package com.littlejoys.util;
 
+import java.util.function.Function;
+
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
@@ -12,6 +14,11 @@ public class JwtUtil {
 	
 	private Claims getAllClaims(String token) {
 		return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+	}
+	
+	private <T> T getClaimFromToken(String token, Function<Claims, T> claimResolver) {
+		final Claims claims = getAllClaims(token);
+		return claimResolver.apply(claims);
 	}
 	
 }
