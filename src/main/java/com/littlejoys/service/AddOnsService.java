@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.littlejoys.dao.IAddOnsDao;
 import com.littlejoys.entity.AddOns;
+import com.littlejoys.exception.ResourceNotFoundException;
 
 @Service
 public class AddOnsService {
@@ -21,6 +22,10 @@ public class AddOnsService {
 
 	public List<AddOns> addAddonsList(List<AddOns> addOnsList) {
 		return addonDao.saveAll(addOnsList);
+	}
+	
+	public AddOns findAddOnById(long id) {
+		return addonDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Addon(id) does not exist"));
 	}
 	
 }
