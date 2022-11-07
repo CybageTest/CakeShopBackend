@@ -45,4 +45,8 @@ public class AddOnsService {
 		throw new ResourceNotFoundException("Addon(id) does not exist");
 	}
 
+	public List<AddOns> getAllAddOns() {
+		return addonDao.findAll();
+	}
+
 }
