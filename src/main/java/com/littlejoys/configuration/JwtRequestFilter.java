@@ -15,8 +15,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.cybage.service.JwtService;
-import com.cybage.util.JwtUtil;
+import com.littlejoys.service.JwtService;
+import com.littlejoys.util.JwtUtil;
 
 import io.jsonwebtoken.ExpiredJwtException;
 
