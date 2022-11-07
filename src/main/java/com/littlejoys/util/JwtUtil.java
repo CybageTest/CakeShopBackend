@@ -1,5 +1,6 @@
 package com.littlejoys.util;
 
+import java.util.Date;
 import java.util.function.Function;
 
 import org.springframework.stereotype.Component;
@@ -23,6 +24,10 @@ public class JwtUtil {
 	
 	public String getUsernameFromToken(String token) {
 		return getClaimFromToken(token, Claims::getSubject);
+	}
+	
+	private Date getExpirationDateFromToken(String token) {
+		return getClaimFromToken(token, Claims::getExpiration);
 	}
 	
 }
