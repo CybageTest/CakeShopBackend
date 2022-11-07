@@ -54,5 +54,13 @@ public class CakeService {
 		}
 		throw new ResourceNotFoundException("Cake(id) does not exist");
 	}
+	public Cake editCakeById(long id, Cake cake) {
+		Cake cakeToEdit= findCakeById(id);
+		if(cakeToEdit!=null) {
+			cakeDao.save(cake);
+			return cakeToEdit;
+		}
+		throw new ResourceNotFoundException("Cake(id) does not exist");
+	}
 
 }
