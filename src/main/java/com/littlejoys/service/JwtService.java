@@ -15,6 +15,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.littlejoys.dao.IUserDao;
+import com.littlejoys.entity.JwtRequest;
+import com.littlejoys.entity.JwtResponse;
 import com.littlejoys.entity.User;
 import com.littlejoys.util.JwtUtil;
 
