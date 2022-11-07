@@ -12,6 +12,7 @@ import com.littlejoys.dao.IRoleDao;
 import com.littlejoys.dao.IUserDao;
 import com.littlejoys.entity.Role;
 import com.littlejoys.entity.User;
+import com.littlejoys.exception.ResourceAlreadyExistException;
 
 @Service
 public class UserService {
