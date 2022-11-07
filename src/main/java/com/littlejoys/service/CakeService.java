@@ -45,5 +45,14 @@ public class CakeService {
 	public List<Cake> findCakeByFlavours(CakeFlavours flavours) {
 		return cakeDao.findByFlavours(flavours);
 	}
+	
+	public Cake deleteCakeById(long id) throws Exception {
+		Cake cakeToDelete= findCakeById(id);
+		if(cakeToDelete!=null) {
+			cakeDao.deleteById(id);
+			return cakeToDelete;
+		}
+		throw new ResourceNotFoundException("Cake(id) does not exist");
+	}
 
 }
