@@ -100,6 +100,17 @@ public class UserService {
 		String emailSubject = "Complete Registration!";
 		emailService.sendEmail(user.getEmail(), emailSubject, emailBody);
 	}
+	
+	public String confirmUserAccount(String confirmationToken) throws SQLException, Exception {
+		ConfirmationToken token = confirmationTokenDao.findByConfirmationToken(confirmationToken);
+		if (token != null) {
+			User user = userDao.findByEmail(token.getUser().getEmail());
+			createNewUser(user);
+			return "Succesful";
+		}
+		return "Registration Failed";
+	}
+
 
 
 }
