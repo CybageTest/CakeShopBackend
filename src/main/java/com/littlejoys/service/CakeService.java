@@ -22,5 +22,9 @@ public class CakeService {
 		return cakeDao.saveAll(cakeList);
 	}
 
+	public List<Cake> getAllCakes() {
+		return cakeDao.findAll();
+	}
+	
 
 }
