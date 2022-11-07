@@ -4,12 +4,16 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.mail.MessagingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.littlejoys.dao.IConfirmationTokenDao;
 import com.littlejoys.dao.IRoleDao;
 import com.littlejoys.dao.IUserDao;
+import com.littlejoys.entity.ConfirmationToken;
 import com.littlejoys.entity.Role;
 import com.littlejoys.entity.User;
 import com.littlejoys.exception.ResourceAlreadyExistException;
@@ -22,6 +26,12 @@ public class UserService {
 	@Autowired
 	private IRoleDao roleDao;
 
+	@Autowired
+	private IConfirmationTokenDao confirmationTokenDao;
+	
+	@Autowired
+	private EmailService emailService;
+	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
@@ -80,5 +90,16 @@ public class UserService {
 			}
 		}
 	}
+	
+	public void createAndSendConfirmationTokenViaEmail(User user) throws MessagingException {
+		ConfirmationToken confirmationToken = new ConfirmationToken(user);
+		confirmationTokenDao.save(confirmationToken);
+		String emailBody = ("To confirm your account, please click here : "
+				+ "http://172.27.232.112:8080/api/user/confirm-account?token="
+				+ confirmationToken.getConfirmationToken());
+		String emailSubject = "Complete Registration!";
+		emailService.sendEmail(user.getEmail(), emailSubject, emailBody);
+	}
+
 
 }
