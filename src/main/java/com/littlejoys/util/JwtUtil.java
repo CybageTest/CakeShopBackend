@@ -3,6 +3,7 @@ package com.littlejoys.util;
 import java.util.Date;
 import java.util.function.Function;
 
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
@@ -33,6 +34,11 @@ public class JwtUtil {
 	private Boolean isTokenExpired(String token) {
 		final Date expirationDate = getExpirationDateFromToken(token);
 		return expirationDate.before(new Date());
+	}
+	
+	public Boolean validateToken(String token, UserDetails userDetails) {
+		String username = getUsernameFromToken(token);
+		return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
 	}
 	
 }
