@@ -1,5 +1,6 @@
 package com.littlejoys.service;
 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,4 +19,8 @@ public class AddOnsService {
 		return addonDao.save(addOns);
 	}
 
+	public List<AddOns> addAddonsList(List<AddOns> addOnsList) {
+		return addonDao.saveAll(addOnsList);
+	}
+	
 }
