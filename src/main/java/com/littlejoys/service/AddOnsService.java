@@ -1,6 +1,5 @@
 package com.littlejoys.service;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,18 +22,27 @@ public class AddOnsService {
 	public List<AddOns> addAddonsList(List<AddOns> addOnsList) {
 		return addonDao.saveAll(addOnsList);
 	}
-	
+
 	public AddOns findAddOnById(long id) {
 		return addonDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Addon(id) does not exist"));
 	}
-	
+
 	public AddOns deleteAddOnById(long id) throws Exception {
-		AddOns addOnsToDelete= findAddOnById(id);
+		AddOns addOnsToDelete = findAddOnById(id);
 		if (addOnsToDelete != null) {
 			addonDao.deleteById(id);
 			return addOnsToDelete;
 		}
 		throw new ResourceNotFoundException("Addon(id) does not exist");
 	}
-	
+
+	public AddOns editAddon(long id, AddOns addon) throws Exception {
+		AddOns addOnsToEdit = findAddOnById(id);
+		if (addOnsToEdit != null) {
+			addonDao.save(addon);
+			return addOnsToEdit;
+		}
+		throw new ResourceNotFoundException("Addon(id) does not exist");
+	}
+
 }
