@@ -1,5 +1,7 @@
 package com.littlejoys.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,4 +31,10 @@ public class AddOnsController {
 		return new ResponseEntity<AddOns>(addOnsService.findAddOnById(id), HttpStatus.FOUND);
 	}
 
+	@PostMapping("/addAddonsList")
+	public ResponseEntity<List<AddOns>> addAddonsList(@RequestBody List<AddOns> addOnsList){
+		return new ResponseEntity<List<AddOns>>(addOnsService.addAddonsList(addOnsList), HttpStatus.CREATED);
+	}
+	
+	
 }
