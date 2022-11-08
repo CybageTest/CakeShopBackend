@@ -28,10 +28,10 @@ public class UserService {
 
 	@Autowired
 	private IConfirmationTokenDao confirmationTokenDao;
-	
+
 	@Autowired
 	private EmailService emailService;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
@@ -60,7 +60,7 @@ public class UserService {
 	public String getEncodedPassword(String password) {
 		return passwordEncoder.encode(password);
 	}
-	
+
 	public User createNewUser(User user) throws Exception, SQLException {
 		if (user.getStatus() != null) {
 			user.setStatus("active");
@@ -90,7 +90,7 @@ public class UserService {
 			}
 		}
 	}
-	
+
 	public void createAndSendConfirmationTokenViaEmail(User user) throws MessagingException {
 		ConfirmationToken confirmationToken = new ConfirmationToken(user);
 		confirmationTokenDao.save(confirmationToken);
@@ -100,7 +100,7 @@ public class UserService {
 		String emailSubject = "Complete Registration!";
 		emailService.sendEmail(user.getEmail(), emailSubject, emailBody);
 	}
-	
+
 	public String confirmUserAccount(String confirmationToken) throws SQLException, Exception {
 		ConfirmationToken token = confirmationTokenDao.findByConfirmationToken(confirmationToken);
 		if (token != null) {
@@ -111,6 +111,8 @@ public class UserService {
 		return "Registration Failed";
 	}
 
-
+	public User findUserByEmailOrMobile(String email, String mobile) {
+		return userDao.findByEmailOrMobile(email, mobile);
+	}
 
 }
