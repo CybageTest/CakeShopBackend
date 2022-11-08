@@ -1,0 +1,26 @@
+package com.littlejoys.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.littlejoys.entity.Cake;
+import com.littlejoys.service.CakeService;
+
+@RestController
+@RequestMapping("/api/v1/cake")
+public class CakeController {
+
+	@Autowired
+	private CakeService cakeService;
+
+	@PostMapping("/")
+	public ResponseEntity<Cake> addCake(@RequestBody Cake cake) {
+		return new ResponseEntity<Cake>(cakeService.addCake(cake), HttpStatus.CREATED);
+	}
+
+}
