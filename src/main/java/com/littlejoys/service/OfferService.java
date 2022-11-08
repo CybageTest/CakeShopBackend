@@ -24,5 +24,8 @@ public class OfferService {
 		return offerDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Offer(id) does not exist"));
 	}
 	
+	public List<Offer> getAllOffers() {
+		return offerDao.findAll();
+	}
 	
 }
