@@ -11,6 +11,11 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(ResourceAlreadyExistException.class)
 	public ResponseEntity<String> handleException(ResourceAlreadyExistException exception){
 		return new ResponseEntity<String>(exception.getMessage(), HttpStatus.CONFLICT);
-	}	
+	}
+	
+	@ExceptionHandler(ResourceNotFoundException.class)
+	public ResponseEntity<String> handleException(ResourceNotFoundException exception){
+		return new ResponseEntity<String>(exception.getMessage(), HttpStatus.NOT_FOUND);
+	}
 	
 }
