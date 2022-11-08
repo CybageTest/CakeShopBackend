@@ -25,16 +25,20 @@ public class AddOnsController {
 	public ResponseEntity<AddOns> addAddOns(@RequestBody AddOns addOns) {
 		return new ResponseEntity<AddOns>(addOnsService.addAddOns(addOns), HttpStatus.CREATED);
 	}
-	
+
 	@GetMapping("/{id}")
-	public ResponseEntity<AddOns> findAddOnsById(@PathVariable long id){
+	public ResponseEntity<AddOns> findAddOnsById(@PathVariable long id) {
 		return new ResponseEntity<AddOns>(addOnsService.findAddOnById(id), HttpStatus.FOUND);
 	}
 
 	@PostMapping("/addAddonsList")
-	public ResponseEntity<List<AddOns>> addAddonsList(@RequestBody List<AddOns> addOnsList){
+	public ResponseEntity<List<AddOns>> addAddonsList(@RequestBody List<AddOns> addOnsList) {
 		return new ResponseEntity<List<AddOns>>(addOnsService.addAddonsList(addOnsList), HttpStatus.CREATED);
 	}
-	
-	
+
+	@GetMapping("/getAllAddons")
+	public ResponseEntity<List<AddOns>> getAllAddOns() {
+		return new ResponseEntity<List<AddOns>>(addOnsService.getAllAddOns(), HttpStatus.FOUND);
+	}
+
 }
