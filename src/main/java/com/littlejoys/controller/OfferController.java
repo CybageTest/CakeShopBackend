@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,6 +42,11 @@ public class OfferController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Offer> deleteOfferById(@PathVariable long id) throws Exception{
 		return new ResponseEntity<Offer>(offerService.deleteOfferById(id), HttpStatus.OK);
+	}
+	
+	@PutMapping("/editOffer/{id}")
+	public ResponseEntity<Offer> editOfferById(@PathVariable long id, @RequestBody Offer offer) throws Exception{
+		return new ResponseEntity<Offer>(offerService.editOffer(id, offer), HttpStatus.OK);
 	}
 
 }
