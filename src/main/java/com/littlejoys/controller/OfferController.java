@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,6 +36,11 @@ public class OfferController {
 	@GetMapping("/getAllOffers")
 	public ResponseEntity<List<Offer>> getAllOffers(){
 		return new ResponseEntity<List<Offer>>(offerService.getAllOffers(), HttpStatus.FOUND);
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Offer> deleteOfferById(@PathVariable long id) throws Exception{
+		return new ResponseEntity<Offer>(offerService.deleteOfferById(id), HttpStatus.OK);
 	}
 
 }
