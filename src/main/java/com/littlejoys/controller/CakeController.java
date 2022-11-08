@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.littlejoys.entity.Cake;
 import com.littlejoys.entity.CakeCategory;
+import com.littlejoys.entity.CakeFlavours;
 import com.littlejoys.entity.CakeOccasions;
 import com.littlejoys.service.CakeService;
 
@@ -53,5 +54,11 @@ public class CakeController {
 	public ResponseEntity<List<Cake>> findAllCakesByOccassions(@PathVariable CakeOccasions occasions){
 		return new ResponseEntity<List<Cake>>(cakeService.findCakeByOccasions(occasions), HttpStatus.FOUND);
 	}
+	
+	@GetMapping("/byFlavours/{flavours}")
+	public ResponseEntity<List<Cake>> findAllCakesByFlavours(@PathVariable CakeFlavours flavours){
+		return new ResponseEntity<List<Cake>>(cakeService.findCakeByFlavours(flavours), HttpStatus.FOUND);
+	}
+	
 
 }
