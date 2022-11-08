@@ -17,6 +17,7 @@ import com.littlejoys.entity.ConfirmationToken;
 import com.littlejoys.entity.Role;
 import com.littlejoys.entity.User;
 import com.littlejoys.exception.ResourceAlreadyExistException;
+import com.littlejoys.exception.ResourceNotFoundException;
 
 @Service
 public class UserService {
@@ -113,6 +114,20 @@ public class UserService {
 
 	public User findUserByEmailOrMobile(String email, String mobile) {
 		return userDao.findByEmailOrMobile(email, mobile);
+	}
+	
+	public User changeUserPassword(String name, String oldPassword, String newPassword) throws Exception {
+		User loggedInUser= userDao.findByName(name);
+		if(loggedInUser!=null) {
+			if(checkIfValidOldPassword(loggedInUser, oldPassword)) {
+				loggedInUser.setPassword(passwordEncoder.encode(newPassword));
+				userDao.save(loggedInUser);
+				return loggedInUser;
+			}else {
+				throw new InvalidOldPasswordException("Old password does not match");
+			}
+		}
+		throw new ResourceNotFoundException("User(name) does not exist");
 	}
 
 }
