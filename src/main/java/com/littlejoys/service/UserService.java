@@ -129,5 +129,12 @@ public class UserService {
 		}
 		throw new ResourceNotFoundException("User(name) does not exist");
 	}
+	
+	public Boolean checkIfValidOldPassword(User loggedInUser, String oldPasswordToMatch ) {
+		if(passwordEncoder.matches(oldPasswordToMatch, loggedInUser.getPassword())){
+			return true;
+		}
+		return false;
+	}
 
 }
