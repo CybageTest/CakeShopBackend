@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,6 +40,11 @@ public class AddOnsController {
 	@GetMapping("/getAllAddons")
 	public ResponseEntity<List<AddOns>> getAllAddOns() {
 		return new ResponseEntity<List<AddOns>>(addOnsService.getAllAddOns(), HttpStatus.FOUND);
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<AddOns> deleteAddOnsById(@PathVariable long id) throws Exception{
+		return new ResponseEntity<AddOns>(addOnsService.deleteAddOnById(id), HttpStatus.OK);
 	}
 
 }
