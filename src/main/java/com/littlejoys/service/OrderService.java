@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.littlejoys.dao.IOrderDao;
 import com.littlejoys.entity.Order;
+import com.littlejoys.exception.ResourceNotFoundException;
 
 @Service
 public class OrderService {
@@ -14,6 +15,10 @@ public class OrderService {
 
 	public Order addOrder(Order order) {
 		return orderDao.save(order);
+	}
+	
+	public Order findOrderById(long id) {
+		return orderDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Order(id) does not exist"));
 	}
 
 }
