@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.littlejoys.dao.IOrderDao;
+import com.littlejoys.entity.CakeCategory;
 import com.littlejoys.entity.Order;
 import com.littlejoys.exception.ResourceNotFoundException;
 
@@ -34,6 +35,10 @@ public class OrderService {
 			return orderToDelete;
 		}
 		throw new ResourceNotFoundException("Order(id) does not exist");
+	}
+	
+	public List<Order> findCakesByCategory(CakeCategory category) {
+		return orderDao.findOrderByCakesCategory(category);
 	}
 	
 }
