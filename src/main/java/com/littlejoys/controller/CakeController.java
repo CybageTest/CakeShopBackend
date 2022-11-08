@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.littlejoys.entity.Cake;
+import com.littlejoys.entity.CakeCategory;
 import com.littlejoys.service.CakeService;
 
 @RestController
@@ -40,6 +41,11 @@ public class CakeController {
 	@GetMapping("/{id}")
 	public ResponseEntity<Cake> findCakeById(@PathVariable long id){
 		return new ResponseEntity<Cake>(cakeService.findCakeById(id), HttpStatus.FOUND);
+	}
+	
+	@GetMapping("/byCategory/{category}")
+	public ResponseEntity<List<Cake>> findAllCakesByCategory(@PathVariable CakeCategory category){
+		return new ResponseEntity<List<Cake>>(cakeService.findCakeByCategory(category), HttpStatus.FOUND);
 	}
 
 }
