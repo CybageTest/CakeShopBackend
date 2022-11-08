@@ -1,5 +1,7 @@
 package com.littlejoys.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,11 @@ public class CakeController {
 	@PostMapping("/")
 	public ResponseEntity<Cake> addCake(@RequestBody Cake cake) {
 		return new ResponseEntity<Cake>(cakeService.addCake(cake), HttpStatus.CREATED);
+	}
+	
+	@PostMapping("/addCakesList")
+	public ResponseEntity<List<Cake>> addCakesList(@RequestBody List<Cake> cakeList){
+		return new ResponseEntity<List<Cake>>(cakeService.addCakeList(cakeList), HttpStatus.CREATED);
 	}
 
 }
