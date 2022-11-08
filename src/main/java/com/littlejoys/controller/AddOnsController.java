@@ -42,16 +42,15 @@ public class AddOnsController {
 	public ResponseEntity<List<AddOns>> getAllAddOns() {
 		return new ResponseEntity<List<AddOns>>(addOnsService.getAllAddOns(), HttpStatus.FOUND);
 	}
-	
+
 	@DeleteMapping("/{id}")
-	public ResponseEntity<AddOns> deleteAddOnsById(@PathVariable long id) throws Exception{
+	public ResponseEntity<AddOns> deleteAddOnsById(@PathVariable long id) throws Exception {
 		return new ResponseEntity<AddOns>(addOnsService.deleteAddOnById(id), HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/editAddon/{id}")
-	public ResponseEntity<AddOns> editAddOnsById(@PathVariable long id, @RequestBody AddOns addons) throws Exception{
+	public ResponseEntity<AddOns> editAddOnsById(@PathVariable long id, @RequestBody AddOns addons) throws Exception {
 		return new ResponseEntity<AddOns>(addOnsService.editAddon(id, addons), HttpStatus.OK);
 	}
-	
 
 }
