@@ -28,4 +28,13 @@ public class OfferService {
 		return offerDao.findAll();
 	}
 	
+	public Offer editOffer(long id, Offer offer) throws Exception {
+		Offer offerToEdit = findOfferById(id);
+		if (offerToEdit != null) {
+			offerDao.save(offer);
+			return offerToEdit;
+		}
+		throw new ResourceNotFoundException("Offer(id) does not exist");
+	}
+	
 }
