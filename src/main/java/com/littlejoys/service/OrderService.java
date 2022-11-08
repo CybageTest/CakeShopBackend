@@ -27,4 +27,13 @@ public class OrderService {
 		return orderDao.findAll();
 	}
 	
+	public Order deleteOrderById(long id) throws Exception {
+		Order orderToDelete = findOrderById(id);
+		if (orderToDelete != null) {
+			orderDao.deleteById(id);
+			return orderToDelete;
+		}
+		throw new ResourceNotFoundException("Order(id) does not exist");
+	}
+	
 }
