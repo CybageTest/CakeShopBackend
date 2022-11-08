@@ -1,8 +1,11 @@
 package com.littlejoys.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +24,11 @@ public class OrderController {
 	@PostMapping("/")
 	public ResponseEntity<Order> addOffer(@RequestBody Order order) {
 		return new ResponseEntity<Order>(orderService.addOrder(order), HttpStatus.CREATED);
+	}
+	
+	@GetMapping("/allOrders")
+	public ResponseEntity<List<Order>> getAllOrders(){
+		return new ResponseEntity<List<Order>>(orderService.getAllOrder(), HttpStatus.OK);
 	}
 
 }
