@@ -37,4 +37,13 @@ public class OfferService {
 		throw new ResourceNotFoundException("Offer(id) does not exist");
 	}
 	
+	public Offer deleteOfferById(long id) throws Exception {
+		Offer offerToDelete = findOfferById(id);
+		if (offerToDelete != null) {
+			offerDao.deleteById(id);
+			return offerToDelete;
+		}
+		throw new ResourceNotFoundException("Offer(id) does not exist");
+	}
+	
 }
