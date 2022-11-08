@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.littlejoys.entity.JwtRequest;
@@ -51,6 +52,11 @@ public class UserController {
 	@PreAuthorize("hasRole('admin')")
 	public String getAdmins() {
 		return "This URL is accessible only for admins";
+	}
+	
+	@GetMapping("/findByEmailOrMobile")
+	public User findUserByEmailOrMobile(@RequestParam String email, @RequestParam String mobile) {
+		return userService.findUserByEmailOrMobile(email, mobile);
 	}
 
 }
