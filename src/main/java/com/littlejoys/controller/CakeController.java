@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +35,11 @@ public class CakeController {
 	@GetMapping("/allcakes")
 	public ResponseEntity<List<Cake>> getAllCakes(){
 		return new ResponseEntity<List<Cake>>(cakeService.getAllCakes(), HttpStatus.FOUND);
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<Cake> findCakeById(@PathVariable long id){
+		return new ResponseEntity<Cake>(cakeService.findCakeById(id), HttpStatus.FOUND);
 	}
 
 }
