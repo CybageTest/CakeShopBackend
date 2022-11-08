@@ -3,6 +3,8 @@ package com.littlejoys.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,11 @@ public class OfferController {
 	@PostMapping("/")
 	public ResponseEntity<Offer> addOffer(@RequestBody Offer offer) {
 		return new ResponseEntity<Offer>(offerService.addOffer(offer), HttpStatus.CREATED);
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<Offer> findOfferById(@PathVariable long id){
+		return new ResponseEntity<Offer>(offerService.findOfferById(id), HttpStatus.FOUND);
 	}
 
 }
