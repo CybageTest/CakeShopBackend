@@ -1,5 +1,7 @@
 package com.littlejoys.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +30,11 @@ public class OfferController {
 	@GetMapping("/{id}")
 	public ResponseEntity<Offer> findOfferById(@PathVariable long id){
 		return new ResponseEntity<Offer>(offerService.findOfferById(id), HttpStatus.FOUND);
+	}
+	
+	@GetMapping("/getAllOffers")
+	public ResponseEntity<List<Offer>> getAllOffers(){
+		return new ResponseEntity<List<Offer>>(offerService.getAllOffers(), HttpStatus.FOUND);
 	}
 
 }
