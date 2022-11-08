@@ -16,6 +16,7 @@ import com.littlejoys.dao.IUserDao;
 import com.littlejoys.entity.ConfirmationToken;
 import com.littlejoys.entity.Role;
 import com.littlejoys.entity.User;
+import com.littlejoys.exception.InvalidOldPasswordException;
 import com.littlejoys.exception.ResourceAlreadyExistException;
 import com.littlejoys.exception.ResourceNotFoundException;
 
