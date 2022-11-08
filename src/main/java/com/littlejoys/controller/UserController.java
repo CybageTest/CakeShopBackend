@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.littlejoys.entity.JwtRequest;
 import com.littlejoys.entity.JwtResponse;
+import com.littlejoys.entity.User;
 import com.littlejoys.service.JwtService;
 import com.littlejoys.service.UserService;
 
@@ -31,6 +32,11 @@ public class UserController {
 	@PostMapping({ "/authenticate" })
 	public JwtResponse createJwtToken(@RequestBody JwtRequest jwtRequest) throws Exception {
 		return jwtService.createJwtToken(jwtRequest);
+	}
+	
+	@PostMapping("/adduser")
+	public User createNewUser(@RequestBody User user) throws Exception {
+		return userService.createNewUser(user);
 	}
 	
 	
