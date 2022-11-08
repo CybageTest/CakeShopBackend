@@ -1,5 +1,7 @@
 package com.littlejoys.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,4 +23,8 @@ public class OrderService {
 		return orderDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Order(id) does not exist"));
 	}
 
+	public List<Order> getAllOrder() {
+		return orderDao.findAll();
+	}
+	
 }
