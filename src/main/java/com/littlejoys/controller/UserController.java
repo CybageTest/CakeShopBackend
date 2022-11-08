@@ -5,6 +5,8 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,6 +59,12 @@ public class UserController {
 	@GetMapping("/findByEmailOrMobile")
 	public User findUserByEmailOrMobile(@RequestParam String email, @RequestParam String mobile) {
 		return userService.findUserByEmailOrMobile(email, mobile);
+	}
+	
+	@PatchMapping("/changePassword/{name}/{oldPassword}/{newPassword}")
+	public User changeUserPassword(@PathVariable String name, @PathVariable String oldPassword,
+			@PathVariable String newPassword) throws Exception {
+		return userService.changeUserPassword(name, oldPassword, newPassword);
 	}
 
 }
