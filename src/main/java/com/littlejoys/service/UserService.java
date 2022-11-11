@@ -51,7 +51,7 @@ public class UserService {
 		userRoles.add(userRole);
 
 		User adminUser = new User("admin", "admin@mail.com", getEncodedPassword("admin@123"), "9850909009", "active",
-				adminRoles);
+				null, adminRoles, null);
 		userDao.save(adminUser);
 
 //		User sampleUser= new User("abhi", "abhi@mail.com", getEncodedPassword("abhi@123"), "1234567890", "active", userRoles);		
