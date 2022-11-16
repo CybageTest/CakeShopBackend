@@ -138,4 +138,8 @@ public class UserService {
 		return false;
 	}
 
+	public User getUserById(String name) {
+		return userDao.findById(name).orElseThrow(()->new ResourceNotFoundException("User does not exist"));
+	}
+
 }
