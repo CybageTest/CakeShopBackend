@@ -17,7 +17,7 @@ blocks:
           commands:
             - checkout
             - cache restore
-            - mvn test-compile
+            - mvn -q test-compile -Dmaven.test.skip=true
             - cache store
   - name: Tests
     task:
@@ -31,7 +31,7 @@ blocks:
       jobs:
         - name: Everything
           commands:
-            - mvn package
+            - mvn -q package -Dmaven.test.skip=true
   - name: 'Block #1'
     task:
       jobs:
