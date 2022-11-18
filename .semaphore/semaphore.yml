@@ -17,7 +17,7 @@ blocks:
           commands:
             - checkout
             - cache restore
-            - 'mvn package'
+            - 'mvn -q package'
             - cache store
   - name: Tests
     task:
@@ -31,7 +31,7 @@ blocks:
       jobs:
         - name: Everything
           commands:
-            - mvn -q package
+            - mvn package
   - name: 'Block #1'
     task:
       jobs:
@@ -39,7 +39,6 @@ blocks:
           commands:
             - java --version
             - mvn --version
-            - ls
       env_vars:
         - name: CC_TEST_REPORTER_ID
           value: 8bc14bfc9c2bd5a815225f592d5229d7c3bb3ed6881bfc8d8acde8351dfc4403
