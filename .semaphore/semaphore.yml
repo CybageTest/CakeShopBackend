@@ -3,8 +3,39 @@ name: Initial Pipeline
 agent:
   machine:
     type: e1-standard-2
-    os_image: ubuntu2004
+    os_image: ubuntu1804
 blocks:
+  - name: Setup
+    task:
+      env_vars:
+        # Set maven to use a local directory. This is required for
+        # the cache util. It must be set in all blocks.
+        - name: MAVEN_OPTS
+          value: "-Dmaven.repo.local=.m2"
+      jobs:
+        - name: Dependencies
+          commands:
+            - checkout
+            - cache restore
+            # Download all JARs possible and compile as much as possible
+            # Use -q to reduce output spam
+            - mvn -q dependency:go-offline test-compile
+            - cache store
+  - name: Tests
+    task:
+      env_vars:
+        - name: MAVEN_OPTS
+          value: "-Dmaven.repo.local=.m2"
+      prologue:
+        commands:
+          - checkout
+          - cache restore
+      jobs:
+        - name: Everything
+          commands:
+            # Again, -q to reduce output spam. Replace with command
+            # that executes tests
+            - mvn -q package
   - name: 'Block #1'
     task:
       jobs:
@@ -13,11 +44,3 @@ blocks:
       env_vars:
         - name: CC_TEST_REPORTER_ID
           value: 8bc14bfc9c2bd5a815225f592d5229d7c3bb3ed6881bfc8d8acde8351dfc4403
-
-blocks:
-  - name: "Unit tests"
-    task:
-      jobs:
-        - name: Tests
-          commands:
-            - mvn test
