@@ -10,6 +10,7 @@ blocks:
       jobs:
         - name: 'Job #1'
           commands:
+            - dir
             - mvn --version
       env_vars:
         - name: CC_TEST_REPORTER_ID
