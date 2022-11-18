@@ -18,7 +18,6 @@ blocks:
             - checkout
             - cache restore
             - mvn test-compile
-            - mvn --version
             - cache store
   - name: Tests
     task:
