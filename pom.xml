@@ -124,6 +124,7 @@
 					</excludes>
 				</configuration>
 			</plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
 		</plugins>
 	</build>
 
