@@ -15,7 +15,7 @@
 	<name>CakeShop</name>
 	<description>Cake Shop with JWT Token, spring security and CRUD operations</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
