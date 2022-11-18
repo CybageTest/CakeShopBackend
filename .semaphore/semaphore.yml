@@ -1,0 +1,15 @@
+version: 1.0
+name: Ubuntu18 Based Pipeline
+
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+
+blocks:
+  - name: "Unit tests"
+    task:
+      jobs:
+        - name: Tests
+          commands:
+            - mvn test
