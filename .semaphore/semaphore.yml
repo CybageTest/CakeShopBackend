@@ -21,3 +21,14 @@ blocks:
       jobs:
         - name: 'Job #1mvn test'
           commands: []
+  - name: 'Block #3'
+    task:
+      jobs:
+        - name: 'Job #1'
+          commands: []
+after_pipeline:
+  task:
+    jobs:
+      - name: 'Job #1'
+        commands:
+          - mvn test
