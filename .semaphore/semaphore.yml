@@ -5,7 +5,7 @@ agent:
     type: e1-standard-2
     os_image: ubuntu2004
 blocks:
-  - name: 'Block #1'
+  - name: Mvn sample test
     task:
       jobs:
         - name: 'Job #1'
@@ -13,11 +13,3 @@ blocks:
       env_vars:
         - name: CC_TEST_REPORTER_ID
           value: 8bc14bfc9c2bd5a815225f592d5229d7c3bb3ed6881bfc8d8acde8351dfc4403
-
-blocks:
-  - name: "Unit tests"
-    task:
-      jobs:
-        - name: Tests
-          commands:
-            - mvn test
