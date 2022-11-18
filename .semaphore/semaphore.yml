@@ -12,7 +12,6 @@ blocks:
           commands:
             - java --version
             - mvn --version
-            - mvn test
             - ls
       env_vars:
         - name: CC_TEST_REPORTER_ID
