@@ -1,38 +1,45 @@
 version: v1.0
-name: Java Spring example CI pipeline on Semaphore
+name: Initial Pipeline
 agent:
   machine:
     type: e1-standard-2
     os_image: ubuntu1804
 blocks:
-  - name: Build
+  - name: Setup
     task:
       env_vars:
         - name: MAVEN_OPTS
           value: '-Dmaven.repo.local=.m2'
+        - name: CC_TEST_REPORTER_ID
+          value: 8bc14bfc9c2bd5a815225f592d5229d7c3bb3ed6881bfc8d8acde8351dfc4403
       jobs:
-        - name: Build
+        - name: Dependencies
           commands:
-            - sem-version java 17
             - checkout
             - cache restore
-            - 'mvn -q package jmeter:configure -Dmaven.test.skip=true'
+            - 'mvn -q dependency:go-offline test-compile'
             - cache store
-  - name: Test
+  - name: Tests
     task:
       env_vars:
         - name: MAVEN_OPTS
           value: '-Dmaven.repo.local=.m2'
       prologue:
         commands:
-          - sem-version java 17
           - checkout
           - cache restore
-          - mvn -q test-compile -Dmaven.test.skip=true
       jobs:
-        - name: Unit tests
+        - name: Everything
           commands:
-            - mvn test
-        - name: Integration tests
+            - mvn -q package
+  - name: 'Block #1'
+    task:
+      jobs:
+        - name: 'Job #1'
           commands:
-            - mvn test -Pintegration-testing
+            - java --version
+            - mvn --version
+            - ls
+      env_vars:
+        - name: CC_TEST_REPORTER_ID
+          value: 8bc14bfc9c2bd5a815225f592d5229d7c3bb3ed6881bfc8d8acde8351dfc4403
