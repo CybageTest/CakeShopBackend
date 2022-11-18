@@ -125,6 +125,7 @@
 				</configuration>
 			</plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
 		</plugins>
 	</build>
 
