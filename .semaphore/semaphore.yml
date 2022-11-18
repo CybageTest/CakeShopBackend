@@ -17,7 +17,7 @@ blocks:
           commands:
             - checkout
             - cache restore
-            - 'mvn -q package'
+            - mvn test-compile
             - cache store
   - name: Tests
     task:
