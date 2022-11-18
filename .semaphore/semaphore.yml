@@ -9,5 +9,4 @@ blocks:
     task:
       jobs:
         - name: 'Job #1'
-          commands:
-            - date \t
+          commands: []
