@@ -8,24 +8,20 @@ blocks:
   - name: Setup
     task:
       env_vars:
-        # Set maven to use a local directory. This is required for
-        # the cache util. It must be set in all blocks.
         - name: MAVEN_OPTS
-          value: "-Dmaven.repo.local=.m2"
+          value: '-Dmaven.repo.local=.m2'
       jobs:
         - name: Dependencies
           commands:
             - checkout
             - cache restore
-            # Download all JARs possible and compile as much as possible
-            # Use -q to reduce output spam
-            - mvn -q dependency:go-offline test-compile
+            - 'mvn -q dependency:go-offline test-compile'
             - cache store
   - name: Tests
     task:
       env_vars:
         - name: MAVEN_OPTS
-          value: "-Dmaven.repo.local=.m2"
+          value: '-Dmaven.repo.local=.m2'
       prologue:
         commands:
           - checkout
@@ -33,8 +29,6 @@ blocks:
       jobs:
         - name: Everything
           commands:
-            # Again, -q to reduce output spam. Replace with command
-            # that executes tests
             - mvn -q package
   - name: 'Block #1'
     task:
