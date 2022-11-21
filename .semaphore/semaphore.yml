@@ -32,6 +32,18 @@ blocks:
         - name: Everything
           commands:
             - mvn -q package -Dmaven.test.skip=true
+  - name: Postgres
+    task:
+      jobs:
+      - name: Postgres Create user
+        commands:
+          - sem-service start postgres
+          - psql -U postgres -h localhost -c "CREATE USER developer WITH PASSWORD 'dev123';"
+      - name: Postgres Create admin user
+        commands:
+          - sem-service start postgres
+          - psql -U postgres -h localhost -c "CREATE USER developer WITH PASSWORD 'dev123';"
+          - psql -U postgres -h localhost -c "ALTER USER developer WITH SUPERUSER;"
   - name: 'Block #1'
     task:
       jobs:
