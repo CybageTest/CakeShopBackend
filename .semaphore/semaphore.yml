@@ -19,6 +19,9 @@ blocks:
             - cache restore
             - psql --version
             - cache store
+        - name: Postgres Check User
+          commands:
+          - sem-service start postgres --username=developer --password=dev123 --db=cakeshop
   - name: Tests
     task:
       env_vars:
@@ -32,6 +35,7 @@ blocks:
         - name: Everything
           commands:
             - mvn -q package -Dmaven.test.skip=true
+            - mvn test 
   # - name: Postgres
   #   task:
   #     jobs:
@@ -48,23 +52,17 @@ blocks:
   #         # - createdb -U developer -h 0.0.0.0 cakeshop
   #         # - psql -h 0.0.0.0 -U developer -c "\l" | grep cakeshop
   #         # - sem-service status postgres
-  - name: Postgres
-    task:
-      jobs:
-      - name: Postgres Check User
-        commands:
-          - sem-service start postgres --username=developer --password=dev123 --db=cakeshop
-  - name: 'Test Run'
-    task:
-      env_vars:
-        - name: MAVEN_OPTS
-          value: '-Dmaven.repo.local=.m2'
-        - name: CC_TEST_REPORTER_ID
-          value: 8bc14bfc9c2bd5a815225f592d5229d7c3bb3ed6881bfc8d8acde8351dfc4403
-      jobs:
-        - name: 'connecting to backend'
-          commands:
-            - java --version
-            - mvn --version
-            - mvn clean install
+  # - name: 'Test Run'
+  #   task:
+  #     env_vars:
+  #       - name: MAVEN_OPTS
+  #         value: '-Dmaven.repo.local=.m2'
+  #       - name: CC_TEST_REPORTER_ID
+  #         value: 8bc14bfc9c2bd5a815225f592d5229d7c3bb3ed6881bfc8d8acde8351dfc4403
+  #     jobs:
+  #       - name: 'connecting to backend'
+  #         commands:
+  #           - java --version
+  #           - mvn --version
+  #           - mvn clean install
         
