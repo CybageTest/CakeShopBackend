@@ -25,7 +25,7 @@ blocks:
             # - sudo apt-get install -y -qq postgresql-client
             - psql -U postgres -h localhost -c "CREATE USER abhijeet WITH PASSWORD 'abhijeet';"
             - psql -U postgres -h localhost -c "ALTER USER abhijeet WITH SUPERUSER;"
-            - psql createdb -U abhijeet -h localhost cakeshop
+            - psql -c createdb -U abhijeet -h localhost cakeshop
             - psql -h localhost -U abhijeet -c "\l" | grep cakeshop
             - sem-service start postgres --username=abhijeet --password=abhijeet --db=cakeshop
             - sem-service status postgres
