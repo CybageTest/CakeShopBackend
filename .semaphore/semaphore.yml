@@ -22,6 +22,8 @@ blocks:
         - name: Postgres Check User
           commands:
             - sem-service start postgres --username=developer --password=dev123 --db=cakeshop
+            - psql -h 0.0.0.0 -U developer -c "\l" | grep cakeshop
+            - sem-service status postgre
   - name: Tests
     task:
       env_vars:
