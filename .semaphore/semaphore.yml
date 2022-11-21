@@ -56,6 +56,9 @@ blocks:
           - sem-service start postgres --username=developer --password=dev123 --db=cakeshop
   - name: 'Test Run'
     task:
+    env_vars:
+        - name: MAVEN_OPTS
+          value: '-Dmaven.repo.local=.m2'
       jobs:
         - name: 'connecting to backend'
           commands:
