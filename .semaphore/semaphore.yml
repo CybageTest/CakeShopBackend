@@ -32,7 +32,7 @@ blocks:
           - checkout
           - cache restore
       jobs:
-        - name: Everything
+        - name: Test with backend
           commands:
             - mvn -q package -Dmaven.test.skip=true
             - mvn test 
