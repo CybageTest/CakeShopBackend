@@ -66,5 +66,5 @@ blocks:
           commands:
             - java --version
             - mvn --version
-            - mvn test
+            - mvn clean install
         
