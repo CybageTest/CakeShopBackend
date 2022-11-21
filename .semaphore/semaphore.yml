@@ -41,12 +41,13 @@ blocks:
           - psql -U postgres -h localhost -c "CREATE USER developer WITH PASSWORD 'dev123';"
       - name: Postgres Create admin user
         commands:
-          - sem-service start postgres --username=developer --password=dev123
+          - sem-service start postgres --username=developer --password=dev123 --db=cakeshop
           # - psql -U postgres -h localhost -c "CREATE USER developer WITH PASSWORD 'dev123';"
           # - psql -U postgres -h localhost -c "ALTER USER developer WITH SUPERUSER;"
-          - createdb -U developer -h 0.0.0.0 cakeshop
-          - psql -h 0.0.0.0 -U developer -c "\l" | grep cakeshop
-          - sem-service status postgres
+          - \d
+          # - createdb -U developer -h 0.0.0.0 cakeshop
+          # - psql -h 0.0.0.0 -U developer -c "\l" | grep cakeshop
+          # - sem-service status postgres
   - name: 'Block #1'
     task:
       jobs:
