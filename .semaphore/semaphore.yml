@@ -41,10 +41,9 @@ blocks:
           - psql -U postgres -h localhost -c "CREATE USER developer WITH PASSWORD 'dev123';"
       - name: Postgres Create admin user
         commands:
-          - sem-service start postgres
-          - psql -U postgres -h localhost -c "CREATE USER developer WITH PASSWORD 'dev123';"
-          - psql -U postgres -h localhost -c "ALTER USER developer WITH SUPERUSER;"
           - sem-service start postgres --username=developer --password=dev123
+          # - psql -U postgres -h localhost -c "CREATE USER developer WITH PASSWORD 'dev123';"
+          # - psql -U postgres -h localhost -c "ALTER USER developer WITH SUPERUSER;"
           - createdb -U developer -h 0.0.0.0 cakeshop
           - psql -h 0.0.0.0 -U postgres -c "\l" | grep cakeshop
           - sem-service status postgres
