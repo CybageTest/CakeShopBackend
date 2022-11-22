@@ -22,11 +22,9 @@ blocks:
         - name: Postgres Check User
           commands:
             - sem-service start postgres
-            # - sudo apt-get install -y -qq postgresql-client
             - psql -U postgres -h localhost -c "CREATE USER abhijeet WITH PASSWORD 'abhijeet';"
             - psql -U postgres -h localhost -c "ALTER USER abhijeet WITH SUPERUSER;"
-            - createdb -U abhijeet -h localhost cakeshop
-            - psql -h localhost -U abhijeet -c "\l" | grep cakeshop
+            - createdb -h localhost -U postgres cakeshop
             - sem-service start postgres --username=abhijeet --password=abhijeet --db=cakeshop
             - sem-service status postgres
   - name: Tests
