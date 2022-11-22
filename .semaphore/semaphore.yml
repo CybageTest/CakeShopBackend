@@ -24,8 +24,7 @@ blocks:
             - sem-service start postgres
             - psql -U postgres -h localhost -c "CREATE USER abhijeet WITH PASSWORD 'abhijeet';"
             - psql -U postgres -h localhost -c "ALTER USER abhijeet WITH SUPERUSER;"
-            - psql createdb cakeshop
-            - psql -h localhost -U abhijeet -c "\l" | grep cakeshop
+            - createdb cakeshop
             - sem-service start postgres --username=abhijeet --password=abhijeet --db=cakeshop
             - sem-service status postgres
   - name: Tests
