@@ -10,7 +10,7 @@ pipeline{
             }
         }
         stage('Build Docker Image'){
-            step{
+            steps{
                 script{
                     sh 'docker build -t cybagetest/cakeshopfinal .'
                 }
