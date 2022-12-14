@@ -20,7 +20,7 @@ pipeline {
             steps {
                 script {
                     bat 'docker login -u iamabhijeetgurav -p Sunilam@123'
-                    bat 'docker push iamabhijeetgurav/cakeshopfinal'
+                    bat 'docker push cakeshopfinal'
                 }
             }
         }
