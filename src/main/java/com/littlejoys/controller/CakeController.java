@@ -76,5 +76,10 @@ public class CakeController {
 	public CakeOccasions[] getAllOccasions() {
 		return cakeService.getAllOccasions();
 	}
+	
+	@GetMapping("/cake-flavours")
+	public CakeFlavours[] getAllFlavours() {
+		return cakeService.getAllFlavours();
+	}
 
 }
