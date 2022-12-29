@@ -26,6 +26,10 @@ public class CakeService {
 	public CakeOccasions[] getAllOccasions(){
 		return CakeOccasions.values();
 	}
+	
+	public CakeCategory[] getAllCategories() {
+		return CakeCategory.values();
+	}
 
 	public List<Cake> addCakeList(List<Cake> cakeList) {
 		return cakeDao.saveAll(cakeList);
