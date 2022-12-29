@@ -17,9 +17,14 @@ public class CakeService {
 
 	@Autowired
 	private ICakeDao cakeDao;
+	
 
 	public Cake addCake(Cake cake) {
 		return cakeDao.save(cake);
+	}
+	
+	public CakeOccasions[] getAllOccasions(){
+		return CakeOccasions.values();
 	}
 
 	public List<Cake> addCakeList(List<Cake> cakeList) {
