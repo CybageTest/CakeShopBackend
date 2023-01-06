@@ -1,5 +1,6 @@
 package com.littlejoys.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,52 +32,52 @@ public class CakeController {
 
 	@PostMapping("/")
 	public ResponseEntity<Cake> addCake(@RequestBody Cake cake) {
-		return new ResponseEntity<Cake>(cakeService.addCake(cake), HttpStatus.CREATED);
+		return new ResponseEntity<>(cakeService.addCake(cake), HttpStatus.CREATED);
 	}
 
 	@PostMapping("/addCakesList")
 	public ResponseEntity<List<Cake>> addCakesList(@RequestBody List<Cake> cakeList) {
-		return new ResponseEntity<List<Cake>>(cakeService.addCakeList(cakeList), HttpStatus.CREATED);
+		return new ResponseEntity<>(cakeService.addCakeList(cakeList), HttpStatus.CREATED);
 	}
 
 	@GetMapping("/allcakes")
 	public ResponseEntity<List<Cake>> getAllCakes() {
-		return new ResponseEntity<List<Cake>>(cakeService.getAllCakes(), HttpStatus.FOUND);
+		return new ResponseEntity<>(cakeService.getAllCakes(), HttpStatus.FOUND);
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Cake> findCakeById(@PathVariable long id) {
-		return new ResponseEntity<Cake>(cakeService.findCakeById(id), HttpStatus.FOUND);
+		return new ResponseEntity<>(cakeService.findCakeById(id), HttpStatus.FOUND);
 	}
 
 	@GetMapping("/byCategory/{category}")
 	public ResponseEntity<List<Cake>> findAllCakesByCategory(@PathVariable CakeCategory category) {
-		return new ResponseEntity<List<Cake>>(cakeService.findCakeByCategory(category), HttpStatus.FOUND);
+		return new ResponseEntity<>(cakeService.findCakeByCategory(category), HttpStatus.FOUND);
 	}
 
 	@GetMapping("/byOccasions/{occasions}")
 	public ResponseEntity<List<Cake>> findAllCakesByOccassions(@PathVariable CakeOccasions occasions) {
-		return new ResponseEntity<List<Cake>>(cakeService.findCakeByOccasions(occasions), HttpStatus.FOUND);
+		return new ResponseEntity<>(cakeService.findCakeByOccasions(occasions), HttpStatus.FOUND);
 	}
 
 	@GetMapping("/byFlavours/{flavours}")
 	public ResponseEntity<List<Cake>> findAllCakesByFlavours(@PathVariable CakeFlavours flavours) {
-		return new ResponseEntity<List<Cake>>(cakeService.findCakeByFlavours(flavours), HttpStatus.FOUND);
+		return new ResponseEntity<>(cakeService.findCakeByFlavours(flavours), HttpStatus.FOUND);
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Cake> deleteCakeById(@PathVariable long id) throws Exception {
-		return new ResponseEntity<Cake>(cakeService.deleteCakeById(id), HttpStatus.OK);
+		return new ResponseEntity<>(cakeService.deleteCakeById(id), HttpStatus.OK);
 	}
 
 	@PutMapping("/editCake/{id}")
 	public ResponseEntity<Cake> editCakeById(@PathVariable long id, @RequestBody Cake cake) throws Exception {
-		return new ResponseEntity<Cake>(cakeService.editCakeById(id, cake), HttpStatus.OK);
+		return new ResponseEntity<>(cakeService.editCakeById(id, cake), HttpStatus.OK);
 	}
 
 	@GetMapping("/menu-cakes")
-	public CakeOccasions[] getAllOccasions() {
-		return cakeService.getAllOccasions();
+	public List<CakeOccasions> getAllOccasions() {
+		return Arrays.asList(cakeService.getAllOccasions());
 	}
 
 	@GetMapping("/cake-flavours")
