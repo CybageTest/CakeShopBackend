@@ -14,13 +14,6 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {
@@ -41,5 +34,92 @@ public class User {
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private Order order;
+
+	public User() {
+
+	}
+
+	public User(String name, String email, String password, String mobile, String status, String profileImageLink,
+			Set<Role> role, Order order) {
+		super();
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.mobile = mobile;
+		this.status = status;
+		this.profileImageLink = profileImageLink;
+		this.role = role;
+		this.order = order;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getProfileImageLink() {
+		return profileImageLink;
+	}
+
+	public void setProfileImageLink(String profileImageLink) {
+		this.profileImageLink = profileImageLink;
+	}
+
+	public Set<Role> getRole() {
+		return role;
+	}
+
+	public void setRole(Set<Role> role) {
+		this.role = role;
+	}
+
+	public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
+	}
+
+	@Override
+	public String toString() {
+		return "User [name=" + name + ", email=" + email + ", password=" + password + ", mobile=" + mobile + ", status="
+				+ status + ", profileImageLink=" + profileImageLink + ", role=" + role + ", order=" + order + "]";
+	}
 
 }

@@ -9,13 +9,6 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "offers")
 public class Offer {
@@ -31,5 +24,73 @@ public class Offer {
 	@OneToOne(mappedBy = "offer")
 	@JsonIgnore
 	private Order order;
+
+	public Offer() {
+
+	}
+
+	public Offer(long id, String name, String code, int discount, String description, Order order) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.code = code;
+		this.discount = discount;
+		this.description = description;
+		this.order = order;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public int getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(int discount) {
+		this.discount = discount;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
+	}
+
+	@Override
+	public String toString() {
+		return "Offer [id=" + id + ", name=" + name + ", code=" + code + ", discount=" + discount + ", description="
+				+ description + ", order=" + order + "]";
+	}
 
 }
