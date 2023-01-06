@@ -25,32 +25,32 @@ public class AddOnsController {
 
 	@PostMapping("/")
 	public ResponseEntity<AddOns> addAddOns(@RequestBody AddOns addOns) {
-		return new ResponseEntity<AddOns>(addOnsService.addAddOns(addOns), HttpStatus.CREATED);
+		return new ResponseEntity<>(addOnsService.addAddOns(addOns), HttpStatus.CREATED);
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<AddOns> findAddOnsById(@PathVariable long id) {
-		return new ResponseEntity<AddOns>(addOnsService.findAddOnById(id), HttpStatus.FOUND);
+		return new ResponseEntity<>(addOnsService.findAddOnById(id), HttpStatus.OK);
 	}
 
 	@PostMapping("/addAddonsList")
 	public ResponseEntity<List<AddOns>> addAddonsList(@RequestBody List<AddOns> addOnsList) {
-		return new ResponseEntity<List<AddOns>>(addOnsService.addAddonsList(addOnsList), HttpStatus.CREATED);
+		return new ResponseEntity<>(addOnsService.addAddonsList(addOnsList), HttpStatus.CREATED);
 	}
 
 	@GetMapping("/getAllAddons")
 	public ResponseEntity<List<AddOns>> getAllAddOns() {
-		return new ResponseEntity<List<AddOns>>(addOnsService.getAllAddOns(), HttpStatus.FOUND);
+		return new ResponseEntity<>(addOnsService.getAllAddOns(), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<AddOns> deleteAddOnsById(@PathVariable long id) throws Exception {
-		return new ResponseEntity<AddOns>(addOnsService.deleteAddOnById(id), HttpStatus.OK);
+		return new ResponseEntity<>(addOnsService.deleteAddOnById(id), HttpStatus.OK);
 	}
 
 	@PutMapping("/editAddon/{id}")
 	public ResponseEntity<AddOns> editAddOnsById(@PathVariable long id, @RequestBody AddOns addons) throws Exception {
-		return new ResponseEntity<AddOns>(addOnsService.editAddon(id, addons), HttpStatus.OK);
+		return new ResponseEntity<>(addOnsService.editAddon(id, addons), HttpStatus.OK);
 	}
 
 }

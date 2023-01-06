@@ -42,27 +42,27 @@ public class CakeController {
 
 	@GetMapping("/allcakes")
 	public ResponseEntity<List<Cake>> getAllCakes() {
-		return new ResponseEntity<>(cakeService.getAllCakes(), HttpStatus.FOUND);
+		return new ResponseEntity<>(cakeService.getAllCakes(), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Cake> findCakeById(@PathVariable long id) {
-		return new ResponseEntity<>(cakeService.findCakeById(id), HttpStatus.FOUND);
+		return new ResponseEntity<>(cakeService.findCakeById(id), HttpStatus.OK);
 	}
 
 	@GetMapping("/byCategory/{category}")
 	public ResponseEntity<List<Cake>> findAllCakesByCategory(@PathVariable CakeCategory category) {
-		return new ResponseEntity<>(cakeService.findCakeByCategory(category), HttpStatus.FOUND);
+		return new ResponseEntity<>(cakeService.findCakeByCategory(category), HttpStatus.OK);
 	}
 
 	@GetMapping("/byOccasions/{occasions}")
 	public ResponseEntity<List<Cake>> findAllCakesByOccassions(@PathVariable CakeOccasions occasions) {
-		return new ResponseEntity<>(cakeService.findCakeByOccasions(occasions), HttpStatus.FOUND);
+		return new ResponseEntity<>(cakeService.findCakeByOccasions(occasions), HttpStatus.OK);
 	}
 
 	@GetMapping("/byFlavours/{flavours}")
 	public ResponseEntity<List<Cake>> findAllCakesByFlavours(@PathVariable CakeFlavours flavours) {
-		return new ResponseEntity<>(cakeService.findCakeByFlavours(flavours), HttpStatus.FOUND);
+		return new ResponseEntity<>(cakeService.findCakeByFlavours(flavours), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")

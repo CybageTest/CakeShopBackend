@@ -26,27 +26,27 @@ public class OrderController {
 
 	@PostMapping("/")
 	public ResponseEntity<Order> addOffer(@RequestBody Order order) {
-		return new ResponseEntity<Order>(orderService.addOrder(order), HttpStatus.CREATED);
+		return new ResponseEntity<>(orderService.addOrder(order), HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/allOrders")
 	public ResponseEntity<List<Order>> getAllOrders(){
-		return new ResponseEntity<List<Order>>(orderService.getAllOrder(), HttpStatus.OK);
+		return new ResponseEntity<>(orderService.getAllOrder(), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Order> findOrderById(@PathVariable long id){
-		return new ResponseEntity<Order>(orderService.findOrderById(id), HttpStatus.FOUND);
+		return new ResponseEntity<>(orderService.findOrderById(id), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/deleteOrder/{id}")
 	public ResponseEntity<Order> deleteOrderById(@PathVariable long id) throws Exception{
-		return new ResponseEntity<Order>(orderService.deleteOrderById(id), HttpStatus.OK);
+		return new ResponseEntity<>(orderService.deleteOrderById(id), HttpStatus.OK);
 	}
 	
 	@GetMapping("/ordersByCategory/{category}")
 	public ResponseEntity<List<Order>> getOrdersByCakeCategory(@PathVariable CakeCategory category){
-		return new ResponseEntity<List<Order>>(orderService.findCakesByCategory(category), HttpStatus.FOUND);
+		return new ResponseEntity<>(orderService.findCakesByCategory(category), HttpStatus.OK);
 	}
 	
 }

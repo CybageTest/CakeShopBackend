@@ -26,27 +26,27 @@ public class OfferController {
 
 	@PostMapping("/")
 	public ResponseEntity<Offer> addOffer(@RequestBody Offer offer) {
-		return new ResponseEntity<Offer>(offerService.addOffer(offer), HttpStatus.CREATED);
+		return new ResponseEntity<>(offerService.addOffer(offer), HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Offer> findOfferById(@PathVariable long id){
-		return new ResponseEntity<Offer>(offerService.findOfferById(id), HttpStatus.FOUND);
+		return new ResponseEntity<>(offerService.findOfferById(id), HttpStatus.OK);
 	}
 	
 	@GetMapping("/getAllOffers")
 	public ResponseEntity<List<Offer>> getAllOffers(){
-		return new ResponseEntity<List<Offer>>(offerService.getAllOffers(), HttpStatus.FOUND);
+		return new ResponseEntity<>(offerService.getAllOffers(), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Offer> deleteOfferById(@PathVariable long id) throws Exception{
-		return new ResponseEntity<Offer>(offerService.deleteOfferById(id), HttpStatus.OK);
+		return new ResponseEntity<>(offerService.deleteOfferById(id), HttpStatus.OK);
 	}
 	
 	@PutMapping("/editOffer/{id}")
 	public ResponseEntity<Offer> editOfferById(@PathVariable long id, @RequestBody Offer offer) throws Exception{
-		return new ResponseEntity<Offer>(offerService.editOffer(id, offer), HttpStatus.OK);
+		return new ResponseEntity<>(offerService.editOffer(id, offer), HttpStatus.OK);
 	}
 
 }
