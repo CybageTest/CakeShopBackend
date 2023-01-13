@@ -1,5 +1,6 @@
 package com.littlejoys.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -49,8 +50,14 @@ public class CakeService {
 		return cakeDao.saveAll(cakeList);
 	}
 
-	public List<Cake> getAllCakes() {
-		return cakeDao.findAll();
+	public List<CakeDTO> getAllCakes() {
+		List<CakeDTO> cakeDTOList = new ArrayList<>();
+		List<Cake> cakesList = cakeDao.findAll();
+		for (Cake cake : cakesList) {
+			CakeDTO cakeDTO = modelMapper.map(cake, CakeDTO.class);
+			cakeDTOList.add(cakeDTO);
+		}
+		return cakeDTOList;
 	}
 
 	public Cake findCakeById(long id) {
