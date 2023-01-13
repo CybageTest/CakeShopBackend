@@ -42,7 +42,7 @@ public class CakeController {
 	}
 
 	@GetMapping("/allcakes")
-	public ResponseEntity<List<Cake>> getAllCakes() {
+	public ResponseEntity<List<CakeDTO>> getAllCakes() {
 		return new ResponseEntity<>(cakeService.getAllCakes(), HttpStatus.OK);
 	}
 
