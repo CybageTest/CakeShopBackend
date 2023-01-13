@@ -47,7 +47,7 @@ public class CakeController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Cake> findCakeById(@PathVariable long id) {
+	public ResponseEntity<CakeDTO> findCakeById(@PathVariable long id) {
 		return new ResponseEntity<>(cakeService.findCakeById(id), HttpStatus.OK);
 	}
 
