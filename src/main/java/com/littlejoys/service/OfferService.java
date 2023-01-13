@@ -1,49 +1,77 @@
 package com.littlejoys.service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.log4j.Logger;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.littlejoys.dao.IOfferDao;
+import com.littlejoys.dto.OfferDTO;
 import com.littlejoys.entity.Offer;
 import com.littlejoys.exception.ResourceNotFoundException;
-
 
 @Service
 public class OfferService {
 
 	@Autowired
 	private IOfferDao offerDao;
-	
-	public Offer addOffer(Offer offer) {
-		return offerDao.save(offer);
+
+	@Autowired
+	private ModelMapper modelMapper;
+
+	public static final Logger logger = Logger.getLogger(OfferService.class);
+
+	public OfferDTO addOffer(OfferDTO offerDTO) {
+		Offer offer = modelMapper.map(offerDTO, Offer.class);
+		Offer savedOffer = offerDao.save(offer);
+		logger.info("Offer added: " + savedOffer);
+		return modelMapper.map(savedOffer, OfferDTO.class);
 	}
-	
-	public Offer findOfferById(long id) {
-		return offerDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Offer(id) does not exist"));
-	}
-	
-	public List<Offer> getAllOffers() {
-		return offerDao.findAll();
-	}
-	
-	public Offer editOffer(long id, Offer offer) throws Exception {
-		Offer offerToEdit = findOfferById(id);
-		if (offerToEdit != null) {
-			offerDao.save(offer);
-			return offerToEdit;
+
+	public OfferDTO findOfferById(long id) {
+		OfferDTO offerDTO = modelMapper.map(offerDao.findById(id), OfferDTO.class);
+		if (offerDTO != null) {
+			logger.info("Found Offer: " + offerDTO + " for ID: " + id);
+			return offerDTO;
+		} else {
+			throw new ResourceNotFoundException("Offer(id) does not exist");
 		}
-		throw new ResourceNotFoundException("Offer(id) does not exist");
 	}
-	
-	public Offer deleteOfferById(long id) throws Exception {
-		Offer offerToDelete = findOfferById(id);
+
+	public List<OfferDTO> getAllOffers() {
+		List<OfferDTO> offerDTOList = new ArrayList<>();
+		List<Offer> offersList = offerDao.findAll();
+		for (Offer offer : offersList) {
+			OfferDTO offerDTO = modelMapper.map(offer, OfferDTO.class);
+			offerDTOList.add(offerDTO);
+		}
+		return offerDTOList;
+	}
+
+	public Map<String, Object> editOfferById(long id, OfferDTO offerDTO) {
+		if (offerDao.existsById(id)) {
+			offerDTO.setId(id);
+			Offer offer = modelMapper.map(offerDTO, Offer.class);
+			offer = offerDao.save(offer);
+			logger.info("Offer updated: " + offer);
+			return Collections.singletonMap("Offer updated", offer);
+		}
+		return Collections.singletonMap("Offer updation failed", 0);
+	}
+
+	public OfferDTO deleteOfferById(long id) throws ResourceNotFoundException {
+		OfferDTO offerToDelete = findOfferById(id);
 		if (offerToDelete != null) {
 			offerDao.deleteById(id);
+			logger.info("Deleted offer: " + offerToDelete + " for ID: " + id);
 			return offerToDelete;
 		}
 		throw new ResourceNotFoundException("Offer(id) does not exist");
 	}
-	
+
 }
