@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.littlejoys.dto.OrderDTO;
 import com.littlejoys.entity.CakeCategory;
 import com.littlejoys.entity.Order;
 import com.littlejoys.service.OrderService;
@@ -25,28 +26,28 @@ public class OrderController {
 	private OrderService orderService;
 
 	@PostMapping("/")
-	public ResponseEntity<Order> addOffer(@RequestBody Order order) {
-		return new ResponseEntity<>(orderService.addOrder(order), HttpStatus.CREATED);
+	public ResponseEntity<OrderDTO> addOffer(@RequestBody OrderDTO orderDTO) {
+		return new ResponseEntity<>(orderService.addOrder(orderDTO), HttpStatus.CREATED);
 	}
-	
+
 	@GetMapping("/allOrders")
-	public ResponseEntity<List<Order>> getAllOrders(){
-		return new ResponseEntity<>(orderService.getAllOrder(), HttpStatus.OK);
+	public ResponseEntity<List<OrderDTO>> getAllOrders() {
+		return new ResponseEntity<>(orderService.getAllOrders(), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Order> findOrderById(@PathVariable long id){
+	public ResponseEntity<OrderDTO> findOrderById(@PathVariable long id) {
 		return new ResponseEntity<>(orderService.findOrderById(id), HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("/deleteOrder/{id}")
-	public ResponseEntity<Order> deleteOrderById(@PathVariable long id) throws Exception{
+	public ResponseEntity<OrderDTO> deleteOrderById(@PathVariable long id) throws Exception {
 		return new ResponseEntity<>(orderService.deleteOrderById(id), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/ordersByCategory/{category}")
-	public ResponseEntity<List<Order>> getOrdersByCakeCategory(@PathVariable CakeCategory category){
+	public ResponseEntity<List<Order>> getOrdersByCakeCategory(@PathVariable CakeCategory category) {
 		return new ResponseEntity<>(orderService.findCakesByCategory(category), HttpStatus.OK);
 	}
-	
+
 }
