@@ -72,8 +72,8 @@ public class CakeController {
 	}
 
 	@PutMapping("/editCake/{id}")
-	public ResponseEntity<Cake> editCakeById(@PathVariable long id, @RequestBody Cake cake) throws Exception {
-		return new ResponseEntity<>(cakeService.editCakeById(id, cake), HttpStatus.OK);
+	public ResponseEntity<?> editCakeById(@PathVariable long id, @RequestBody CakeDTO cakeDTO) throws Exception {
+		return ResponseEntity.ok(cakeService.editCakeById(id, cakeDTO));
 	}
 
 	@GetMapping("/menu-cakes")
