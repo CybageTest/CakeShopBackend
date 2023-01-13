@@ -1,7 +1,9 @@
 package com.littlejoys.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.modelmapper.ModelMapper;
@@ -92,13 +94,15 @@ public class CakeService {
 		throw new ResourceNotFoundException("Cake(id) does not exist");
 	}
 
-	public Cake editCakeById(long id, Cake cake) {
-		Cake cakeToEdit = findCakeById(id);
-		if (cakeToEdit != null) {
-			cakeDao.save(cake);
-			return cakeToEdit;
+	public Map<String, Object> editCakeById(long id, CakeDTO cakeDto) {
+		if (cakeDao.existsById(id)) {
+			cakeDto.setId(id);
+			Cake cake = modelMapper.map(cakeDto, Cake.class);
+			cake = cakeDao.save(cake);
+			logger.info("Cake: " + cake + " for Id: " + id + " updated.");
+			return Collections.singletonMap("Cake updated", cake);
 		}
-		throw new ResourceNotFoundException("Cake(id) does not exist");
+		return Collections.singletonMap("Cake updation failed", 0);
 	}
 
 }
