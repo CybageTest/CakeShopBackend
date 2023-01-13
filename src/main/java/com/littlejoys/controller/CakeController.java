@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.littlejoys.dto.CakeDTO;
 import com.littlejoys.entity.Cake;
 import com.littlejoys.entity.CakeCategory;
 import com.littlejoys.entity.CakeFlavours;
@@ -31,8 +32,8 @@ public class CakeController {
 	private CakeService cakeService;
 
 	@PostMapping("/")
-	public ResponseEntity<Cake> addCake(@RequestBody Cake cake) {
-		return new ResponseEntity<>(cakeService.addCake(cake), HttpStatus.CREATED);
+	public ResponseEntity<?> addCake(@RequestBody CakeDTO cakeDto) {
+		return new ResponseEntity<>(cakeService.addCake(cakeDto), HttpStatus.CREATED);
 	}
 
 	@PostMapping("/addCakesList")
