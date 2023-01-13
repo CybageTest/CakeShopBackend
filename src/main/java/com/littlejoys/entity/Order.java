@@ -19,9 +19,9 @@ public class Order {
 	private long id;
 
 	private String messageOnCake;
-	public double shippingCost;
-	public double totalCost;
-	public String address;
+	private Double shippingCost;
+	private Double totalCost;
+	private String address;
 
 	@ManyToMany(cascade = CascadeType.MERGE)
 	private Set<Cake> cakes;
@@ -29,8 +29,8 @@ public class Order {
 	@OneToOne(cascade = CascadeType.MERGE)
 	private User user;
 
-	@OneToOne(cascade = CascadeType.MERGE)
-	private Offer offer;
+	@ManyToMany(cascade = CascadeType.MERGE)
+	private Set<Offer> offer;
 
 	@ManyToMany(cascade = CascadeType.MERGE)
 	private Set<AddOns> addons;
@@ -40,7 +40,7 @@ public class Order {
 	}
 
 	public Order(long id, String messageOnCake, double shippingCost, double totalCost, String address, Set<Cake> cakes,
-			User user, Offer offer, Set<AddOns> addons) {
+			User user, Set<Offer> offer, Set<AddOns> addons) {
 		super();
 		this.id = id;
 		this.messageOnCake = messageOnCake;
@@ -109,11 +109,11 @@ public class Order {
 		this.user = user;
 	}
 
-	public Offer getOffer() {
+	public Set<Offer> getOffer() {
 		return offer;
 	}
 
-	public void setOffer(Offer offer) {
+	public void setOffer(Set<Offer> offer) {
 		this.offer = offer;
 	}
 
