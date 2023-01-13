@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.littlejoys.entity.Offer;
+import com.littlejoys.dto.OfferDTO;
 import com.littlejoys.service.OfferService;
 
 @RestController
@@ -25,28 +25,28 @@ public class OfferController {
 	private OfferService offerService;
 
 	@PostMapping("/")
-	public ResponseEntity<Offer> addOffer(@RequestBody Offer offer) {
-		return new ResponseEntity<>(offerService.addOffer(offer), HttpStatus.CREATED);
+	public ResponseEntity<OfferDTO> addOffer(@RequestBody OfferDTO offerDTO) {
+		return new ResponseEntity<>(offerService.addOffer(offerDTO), HttpStatus.CREATED);
 	}
-	
+
 	@GetMapping("/{id}")
-	public ResponseEntity<Offer> findOfferById(@PathVariable long id){
+	public ResponseEntity<OfferDTO> findOfferById(@PathVariable long id) {
 		return new ResponseEntity<>(offerService.findOfferById(id), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/getAllOffers")
-	public ResponseEntity<List<Offer>> getAllOffers(){
+	public ResponseEntity<List<OfferDTO>> getAllOffers() {
 		return new ResponseEntity<>(offerService.getAllOffers(), HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Offer> deleteOfferById(@PathVariable long id) throws Exception{
+	public ResponseEntity<OfferDTO> deleteOfferById(@PathVariable long id) throws Exception {
 		return new ResponseEntity<>(offerService.deleteOfferById(id), HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/editOffer/{id}")
-	public ResponseEntity<Offer> editOfferById(@PathVariable long id, @RequestBody Offer offer) throws Exception{
-		return new ResponseEntity<>(offerService.editOffer(id, offer), HttpStatus.OK);
+	public ResponseEntity<?> editOfferById(@PathVariable long id, @RequestBody OfferDTO offerDTO) throws Exception {
+		return new ResponseEntity<>(offerService.editOfferById(id, offerDTO), HttpStatus.OK);
 	}
 
 }
