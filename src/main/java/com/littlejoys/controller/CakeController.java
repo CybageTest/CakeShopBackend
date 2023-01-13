@@ -67,7 +67,7 @@ public class CakeController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Cake> deleteCakeById(@PathVariable long id) throws Exception {
+	public ResponseEntity<?> deleteCakeById(@PathVariable long id) throws Exception {
 		return new ResponseEntity<>(cakeService.deleteCakeById(id), HttpStatus.OK);
 	}
 
