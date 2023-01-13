@@ -2,10 +2,13 @@ package com.littlejoys.service;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.littlejoys.dao.ICakeDao;
+import com.littlejoys.dto.CakeDTO;
 import com.littlejoys.entity.Cake;
 import com.littlejoys.entity.CakeCategory;
 import com.littlejoys.entity.CakeFlavours;
@@ -18,8 +21,16 @@ public class CakeService {
 	@Autowired
 	private ICakeDao cakeDao;
 
-	public Cake addCake(Cake cake) {
-		return cakeDao.save(cake);
+	@Autowired
+	private ModelMapper modelMapper;
+
+	public static final Logger logger = Logger.getLogger(CakeService.class);
+
+	public CakeDTO addCake(CakeDTO cakeDTO) {
+		Cake cake = modelMapper.map(cakeDTO, Cake.class);
+		Cake savedCake = cakeDao.save(cake);
+		logger.info("Cake added: " + savedCake);
+		return modelMapper.map(savedCake, CakeDTO.class);
 	}
 
 	public CakeOccasions[] getAllOccasions() {
