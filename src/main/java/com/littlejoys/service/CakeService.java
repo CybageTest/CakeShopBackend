@@ -82,10 +82,11 @@ public class CakeService {
 		return cakeDao.findByFlavours(flavours);
 	}
 
-	public Cake deleteCakeById(long id) throws Exception {
-		Cake cakeToDelete = findCakeById(id);
+	public CakeDTO deleteCakeById(long id) throws ResourceNotFoundException {
+		CakeDTO cakeToDelete = findCakeById(id);
 		if (cakeToDelete != null) {
 			cakeDao.deleteById(id);
+			logger.info("Deleted cake: " + cakeToDelete + " for ID: " + id);
 			return cakeToDelete;
 		}
 		throw new ResourceNotFoundException("Cake(id) does not exist");
