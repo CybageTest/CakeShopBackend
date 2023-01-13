@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.littlejoys.dto.AddOnsDTO;
 import com.littlejoys.entity.AddOns;
 import com.littlejoys.service.AddOnsService;
 
@@ -24,12 +25,12 @@ public class AddOnsController {
 	private AddOnsService addOnsService;
 
 	@PostMapping("/")
-	public ResponseEntity<AddOns> addAddOns(@RequestBody AddOns addOns) {
-		return new ResponseEntity<>(addOnsService.addAddOns(addOns), HttpStatus.CREATED);
+	public ResponseEntity<?> addAddOns(@RequestBody AddOnsDTO addOnsDTO) {
+		return new ResponseEntity<>(addOnsService.addAddOns(addOnsDTO), HttpStatus.CREATED);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<AddOns> findAddOnsById(@PathVariable long id) {
+	public ResponseEntity<AddOnsDTO> findAddOnsById(@PathVariable long id) {
 		return new ResponseEntity<>(addOnsService.findAddOnById(id), HttpStatus.OK);
 	}
 
@@ -39,18 +40,18 @@ public class AddOnsController {
 	}
 
 	@GetMapping("/getAllAddons")
-	public ResponseEntity<List<AddOns>> getAllAddOns() {
+	public ResponseEntity<List<AddOnsDTO>> getAllAddOns() {
 		return new ResponseEntity<>(addOnsService.getAllAddOns(), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<AddOns> deleteAddOnsById(@PathVariable long id) throws Exception {
+	public ResponseEntity<AddOnsDTO> deleteAddOnsById(@PathVariable long id) throws Exception {
 		return new ResponseEntity<>(addOnsService.deleteAddOnById(id), HttpStatus.OK);
 	}
 
 	@PutMapping("/editAddon/{id}")
-	public ResponseEntity<AddOns> editAddOnsById(@PathVariable long id, @RequestBody AddOns addons) throws Exception {
-		return new ResponseEntity<>(addOnsService.editAddon(id, addons), HttpStatus.OK);
+	public ResponseEntity<?> editAddOnsById(@PathVariable long id, @RequestBody AddOnsDTO addOnsDTO) throws Exception {
+		return new ResponseEntity<>(addOnsService.editAddOnById(id, addOnsDTO), HttpStatus.OK);
 	}
 
 }
