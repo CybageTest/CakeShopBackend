@@ -1,10 +1,12 @@
 package com.littlejoys.entity;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -21,15 +23,15 @@ public class Offer {
 	private int discount;
 	private String description;
 
-	@OneToOne(mappedBy = "offer")
+	@ManyToMany(mappedBy = "offer")
 	@JsonIgnore
-	private Order order;
+	private Set<Order> order;
 
 	public Offer() {
 
 	}
 
-	public Offer(long id, String name, String code, int discount, String description, Order order) {
+	public Offer(long id, String name, String code, int discount, String description, Set<Order> order) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -79,11 +81,11 @@ public class Offer {
 		this.description = description;
 	}
 
-	public Order getOrder() {
+	public Set<Order> getOrder() {
 		return order;
 	}
 
-	public void setOrder(Order order) {
+	public void setOrder(Set<Order> order) {
 		this.order = order;
 	}
 
