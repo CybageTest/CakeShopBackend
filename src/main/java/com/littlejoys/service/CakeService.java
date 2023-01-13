@@ -60,8 +60,14 @@ public class CakeService {
 		return cakeDTOList;
 	}
 
-	public Cake findCakeById(long id) {
-		return cakeDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Cake(id) does not exist"));
+	public CakeDTO findCakeById(long id) {
+		CakeDTO cakeDTO = modelMapper.map(cakeDao.findById(id), CakeDTO.class);
+		if (cakeDTO != null) {
+			logger.info("Found Cake: " + cakeDTO + " for ID: " + id);
+			return cakeDTO;
+		} else {
+			throw new ResourceNotFoundException("Cake(id) does not exist");
+		}
 	}
 
 	public List<Cake> findCakeByCategory(CakeCategory category) {
