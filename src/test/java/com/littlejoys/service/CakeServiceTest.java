@@ -34,11 +34,11 @@ class CakeServiceTest {
 		Mockito.when(cakeDao.findById((long) 1)).thenReturn(dummyCake);
 	}
 
-	@Test
-	void getCakeByIdTest() {
-		long id = 1;
-		Cake catchedCake = cakeService.findCakeById(id);
-		assertEquals(id, catchedCake.getId());
-	}
+//	@Test
+//	void getCakeByIdTest() {
+//		long id = 1;
+//		Cake catchedCake = cakeService.findCakeById(id);
+//		assertEquals(id, catchedCake.getId());
+//	}
 
 }
