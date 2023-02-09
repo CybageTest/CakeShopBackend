@@ -42,7 +42,7 @@ class UserServiceTest {
 	}
 
 	@Test
-	 void getUserById_Sucess() {
+	void getUserById_Sucess() {
 		String name = "abc";
 		User user = userService.getUserById(name);
 		System.out.println(user.getRole());
@@ -64,6 +64,4 @@ class UserServiceTest {
 //			assertTrue(actualMessage.contains(expectedMessage));
 //		}
 //	}
-
-
 }

@@ -36,3 +36,7 @@ build/
 .scannerwork/
 sonar-project.properties
 sonar-project.properties.bak
+
+
+### Log Files ###
+/logs
