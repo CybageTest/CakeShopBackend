@@ -83,7 +83,20 @@ class CakeServiceTest {
 
 	@Test
 	void testGetAllFlavours() {
-		fail("Not yet implemented");
+		assertAll(() -> assertEquals(CakeFlavours.CHOCOLATE, CakeFlavours.valueOf("CHOCOLATE")),
+				() -> assertEquals(CakeFlavours.VANILLA, CakeFlavours.valueOf("VANILLA")),
+				() -> assertEquals(CakeFlavours.STRAWBERRY, CakeFlavours.valueOf("STRAWBERRY")),
+				() -> assertEquals(CakeFlavours.MANGO, CakeFlavours.valueOf("MANGO")),
+				() -> assertEquals(CakeFlavours.RASBERRY, CakeFlavours.valueOf("RASBERRY")),
+				() -> assertEquals(CakeFlavours.BLUEBERRY, CakeFlavours.valueOf("BLUEBERRY")),
+				() -> assertEquals(CakeFlavours.BLACK_FOREST, CakeFlavours.valueOf("BLACK_FOREST")),
+				() -> assertEquals(CakeFlavours.BANANA, CakeFlavours.valueOf("BANANA")),
+				() -> assertEquals(CakeFlavours.BUTTERSCOTCH, CakeFlavours.valueOf("BUTTERSCOTCH")),
+				() -> assertEquals(CakeFlavours.RED_VELVET, CakeFlavours.valueOf("RED_VELVET")),
+				() -> assertEquals(CakeFlavours.FRUIT, CakeFlavours.valueOf("FRUIT")),
+				() -> assertEquals(CakeFlavours.PINEAPPLE, CakeFlavours.valueOf("PINEAPPLE")),
+				() -> assertEquals(CakeFlavours.RASMALAI, CakeFlavours.valueOf("RASMALAI")),
+				() -> assertEquals(CakeFlavours.CHEESECAKE, CakeFlavours.valueOf("CHEESECAKE")));
 	}
 
 	@Test
