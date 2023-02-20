@@ -77,7 +77,8 @@ class CakeServiceTest {
 
 	@Test
 	void testGetAllCategories() {
-//		assertAll(() -> assertEquals("EGG", CakeCategory.EGG), () -> assertEquals("EGGLESS", CakeCategory.EGGLESS));
+		assertAll(() -> assertEquals(CakeCategory.EGG, CakeCategory.valueOf("EGG")),
+				() -> assertEquals(CakeCategory.EGGLESS, CakeCategory.valueOf("EGGLESS")));
 	}
 
 	@Test
