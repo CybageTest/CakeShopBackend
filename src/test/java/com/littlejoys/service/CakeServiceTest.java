@@ -1,5 +1,6 @@
 package com.littlejoys.service;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -65,13 +66,13 @@ class CakeServiceTest {
 
 	@Test
 	void testGetAllOccasions() {
-//		assertAll(() -> assertEquals("BIRTHDAY", CakeOccasions.BIRTHDAY),
-//				() -> assertEquals("WEDDING", CakeOccasions.WEDDING),
-//				() -> assertEquals("ANNIVERSARIES", CakeOccasions.ANNIVERSARIES),
-//				() -> assertEquals("BABY_SHOWER", CakeOccasions.BABY_SHOWER),
-//				() -> assertEquals("VALENTINE_SPECIALS", CakeOccasions.VALENTINE_SPECIALS),
-//				() -> assertEquals("CHRISTMAS", CakeOccasions.CHRISTMAS),
-//				() -> assertEquals("SPECIAL_DAYS", CakeOccasions.SPECIAL_DAYS));
+		assertAll(() -> assertEquals(CakeOccasions.BIRTHDAY, CakeOccasions.valueOf("BIRTHDAY")),
+				() -> assertEquals(CakeOccasions.WEDDING, CakeOccasions.valueOf("WEDDING")),
+				() -> assertEquals(CakeOccasions.ANNIVERSARIES, CakeOccasions.valueOf("ANNIVERSARIES")),
+				() -> assertEquals(CakeOccasions.BABY_SHOWER, CakeOccasions.valueOf("BABY_SHOWER")),
+				() -> assertEquals(CakeOccasions.VALENTINE_SPECIALS, CakeOccasions.valueOf("VALENTINE_SPECIALS")),
+				() -> assertEquals(CakeOccasions.CHRISTMAS, CakeOccasions.valueOf("CHRISTMAS")),
+				() -> assertEquals(CakeOccasions.SPECIAL_DAYS, CakeOccasions.valueOf("SPECIAL_DAYS")));
 	}
 
 	@Test
