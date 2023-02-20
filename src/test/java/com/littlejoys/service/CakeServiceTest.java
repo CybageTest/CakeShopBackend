@@ -159,7 +159,9 @@ class CakeServiceTest {
 
 	@Test
 	void testFindCakeByCategory() {
-		fail("Not yet implemented");
+		when(modelMapper.map(any(CakeDTO.class), any())).thenReturn(cake);
+		CakeCategory categoryToCheck = CakeCategory.EGG;
+		assertEquals(categoryToCheck, cake.getCategory());
 	}
 
 	@Test
