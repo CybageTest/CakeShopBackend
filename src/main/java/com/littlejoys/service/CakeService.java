@@ -1,6 +1,5 @@
 package com.littlejoys.service;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -57,13 +56,8 @@ public class CakeService {
 	}
 
 	public List<CakeDTO> getAllCakes() {
-		List<CakeDTO> cakeDTOList = new ArrayList<>();
 		List<Cake> cakesList = cakeDao.findAll();
-		for (Cake cake : cakesList) {
-			CakeDTO cakeDTO = modelMapper.map(cake, CakeDTO.class);
-			cakeDTOList.add(cakeDTO);
-		}
-		return cakeDTOList;
+		return cakesList.stream().map(cake -> modelMapper.map(cake, CakeDTO.class)).collect(Collectors.toList());
 	}
 
 	public CakeDTO findCakeById(long id) {
