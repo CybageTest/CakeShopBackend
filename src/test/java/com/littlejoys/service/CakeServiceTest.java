@@ -26,6 +26,7 @@ import com.littlejoys.entity.CakeCategory;
 import com.littlejoys.entity.CakeFlavours;
 import com.littlejoys.entity.CakeOccasions;
 import com.littlejoys.exception.ResourceCannotBeNullException;
+import com.littlejoys.exception.ResourceNotFoundException;
 
 class CakeServiceTest {
 
@@ -147,6 +148,13 @@ class CakeServiceTest {
 		long id = 12356;
 		when(cakeDao.findById(id)).thenReturn(Optional.of(cake));
 		assertEquals(id, cake.getId());
+	}
+
+	@Test
+	void testWhenIdNotFound_ShouldThrowException() {
+		long id = 1236;
+		Throwable thrown = assertThrows(ResourceNotFoundException.class, () -> cakeService.findCakeById(id));
+		assertEquals("Cake(id) does not exist", thrown.getMessage());
 	}
 
 	@Test
