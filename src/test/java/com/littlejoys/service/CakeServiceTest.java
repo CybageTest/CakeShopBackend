@@ -1,6 +1,7 @@
 package com.littlejoys.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -18,6 +19,7 @@ import com.littlejoys.entity.Cake;
 import com.littlejoys.entity.CakeCategory;
 import com.littlejoys.entity.CakeFlavours;
 import com.littlejoys.entity.CakeOccasions;
+import com.littlejoys.exception.ResourceCannotBeNullException;
 
 class CakeServiceTest {
 
@@ -51,6 +53,14 @@ class CakeServiceTest {
 		when(cakeDao.save(any(Cake.class))).thenReturn(cake);
 		Cake result = cakeService.addCake(cakeDTO);
 		assertEquals(cake, result);
+	}
+
+	@Test
+	void whenAddCakeWithInvalidData_thenThrowException() {
+		cakeDTO.setCakeName(null);
+		when(modelMapper.map(any(CakeDTO.class), any())).thenReturn(cake);
+		Throwable thrown = assertThrows(ResourceCannotBeNullException.class, () -> cakeService.addCake(cakeDTO));
+		assertEquals("Cake name cannot be empty", thrown.getMessage());
 	}
 
 	@Test
