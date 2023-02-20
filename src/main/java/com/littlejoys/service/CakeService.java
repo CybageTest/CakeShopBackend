@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.modelmapper.ModelMapper;
@@ -49,8 +50,10 @@ public class CakeService {
 		return CakeFlavours.values();
 	}
 
-	public List<Cake> addCakeList(List<Cake> cakeList) {
-		return cakeDao.saveAll(cakeList);
+	public List<Cake> addCakeList(List<CakeDTO> cakeDTOList) {
+		List<Cake> cakesList = cakeDTOList.stream().map(cakeDto -> modelMapper.map(cakeDto, Cake.class))
+				.collect(Collectors.toList());
+		return cakeDao.saveAll(cakesList);
 	}
 
 	public List<CakeDTO> getAllCakes() {
