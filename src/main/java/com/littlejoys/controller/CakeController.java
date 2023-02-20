@@ -37,8 +37,8 @@ public class CakeController {
 	}
 
 	@PostMapping("/addCakesList")
-	public ResponseEntity<List<Cake>> addCakesList(@RequestBody List<Cake> cakeList) {
-		return new ResponseEntity<>(cakeService.addCakeList(cakeList), HttpStatus.CREATED);
+	public ResponseEntity<List<Cake>> addCakesList(@RequestBody List<CakeDTO> cakeDTOList) {
+		return new ResponseEntity<>(cakeService.addCakeList(cakeDTOList), HttpStatus.CREATED);
 	}
 
 	@GetMapping("/allcakes")
