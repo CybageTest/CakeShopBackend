@@ -85,13 +85,15 @@ public class CakeService {
 	}
 
 	public CakeDTO deleteCakeById(long id) throws ResourceNotFoundException {
-		CakeDTO cakeToDelete = findCakeById(id);
-		if (cakeToDelete != null) {
+		Optional<Cake> cakeOptional = cakeDao.findById(id);
+		if (cakeOptional.isPresent()) {
+			Cake cakeToDelete = cakeOptional.get();
 			cakeDao.deleteById(id);
 			logger.info("Deleted cake: " + cakeToDelete + " for ID: " + id);
-			return cakeToDelete;
+			return modelMapper.map(cakeToDelete, CakeDTO.class);
+		} else {
+			throw new ResourceNotFoundException("Cake(id) does not exist");
 		}
-		throw new ResourceNotFoundException("Cake(id) does not exist");
 	}
 
 	public Map<String, Object> editCakeById(long id, CakeDTO cakeDto) {
