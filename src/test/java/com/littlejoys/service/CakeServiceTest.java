@@ -125,7 +125,20 @@ class CakeServiceTest {
 
 	@Test
 	void testGetAllCakes() {
-		fail("Not yet implemented");
+		Cake cake1 = new Cake(12356, "TestCakeName 1", 1234, "TestDescription 1", 1, CakeFlavours.BANANA,
+				CakeCategory.EGG, CakeOccasions.BIRTHDAY, null);
+		Cake cake2 = new Cake(12357, "TestCakeName 2", 1234, "TestDescription 2", 1, CakeFlavours.BANANA,
+				CakeCategory.EGG, CakeOccasions.BIRTHDAY, null);
+		List<Cake> cakeList = Arrays.asList(cake1, cake2);
+
+		when(cakeDao.findAll()).thenReturn(cakeList);
+
+		List<CakeDTO> cakeDTOList = cakeService.getAllCakes();
+
+		List<CakeDTO> expectedCakesList = cakeList.stream().map(cake -> modelMapper.map(cake, CakeDTO.class))
+				.collect(Collectors.toList());
+
+		assertEquals(expectedCakesList, cakeDTOList);
 	}
 
 	@Test
