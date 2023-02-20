@@ -96,15 +96,17 @@ public class CakeService {
 		}
 	}
 
-	public Map<String, Object> editCakeById(long id, CakeDTO cakeDto) {
-		if (cakeDao.existsById(id)) {
+	public Map<String, Cake> editCakeById(long id, CakeDTO cakeDto) {
+		Optional<Cake> cakeToFind = cakeDao.findById(id);
+		if (cakeToFind.isEmpty()) {
+			throw new ResourceNotFoundException("Cake with " + id + " does not exist");
+		} else {
 			cakeDto.setId(id);
 			Cake cake = modelMapper.map(cakeDto, Cake.class);
 			cake = cakeDao.save(cake);
 			logger.info("Cake: " + cake + " for Id: " + id + " updated.");
 			return Collections.singletonMap("Cake updated", cake);
 		}
-		return Collections.singletonMap("Cake updation failed", 0);
 	}
 
 }
