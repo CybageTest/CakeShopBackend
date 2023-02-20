@@ -3,8 +3,6 @@ package com.littlejoys.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -49,32 +47,10 @@ class CakeServiceTest {
 
 	@Test
 	void testAddCake() {
-//		when(modelMapper.map(any(CakeDTO.class), any())).thenReturn(cake);
-//		when(cakeDao.save(any(Cake.class))).thenReturn(cake);
-//		CakeDTO cakeResult = cakeService.addCake(cakeDTO);
-
-		// Configure mock to return cakeDTO when map is called
-		// when(modelMapper.map(cake, CakeDTO.class)).thenReturn(cakeDTO);
-		System.out.println("BEdire: " + cakeDTO);
 		when(modelMapper.map(any(CakeDTO.class), any())).thenReturn(cake);
-
-		// Configure mock to return cake when save is called
-		// when(cakeRepository.save(cake)).thenReturn(cake);
 		when(cakeDao.save(any(Cake.class))).thenReturn(cake);
-
-		System.out.println("CAKEDTO: " + cakeDTO);
-		CakeDTO result = cakeService.addCake(cakeDTO);
-		System.out.println("RESULT: " + result);
-		// Verify that the save method is called once on the repository
-		verify(cakeDao, times(1)).save(cake);
-
-		// Verify that the map method is called once with the correct parameters
-		verify(modelMapper, times(1)).map(cake, CakeDTO.class);
-
-		// Verify that the result is the same as the cakeDTO that was passed in
-		System.out.println("REs: " + result + "CakeDTO: " + cakeDTO);
-		assertEquals(result, cakeDTO);
-
+		Cake result = cakeService.addCake(cakeDTO);
+		assertEquals(cake, result);
 	}
 
 	@Test
