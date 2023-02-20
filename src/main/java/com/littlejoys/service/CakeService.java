@@ -3,6 +3,7 @@ package com.littlejoys.service;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
@@ -61,10 +62,11 @@ public class CakeService {
 	}
 
 	public CakeDTO findCakeById(long id) {
-		CakeDTO cakeDTO = modelMapper.map(cakeDao.findById(id), CakeDTO.class);
-		if (cakeDTO != null) {
-			logger.info("Found Cake: " + cakeDTO + " for ID: " + id);
-			return cakeDTO;
+		Optional<Cake> cakeOptional = cakeDao.findById(id);
+		if (cakeOptional.isPresent()) {
+			Cake cakeToFind = cakeOptional.get();
+			logger.info("Found Cake: " + cakeToFind);
+			return modelMapper.map(cakeToFind, CakeDTO.class);
 		} else {
 			throw new ResourceNotFoundException("Cake(id) does not exist");
 		}
