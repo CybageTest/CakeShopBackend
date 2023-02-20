@@ -38,15 +38,12 @@ class CakeServiceTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		MockitoAnnotations.openMocks(this);
-		
 
 		cakeDTO = new CakeDTO(12356, "lava cake", 123.456, "swwet cake", 1, CakeFlavours.CHOCOLATE, CakeCategory.EGG,
 				CakeOccasions.BIRTHDAY, null);
 
 		cake = new Cake(12356, "lava cake", 123.456, "swwet cake", 1, CakeFlavours.CHOCOLATE, CakeCategory.EGG,
 				CakeOccasions.BIRTHDAY, null);
-
-		System.out.println(cake + " " + cakeDTO);
 
 	}
 
@@ -58,7 +55,7 @@ class CakeServiceTest {
 
 		// Configure mock to return cakeDTO when map is called
 		// when(modelMapper.map(cake, CakeDTO.class)).thenReturn(cakeDTO);
-		System.out.println("BEdire: "+cakeDTO);
+		System.out.println("BEdire: " + cakeDTO);
 		when(modelMapper.map(any(CakeDTO.class), any())).thenReturn(cake);
 
 		// Configure mock to return cake when save is called
