@@ -3,7 +3,6 @@ package com.littlejoys.service;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -180,12 +179,14 @@ class CakeServiceTest {
 
 	@Test
 	void testDeleteCakeById() {
-		fail("Not yet implemented");
-	}
+		long id = 12356;
 
-	@Test
-	void testEditCakeById() {
-		fail("Not yet implemented");
+		when(cakeDao.findById(id)).thenReturn(Optional.of(cake));
+		CakeDTO mappedCakeDTO = modelMapper.map(cake, CakeDTO.class);
+		CakeDTO expectedCakeDTO = cakeService.deleteCakeById(id);
+
+		assertEquals(expectedCakeDTO, mappedCakeDTO);
+
 	}
 
 }
