@@ -1,4 +1,4 @@
-package com.littlejoys.service;
+	package com.littlejoys.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.littlejoys.dao.IAddOnsDao;
 import com.littlejoys.dto.AddOnsDTO;
 import com.littlejoys.entity.AddOns;
+import com.littlejoys.exception.ResourceCannotBeNullException;
 import com.littlejoys.exception.ResourceNotFoundException;
 
 @Service
@@ -26,11 +27,12 @@ public class AddOnsService {
 	@Autowired
 	private ModelMapper modelMapper;
 
-	public AddOnsDTO addAddOns(AddOnsDTO addOnsDTO) {
-		AddOns addOns = modelMapper.map(addOnsDTO, AddOns.class);
-		AddOns savedAddOn = addonDao.save(addOns);
-		logger.info("Added AddOn: " + savedAddOn);
-		return modelMapper.map(savedAddOn, AddOnsDTO.class);
+	public AddOns addAddOns(AddOnsDTO addOnsDTO) {
+		if (addOnsDTO.getName() == null) {
+			throw new ResourceCannotBeNullException("AddOn name cannot be empty");
+		}
+		AddOns addOnsToBeSaved = modelMapper.map(addOnsDTO, AddOns.class);
+		return addonDao.save(addOnsToBeSaved);
 	}
 
 	public List<AddOns> addAddonsList(List<AddOns> addOnsList) {
