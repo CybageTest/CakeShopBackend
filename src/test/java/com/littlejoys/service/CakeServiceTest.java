@@ -7,6 +7,10 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -101,7 +105,22 @@ class CakeServiceTest {
 
 	@Test
 	void testAddCakeList() {
-		fail("Not yet implemented");
+		CakeDTO cakeDTO1 = new CakeDTO(12356, "TestCakeName 1", 1234, "TestDescription 1", 1, CakeFlavours.BANANA,
+				CakeCategory.EGG, CakeOccasions.BIRTHDAY, null);
+		CakeDTO cakeDTO2 = new CakeDTO(12357, "TestCakeName 2", 1234, "TestDescription 2", 1, CakeFlavours.BANANA,
+				CakeCategory.EGG, CakeOccasions.BIRTHDAY, null);
+		List<CakeDTO> cakeDTOList = Arrays.asList(cakeDTO1, cakeDTO2);
+
+		List<Cake> cakeList = cakeDTOList.stream().map(cakeDto -> modelMapper.map(cakeDto, Cake.class))
+				.collect(Collectors.toList());
+
+		when(cakeDao.saveAll(cakeList)).thenReturn(cakeList);
+
+		List<Cake> expectedCakeList = cakeService.addCakeList(cakeDTOList);
+
+		assertEquals(expectedCakeList.size(), cakeList.size());
+		assertEquals(expectedCakeList, cakeList);
+
 	}
 
 	@Test
