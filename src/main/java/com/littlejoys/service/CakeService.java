@@ -16,6 +16,7 @@ import com.littlejoys.entity.Cake;
 import com.littlejoys.entity.CakeCategory;
 import com.littlejoys.entity.CakeFlavours;
 import com.littlejoys.entity.CakeOccasions;
+import com.littlejoys.exception.ResourceCannotBeNullException;
 import com.littlejoys.exception.ResourceNotFoundException;
 
 @Service
@@ -29,11 +30,11 @@ public class CakeService {
 
 	public static final Logger logger = Logger.getLogger(CakeService.class);
 
-	public CakeDTO addCake(CakeDTO cakeDTO) {
-		Cake cake = modelMapper.map(cakeDTO, Cake.class);
-		Cake savedCake = cakeDao.save(cake);
-		logger.info("Cake added: " + savedCake);
-		return modelMapper.map(savedCake, CakeDTO.class);
+	public Cake addCake(CakeDTO cakeDTO) throws ResourceCannotBeNullException {
+		if (cakeDTO.getCakeName() == null)
+			throw new ResourceCannotBeNullException("Cake name cannot be empty");
+		Cake cakeToBeSaved = modelMapper.map(cakeDTO, Cake.class);
+		return cakeDao.save(cakeToBeSaved);
 	}
 
 	public CakeOccasions[] getAllOccasions() {
