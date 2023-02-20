@@ -166,7 +166,9 @@ class CakeServiceTest {
 
 	@Test
 	void testFindCakeByOccasions() {
-		fail("Not yet implemented");
+		when(modelMapper.map(any(CakeDTO.class), any())).thenReturn(cake);
+		CakeOccasions occassionToCheck = CakeOccasions.BIRTHDAY;
+		assertEquals(occassionToCheck, cake.getOccasions());
 	}
 
 	@Test
