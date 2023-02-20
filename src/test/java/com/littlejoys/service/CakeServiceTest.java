@@ -173,7 +173,9 @@ class CakeServiceTest {
 
 	@Test
 	void testFindCakeByFlavours() {
-		fail("Not yet implemented");
+		when(modelMapper.map(any(CakeDTO.class), any())).thenReturn(cake);
+		CakeFlavours flavourToCheck = CakeFlavours.CHOCOLATE;
+		assertEquals(flavourToCheck, cake.getFlavours());
 	}
 
 	@Test
