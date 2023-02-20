@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -143,14 +144,9 @@ class CakeServiceTest {
 
 	@Test
 	void testFindCakeById() {
-//		CakeDTO cakeDTO = cakeService.findCakeById(1L);
-//		assertNotNull(cakeDTO);
-//		assertEquals(1L, cakeDTO.getId());
-//		when(cakeDao.findById(anyLong())).thenReturn(cakeToSave);
-//		CakeDTO cakeDTO = cakeService.findCakeById(1L);
-//		assertNotNull(cakeDTO);
-//		assertEquals(1L, cakeDTO.getId());
-		fail("Not yet implemented");
+		long id = 12356;
+		when(cakeDao.findById(id)).thenReturn(Optional.of(cake));
+		assertEquals(id, cake.getId());
 	}
 
 	@Test
