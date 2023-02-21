@@ -1,6 +1,9 @@
 package com.littlejoys.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,7 +39,10 @@ class AddOnsServiceTest {
 
 	@Test
 	void testAddAddOns() {
-		fail("Not yet implemented");
+		when(modelMapper.map(any(AddOnsDTO.class), any())).thenReturn(addOns);
+		when(addOnsDao.save(any(AddOns.class))).thenReturn(addOns);
+		AddOns result = addOnsService.addAddOns(addOnsDTO);
+		assertEquals(addOns, result);
 	}
 
 	@Test
