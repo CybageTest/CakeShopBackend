@@ -35,8 +35,8 @@ public class AddOnsController {
 	}
 
 	@PostMapping("/addAddonsList")
-	public ResponseEntity<List<AddOns>> addAddonsList(@RequestBody List<AddOns> addOnsList) {
-		return new ResponseEntity<>(addOnsService.addAddonsList(addOnsList), HttpStatus.CREATED);
+	public ResponseEntity<List<AddOns>> addAddonsList(@RequestBody List<AddOnsDTO> addOnsDTOList) {
+		return new ResponseEntity<>(addOnsService.addAddonsList(addOnsDTOList), HttpStatus.CREATED);
 	}
 
 	@GetMapping("/getAllAddons")
