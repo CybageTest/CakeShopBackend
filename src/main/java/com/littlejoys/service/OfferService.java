@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.littlejoys.dao.IOfferDao;
 import com.littlejoys.dto.OfferDTO;
 import com.littlejoys.entity.Offer;
+import com.littlejoys.exception.ResourceAlreadyExistException;
 import com.littlejoys.exception.ResourceNotFoundException;
 
 @Service
@@ -26,11 +27,14 @@ public class OfferService {
 
 	public static final Logger logger = Logger.getLogger(OfferService.class);
 
-	public OfferDTO addOffer(OfferDTO offerDTO) {
-		Offer offer = modelMapper.map(offerDTO, Offer.class);
-		Offer savedOffer = offerDao.save(offer);
-		logger.info("Offer added: " + savedOffer);
-		return modelMapper.map(savedOffer, OfferDTO.class);
+	public Offer addOffer(OfferDTO offerDTO) throws ResourceAlreadyExistException {
+		Offer codeToCheck = offerDao.findByCode(offerDTO.getCode());
+		if (codeToCheck != null) {
+			throw new ResourceAlreadyExistException("Offer code already Exist");
+		}
+		offerDTO.setCode(offerDTO.getCode().toUpperCase());
+		Offer offerToBeSaved = modelMapper.map(offerDTO, Offer.class);
+		return offerDao.save(offerToBeSaved);
 	}
 
 	public OfferDTO findOfferById(long id) {
