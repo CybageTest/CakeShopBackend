@@ -1,6 +1,7 @@
 package com.littlejoys.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
@@ -15,6 +16,7 @@ import org.modelmapper.ModelMapper;
 import com.littlejoys.dao.IAddOnsDao;
 import com.littlejoys.dto.AddOnsDTO;
 import com.littlejoys.entity.AddOns;
+import com.littlejoys.exception.ResourceCannotBeNullException;
 
 class AddOnsServiceTest {
 
@@ -43,6 +45,14 @@ class AddOnsServiceTest {
 		when(addOnsDao.save(any(AddOns.class))).thenReturn(addOns);
 		AddOns result = addOnsService.addAddOns(addOnsDTO);
 		assertEquals(addOns, result);
+	}
+
+	@Test
+	void whenAddOnWithInvalidData_thenThrowException() {
+		addOnsDTO.setName(null);
+		when(modelMapper.map(any(AddOnsDTO.class), any())).thenReturn(addOns);
+		Throwable thrown = assertThrows(ResourceCannotBeNullException.class, () -> addOnsService.addAddOns(addOnsDTO));
+		assertEquals("AddOn name cannot be empty", thrown.getMessage());
 	}
 
 	@Test
