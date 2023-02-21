@@ -2,7 +2,6 @@ package com.littlejoys.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
@@ -94,7 +93,13 @@ class AddOnsServiceTest {
 
 	@Test
 	void testDeleteAddOnById() {
-		fail("Not yet implemented");
+		long id = 12356;
+
+		when(addOnsDao.findById(id)).thenReturn(Optional.of(addOns));
+		AddOnsDTO mappedAddOnDTO = modelMapper.map(addOns, AddOnsDTO.class);
+		AddOnsDTO expectedAddOnDTO = addOnsService.deleteAddOnById(id);
+
+		assertEquals(expectedAddOnDTO, mappedAddOnDTO);
 	}
 
 	@Test
