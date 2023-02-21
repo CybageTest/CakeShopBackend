@@ -74,13 +74,8 @@ public class AddOnsService {
 	}
 
 	public List<AddOnsDTO> getAllAddOns() {
-		List<AddOnsDTO> addOnsDTOList = new ArrayList<>();
 		List<AddOns> addOnsList = addonDao.findAll();
-		for (AddOns addOn : addOnsList) {
-			AddOnsDTO addOnsDTO = modelMapper.map(addOn, AddOnsDTO.class);
-			addOnsDTOList.add(addOnsDTO);
-		}
-		return addOnsDTOList;
+		return addOnsList.stream().map(addOn -> modelMapper.map(addOn, AddOnsDTO.class)).collect(Collectors.toList());
 	}
 
 }
