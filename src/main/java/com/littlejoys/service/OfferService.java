@@ -3,6 +3,7 @@ package com.littlejoys.service;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
@@ -64,13 +65,15 @@ public class OfferService {
 	}
 
 	public OfferDTO deleteOfferById(long id) throws ResourceNotFoundException {
-		OfferDTO offerToDelete = findOfferById(id);
-		if (offerToDelete != null) {
+		Optional<Offer> offerOptional = offerDao.findById(id);
+		if (offerOptional.isPresent()) {
+			Offer offerToDelete = offerOptional.get();
 			offerDao.deleteById(id);
 			logger.info("Deleted offer: " + offerToDelete + " for ID: " + id);
-			return offerToDelete;
+			return modelMapper.map(offerToDelete, OfferDTO.class);
+		} else {
+			throw new ResourceNotFoundException("Offer(id) does not exist");
 		}
-		throw new ResourceNotFoundException("Offer(id) does not exist");
 	}
 
 }
