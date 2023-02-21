@@ -6,6 +6,10 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -57,7 +61,19 @@ class AddOnsServiceTest {
 
 	@Test
 	void testAddAddonsList() {
-		fail("Not yet implemented");
+		AddOnsDTO addOnsDTO1 = new AddOnsDTO(1234, "Test addList 1", 50, "Test Addon DTO description", null);
+		AddOnsDTO addOnsDTO2 = new AddOnsDTO(1234, "Test addList 2", 50, "Test Addon Entity description", null);
+		List<AddOnsDTO> addOnDTOList = Arrays.asList(addOnsDTO1, addOnsDTO2);
+
+		List<AddOns> addOnList = addOnDTOList.stream().map(addOnDto -> modelMapper.map(addOnDto, AddOns.class))
+				.collect(Collectors.toList());
+
+		when(addOnsDao.saveAll(addOnList)).thenReturn(addOnList);
+
+		List<AddOns> expectedAddOnsList = addOnsService.addAddonsList(addOnDTOList);
+
+		assertEquals(expectedAddOnsList.size(), addOnList.size());
+		assertEquals(expectedAddOnsList, addOnList);
 	}
 
 	@Test
