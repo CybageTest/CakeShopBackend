@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -53,7 +55,9 @@ class OfferServiceTest {
 
 	@Test
 	void testFindOfferById() {
-		fail("Not yet implemented");
+		long id = 10;
+		when(offerDao.findById(id)).thenReturn(Optional.of(offer));
+		assertEquals(id, offer.getId());
 	}
 
 	@Test
