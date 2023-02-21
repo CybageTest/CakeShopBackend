@@ -54,14 +54,16 @@ public class OfferService {
 	}
 
 	public Map<String, Object> editOfferById(long id, OfferDTO offerDTO) {
-		if (offerDao.existsById(id)) {
+		Optional<Offer> offerToFind = offerDao.findById(id);
+		if (offerToFind.isEmpty()) {
+			throw new ResourceNotFoundException("Offer with " + id + " does not exist");
+		} else {
 			offerDTO.setId(id);
 			Offer offer = modelMapper.map(offerDTO, Offer.class);
 			offer = offerDao.save(offer);
-			logger.info("Offer updated: " + offer);
+			logger.info("Offer: " + offer + " for Id: " + id + " updated.");
 			return Collections.singletonMap("Offer updated", offer);
 		}
-		return Collections.singletonMap("Offer updation failed", 0);
 	}
 
 	public OfferDTO deleteOfferById(long id) throws ResourceNotFoundException {
