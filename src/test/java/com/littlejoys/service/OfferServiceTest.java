@@ -1,7 +1,6 @@
 package com.littlejoys.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
@@ -81,7 +80,11 @@ class OfferServiceTest {
 
 	@Test
 	void testDeleteOfferById() {
-		fail("Not yet implemented");
+		long id = 10;
+		when(offerDao.findById(id)).thenReturn(Optional.of(offer));
+		OfferDTO mappedOfferDTO = modelMapper.map(offer, OfferDTO.class);
+		OfferDTO expectedOfferDTO = offerService.deleteOfferById(id);
+		assertEquals(expectedOfferDTO, mappedOfferDTO);
 	}
 
 }
