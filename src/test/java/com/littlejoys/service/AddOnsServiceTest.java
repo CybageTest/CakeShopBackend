@@ -22,6 +22,7 @@ import com.littlejoys.dao.IAddOnsDao;
 import com.littlejoys.dto.AddOnsDTO;
 import com.littlejoys.entity.AddOns;
 import com.littlejoys.exception.ResourceCannotBeNullException;
+import com.littlejoys.exception.ResourceNotFoundException;
 
 class AddOnsServiceTest {
 
@@ -82,6 +83,13 @@ class AddOnsServiceTest {
 		long id = 1234;
 		when(addOnsDao.findById(id)).thenReturn(Optional.of(addOns));
 		assertEquals(id, addOns.getId());
+	}
+
+	@Test
+	void testWhenIdNotFound_ShouldThrowException() {
+		long id = 1236;
+		Throwable thrown = assertThrows(ResourceNotFoundException.class, () -> addOnsService.findAddOnById(id));
+		assertEquals("Addon(id) does not exist", thrown.getMessage());
 	}
 
 	@Test
