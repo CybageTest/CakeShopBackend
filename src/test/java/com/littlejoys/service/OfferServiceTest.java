@@ -5,7 +5,10 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -62,7 +65,18 @@ class OfferServiceTest {
 
 	@Test
 	void testGetAllOffers() {
-		fail("Not yet implemented");
+		Offer offer1 = new Offer(10, "Test DTO offer 1", "TDO1", 10, "Test DTO offer description 1", null);
+		Offer offer2 = new Offer(11, "Test DTO offer 1", "TDO2", 10, "Test DTO offer description 2", null);
+		List<Offer> offersList = Arrays.asList(offer1, offer2);
+
+		when(offerDao.findAll()).thenReturn(offersList);
+
+		List<OfferDTO> offerDTOList = offerService.getAllOffers();
+
+		List<OfferDTO> expectedOfferList = offersList.stream().map(offer -> modelMapper.map(offer, OfferDTO.class))
+				.collect(Collectors.toList());
+
+		assertEquals(expectedOfferList, offerDTOList);
 	}
 
 	@Test
