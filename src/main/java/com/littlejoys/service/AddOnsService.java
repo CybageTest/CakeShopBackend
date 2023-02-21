@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.modelmapper.ModelMapper;
@@ -35,7 +36,9 @@ public class AddOnsService {
 		return addonDao.save(addOnsToBeSaved);
 	}
 
-	public List<AddOns> addAddonsList(List<AddOns> addOnsList) {
+	public List<AddOns> addAddonsList(List<AddOnsDTO> addOnsDTOList) {
+		List<AddOns> addOnsList = addOnsDTOList.stream().map(addOn -> modelMapper.map(addOn, AddOns.class))
+				.collect(Collectors.toList());
 		return addonDao.saveAll(addOnsList);
 	}
 
