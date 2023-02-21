@@ -1,9 +1,9 @@
 package com.littlejoys.service;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.modelmapper.ModelMapper;
@@ -48,13 +48,8 @@ public class OfferService {
 	}
 
 	public List<OfferDTO> getAllOffers() {
-		List<OfferDTO> offerDTOList = new ArrayList<>();
 		List<Offer> offersList = offerDao.findAll();
-		for (Offer offer : offersList) {
-			OfferDTO offerDTO = modelMapper.map(offer, OfferDTO.class);
-			offerDTOList.add(offerDTO);
-		}
-		return offerDTOList;
+		return offersList.stream().map(offer -> modelMapper.map(offer, OfferDTO.class)).collect(Collectors.toList());
 	}
 
 	public Map<String, Object> editOfferById(long id, OfferDTO offerDTO) {
