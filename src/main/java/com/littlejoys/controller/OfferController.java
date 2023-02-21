@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.littlejoys.dto.OfferDTO;
+import com.littlejoys.entity.Offer;
+import com.littlejoys.exception.ResourceAlreadyExistException;
 import com.littlejoys.service.OfferService;
 
 @RestController
@@ -25,7 +27,7 @@ public class OfferController {
 	private OfferService offerService;
 
 	@PostMapping("/")
-	public ResponseEntity<OfferDTO> addOffer(@RequestBody OfferDTO offerDTO) {
+	public ResponseEntity<Offer> addOffer(@RequestBody OfferDTO offerDTO) throws ResourceAlreadyExistException {
 		return new ResponseEntity<>(offerService.addOffer(offerDTO), HttpStatus.CREATED);
 	}
 
