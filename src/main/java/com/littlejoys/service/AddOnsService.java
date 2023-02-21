@@ -65,14 +65,16 @@ public class AddOnsService {
 	}
 
 	public Map<String, Object> editAddOnById(long id, AddOnsDTO addOnsDTO) {
-		if (addonDao.existsById(id)) {
+		Optional<AddOns> addOnToFind = addonDao.findById(id);
+		if (addOnToFind.isEmpty()) {
+			throw new ResourceNotFoundException("AddOn with " + id + " does not exist");
+		} else {
 			addOnsDTO.setId(id);
-			AddOns addOns = modelMapper.map(addOnsDTO, AddOns.class);
-			addOns = addonDao.save(addOns);
-			logger.info("AddOn updated: " + addOns);
-			return Collections.singletonMap("AddOns updated", addOns);
+			AddOns addOn = modelMapper.map(addOnsDTO, AddOns.class);
+			addOn = addonDao.save(addOn);
+			logger.info("AddOn: " + addOn + " for Id: " + id + " updated.");
+			return Collections.singletonMap("AddOn updated", addOn);
 		}
-		return Collections.singletonMap("AddOns updation failed", 0);
 	}
 
 	public List<AddOnsDTO> getAllAddOns() {
