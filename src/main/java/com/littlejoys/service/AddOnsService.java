@@ -1,9 +1,9 @@
-	package com.littlejoys.service;
+package com.littlejoys.service;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
@@ -53,13 +53,15 @@ public class AddOnsService {
 	}
 
 	public AddOnsDTO deleteAddOnById(long id) throws ResourceNotFoundException {
-		AddOnsDTO addOnsToDelete = findAddOnById(id);
-		if (addOnsToDelete != null) {
+		Optional<AddOns> addOnOptional = addonDao.findById(id);
+		if (addOnOptional.isPresent()) {
+			AddOns addOnToDelete = addOnOptional.get();
 			addonDao.deleteById(id);
-			logger.info("AddOn deleted: " + addOnsToDelete);
-			return addOnsToDelete;
+			logger.info("Deleted cake: " + addOnToDelete + " for ID: " + id);
+			return modelMapper.map(addOnToDelete, AddOnsDTO.class);
+		} else {
+			throw new ResourceNotFoundException("AddOns(id) does not exist");
 		}
-		throw new ResourceNotFoundException("Addon(id) does not exist");
 	}
 
 	public Map<String, Object> editAddOnById(long id, AddOnsDTO addOnsDTO) {
