@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -78,7 +79,9 @@ class AddOnsServiceTest {
 
 	@Test
 	void testFindAddOnById() {
-		fail("Not yet implemented");
+		long id = 1234;
+		when(addOnsDao.findById(id)).thenReturn(Optional.of(addOns));
+		assertEquals(id, addOns.getId());
 	}
 
 	@Test
