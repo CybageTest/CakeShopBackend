@@ -88,7 +88,18 @@ class AddOnsServiceTest {
 
 	@Test
 	void testGetAllAddOns() {
-		fail("Not yet implemented");
+		AddOns addOns1 = new AddOns(1234, "Test addList 1", 50, "Test Addon DTO description", null);
+		AddOns addOns2 = new AddOns(1234, "Test addList 2", 50, "Test Addon Entity description", null);
+		List<AddOns> addOnsList = Arrays.asList(addOns1, addOns2);
+
+		when(addOnsDao.findAll()).thenReturn(addOnsList);
+
+		List<AddOnsDTO> addOnsDTOList = addOnsService.getAllAddOns();
+
+		List<AddOnsDTO> expectedAddOnsList = addOnsList.stream().map(addOn -> modelMapper.map(addOn, AddOnsDTO.class))
+				.collect(Collectors.toList());
+
+		assertEquals(expectedAddOnsList, addOnsDTOList);
 	}
 
 }
