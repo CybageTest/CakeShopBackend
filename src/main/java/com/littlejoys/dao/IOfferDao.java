@@ -7,5 +7,5 @@ import com.littlejoys.entity.Offer;
 
 @Repository
 public interface IOfferDao extends JpaRepository<Offer, Long>{
-
+	Offer findByCode(String code);
 }
