@@ -19,8 +19,10 @@ pipeline {
         stage('Push docker image to hub') {
             steps {
                 script {
-                    bat 'docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}'
-                    bat 'docker push iamabhijeetgurav/cybagetest:cakeshopfinal'
+                    withCredentials([usernamePassword(credentialsId: 'docker_secrets', passwordVariable: 'Docker_Password', usernameVariable: 'Docker_Username')]) {
+                        bat 'docker login -u ${Docker_Username} -p ${Docker_Password}'
+                        bat 'docker push iamabhijeetgurav/cybagetest:cakeshopfinal'
+                    }
                 }
             }
         }
