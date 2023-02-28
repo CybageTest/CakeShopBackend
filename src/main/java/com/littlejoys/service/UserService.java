@@ -125,6 +125,10 @@ public class UserService {
 		return modelMapper.map(userToBeFound, UserDTO.class);
 	}
 
+	public Boolean checkIfValidOldPassword(User loggedInUser, String oldPasswordToMatch) {
+		return passwordEncoder.matches(oldPasswordToMatch, loggedInUser.getPassword());
+	}
+
 	public User changeUserPassword(String name, String oldPassword, String newPassword) throws Exception {
 		User loggedInUser = userDao.findByName(name);
 		if (loggedInUser != null) {
@@ -137,13 +141,6 @@ public class UserService {
 			}
 		}
 		throw new ResourceNotFoundException("User(name) does not exist");
-	}
-
-	public Boolean checkIfValidOldPassword(User loggedInUser, String oldPasswordToMatch) {
-		if (passwordEncoder.matches(oldPasswordToMatch, loggedInUser.getPassword())) {
-			return true;
-		}
-		return false;
 	}
 
 	public User getUserById(String name) {
