@@ -1,5 +1,8 @@
 package com.littlejoys.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -43,23 +46,12 @@ class UserServiceTest {
 	}
 
 	@Test
-	void getUserById_Sucess() {
-
+	void testGetUserById() {
+		String name = "testUser";
+		when(userDao.findByName(name)).thenReturn(user);
+		UserDTO mappedUser = modelMapper.map(user, UserDTO.class);
+		UserDTO expectedUser = userService.getUserById(name);
+		assertEquals(expectedUser, mappedUser);
 	}
 
-//	@Test
-//	public void declineUserIfSameUserName() {
-//		User userToBeTested = new User("abc", "abc@mail.com", "abhi@123", "9850909090", "inactive", null, null, null);
-//		Mockito.when(userDao.save(userToBeTested)).thenReturn(userToBeTested);
-//		Optional<User> findUserByName = userDao.findById("abc");
-//		if (findUserByName != null) {
-//			Exception exception = assertThrows(ResourceAlreadyExistException.class, () -> {
-//				assertEquals(userToBeTested, userService.createNewUser(userToBeTested));
-//			});
-//			String expectedMessage = "User does not exist";
-//			String actualMessage = exception.getMessage();
-//
-//			assertTrue(actualMessage.contains(expectedMessage));
-//		}
-//	}
 }
