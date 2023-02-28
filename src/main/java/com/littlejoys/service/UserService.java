@@ -144,8 +144,13 @@ public class UserService {
 		throw new ResourceNotFoundException("User(name) does not exist");
 	}
 
-	public User getUserById(String name) {
-		return userDao.findById(name).orElseThrow(() -> new ResourceNotFoundException("User does not exist"));
+	public UserDTO getUserById(String name) {
+		User userToFind = userDao.findByName(name);
+		if (userToFind != null) {
+			return modelMapper.map(userToFind, UserDTO.class);
+		} else {
+			throw new ResourceNotFoundException("User does not exist");
+		}
 	}
 
 }
