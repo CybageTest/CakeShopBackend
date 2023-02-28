@@ -129,13 +129,14 @@ public class UserService {
 		return passwordEncoder.matches(oldPasswordToMatch, loggedInUser.getPassword());
 	}
 
-	public User changeUserPassword(String name, String oldPassword, String newPassword) throws Exception {
+	public UserDTO changeUserPassword(String name, String oldPassword, String newPassword)
+			throws InvalidOldPasswordException {
 		User loggedInUser = userDao.findByName(name);
 		if (loggedInUser != null) {
-			if (checkIfValidOldPassword(loggedInUser, oldPassword)) {
+			if (Boolean.TRUE.equals(checkIfValidOldPassword(loggedInUser, oldPassword))) {
 				loggedInUser.setPassword(passwordEncoder.encode(newPassword));
 				userDao.save(loggedInUser);
-				return loggedInUser;
+				return modelMapper.map(loggedInUser, UserDTO.class);
 			} else {
 				throw new InvalidOldPasswordException("Old password does not match");
 			}
