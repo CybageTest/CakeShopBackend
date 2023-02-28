@@ -1,6 +1,7 @@
 package com.littlejoys.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 import java.util.HashSet;
@@ -17,6 +18,7 @@ import com.littlejoys.dao.IUserDao;
 import com.littlejoys.dto.UserDTO;
 import com.littlejoys.entity.Role;
 import com.littlejoys.entity.User;
+import com.littlejoys.exception.ResourceNotFoundException;
 
 class UserServiceTest {
 
@@ -52,6 +54,13 @@ class UserServiceTest {
 		UserDTO mappedUser = modelMapper.map(user, UserDTO.class);
 		UserDTO expectedUser = userService.getUserById(name);
 		assertEquals(expectedUser, mappedUser);
+	}
+
+	@Test
+	void testWhenUserIdNotFound_ShouldThrowException() {
+		String name = "wrongName";
+		Throwable thrown = assertThrows(ResourceNotFoundException.class, () -> userService.getUserById(name));
+		assertEquals("User does not exist", thrown.getMessage());
 	}
 
 }
