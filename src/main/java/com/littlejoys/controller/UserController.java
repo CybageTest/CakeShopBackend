@@ -1,6 +1,7 @@
 package com.littlejoys.controller;
 
 import javax.annotation.PostConstruct;
+import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,9 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.littlejoys.dto.UserDTO;
 import com.littlejoys.entity.JwtRequest;
 import com.littlejoys.entity.JwtResponse;
 import com.littlejoys.entity.User;
+import com.littlejoys.exception.InvalidOldPasswordException;
+import com.littlejoys.exception.ResourceAlreadyExistException;
 import com.littlejoys.service.JwtService;
 import com.littlejoys.service.OtpService;
 import com.littlejoys.service.UserService;
@@ -46,8 +50,8 @@ public class UserController {
 	}
 
 	@PostMapping("/adduser")
-	public User createNewUser(@RequestBody User user) throws Exception {
-		return userService.createNewUser(user);
+	public User createNewUser(@RequestBody UserDTO userDto) throws ResourceAlreadyExistException, MessagingException {
+		return userService.createNewUser(userDto);
 	}
 
 	@GetMapping("/forUsers")
@@ -63,13 +67,13 @@ public class UserController {
 	}
 
 	@GetMapping("/findByEmailOrMobile")
-	public User findUserByEmailOrMobile(@RequestParam String email, @RequestParam String mobile) {
+	public UserDTO findUserByEmailOrMobile(@RequestParam String email, @RequestParam String mobile) {
 		return userService.findUserByEmailOrMobile(email, mobile);
 	}
 
 	@PatchMapping("/changePassword/{name}/{oldPassword}/{newPassword}")
-	public User changeUserPassword(@PathVariable String name, @PathVariable String oldPassword,
-			@PathVariable String newPassword) throws Exception {
+	public UserDTO changeUserPassword(@PathVariable String name, @PathVariable String oldPassword,
+			@PathVariable String newPassword) throws InvalidOldPasswordException {
 		return userService.changeUserPassword(name, oldPassword, newPassword);
 	}
 
