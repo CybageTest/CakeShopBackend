@@ -9,8 +9,7 @@ pipeline {
                 bat 'mvn clean install'
             }
         }
- 		stage('Build SonarQube Report'){
-        		def scannerHome = tool 'SonarScanner 4.8.0.2856';
+ 		stage('SonarQube Analysis'){
         	steps{
         			withSonarQubeEnv(installationName:'SonarQube', credentialsId: 'SONARQUBE_TOKEN') {
     					bat sonar-scanner	
