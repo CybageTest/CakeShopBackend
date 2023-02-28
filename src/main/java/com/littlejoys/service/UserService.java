@@ -1,6 +1,5 @@
 package com.littlejoys.service;
 
-import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -121,8 +120,9 @@ public class UserService {
 		return "Registration Failed";
 	}
 
-	public User findUserByEmailOrMobile(String email, String mobile) {
-		return userDao.findByEmailOrMobile(email, mobile);
+	public UserDTO findUserByEmailOrMobile(String email, String mobile) {
+		User userToBeFound = userDao.findByEmailOrMobile(email, mobile);
+		return modelMapper.map(userToBeFound, UserDTO.class);
 	}
 
 	public User changeUserPassword(String name, String oldPassword, String newPassword) throws Exception {
