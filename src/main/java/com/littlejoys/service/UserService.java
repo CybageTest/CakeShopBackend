@@ -38,7 +38,7 @@ public class UserService {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+
 	@Autowired
 	private ModelMapper modelMapper;
 
@@ -99,7 +99,6 @@ public class UserService {
 		}
 	}
 
-
 	public void createAndSendConfirmationTokenViaEmail(User user) throws MessagingException {
 		ConfirmationToken confirmationToken = new ConfirmationToken(user);
 		confirmationTokenDao.save(confirmationToken);
@@ -110,11 +109,13 @@ public class UserService {
 		emailService.sendEmail(user.getEmail(), emailSubject, emailBody);
 	}
 
-	public String confirmUserAccount(String confirmationToken) throws SQLException, Exception {
+	public String confirmUserAccount(String confirmationToken)
+			throws ResourceAlreadyExistException, MessagingException {
 		ConfirmationToken token = confirmationTokenDao.findByConfirmationToken(confirmationToken);
 		if (token != null) {
 			User user = userDao.findByEmail(token.getUser().getEmail());
-			createNewUser(user);
+			UserDTO userToAdd = modelMapper.map(user, UserDTO.class);
+			createNewUser(userToAdd);
 			return "Succesful";
 		}
 		return "Registration Failed";
@@ -123,30 +124,30 @@ public class UserService {
 	public User findUserByEmailOrMobile(String email, String mobile) {
 		return userDao.findByEmailOrMobile(email, mobile);
 	}
-	
+
 	public User changeUserPassword(String name, String oldPassword, String newPassword) throws Exception {
-		User loggedInUser= userDao.findByName(name);
-		if(loggedInUser!=null) {
-			if(checkIfValidOldPassword(loggedInUser, oldPassword)) {
+		User loggedInUser = userDao.findByName(name);
+		if (loggedInUser != null) {
+			if (checkIfValidOldPassword(loggedInUser, oldPassword)) {
 				loggedInUser.setPassword(passwordEncoder.encode(newPassword));
 				userDao.save(loggedInUser);
 				return loggedInUser;
-			}else {
+			} else {
 				throw new InvalidOldPasswordException("Old password does not match");
 			}
 		}
 		throw new ResourceNotFoundException("User(name) does not exist");
 	}
-	
-	public Boolean checkIfValidOldPassword(User loggedInUser, String oldPasswordToMatch ) {
-		if(passwordEncoder.matches(oldPasswordToMatch, loggedInUser.getPassword())){
+
+	public Boolean checkIfValidOldPassword(User loggedInUser, String oldPasswordToMatch) {
+		if (passwordEncoder.matches(oldPasswordToMatch, loggedInUser.getPassword())) {
 			return true;
 		}
 		return false;
 	}
 
 	public User getUserById(String name) {
-		return userDao.findById(name).orElseThrow(()->new ResourceNotFoundException("User does not exist"));
+		return userDao.findById(name).orElseThrow(() -> new ResourceNotFoundException("User does not exist"));
 	}
 
 }
