@@ -9,6 +9,13 @@ pipeline {
                 bat 'mvn clean install'
             }
         }
+        stage('Build SonarQube Report'){
+        	steps{
+        		withSonarQubeEnv(credentialsId: 'SONARQUBE_TOKEN') {
+    				bat sonar-scanner	
+				}
+        	}
+        }
         stage('Build Docker Image') {
             steps {
                 script {
