@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 
 import com.littlejoys.dao.IRoleDao;
@@ -39,6 +40,7 @@ class UserServiceTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
+		MockitoAnnotations.openMocks(this);
 		Role userRole = new Role("user", "default role for user");
 		Set<Role> role = new HashSet<>();
 		role.add(userRole);
