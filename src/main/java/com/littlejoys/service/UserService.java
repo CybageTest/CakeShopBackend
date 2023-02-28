@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.mail.MessagingException;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.littlejoys.dao.IConfirmationTokenDao;
 import com.littlejoys.dao.IRoleDao;
 import com.littlejoys.dao.IUserDao;
+import com.littlejoys.dto.UserDTO;
 import com.littlejoys.entity.ConfirmationToken;
 import com.littlejoys.entity.Role;
 import com.littlejoys.entity.User;
@@ -36,6 +38,9 @@ public class UserService {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 
 	public void initRolesAndUser() {
 		Role adminRole = new Role("admin", "Admin Role");
@@ -63,19 +68,20 @@ public class UserService {
 		return passwordEncoder.encode(password);
 	}
 
-	public User createNewUser(User user) throws Exception, SQLException {
-		if (user.getStatus() != null) {
-			user.setStatus("active");
-			return userDao.save(user);
+	public User createNewUser(UserDTO userDTO) throws ResourceAlreadyExistException, MessagingException {
+		User userToBeSaved = modelMapper.map(userDTO, User.class);
+		if (userDTO.getStatus() != null) {
+			userToBeSaved.setStatus("active");
+			return userDao.save(userToBeSaved);
 		} else {
 
 			Role role = roleDao.findById("user").get();
-
 			Set<Role> roles = new HashSet<>();
 			roles.add(role);
-			User userToBeFoundByName = userDao.findByName(user.getName());
-			User userToBeFoundByMobile = userDao.findByMobile(user.getMobile());
-			User userToBeFoundByEmail = userDao.findByEmail(user.getEmail());
+
+			User userToBeFoundByName = userDao.findByName(userToBeSaved.getName());
+			User userToBeFoundByMobile = userDao.findByMobile(userToBeSaved.getMobile());
+			User userToBeFoundByEmail = userDao.findByEmail(userToBeSaved.getEmail());
 
 			if (userToBeFoundByName != null) {
 				throw new ResourceAlreadyExistException("A user already exist with this account");
@@ -84,14 +90,15 @@ public class UserService {
 			} else if (userToBeFoundByMobile != null) {
 				throw new ResourceAlreadyExistException("A user with that mobile already exist");
 			} else {
-				user.setStatus("inactive");
-				user.setRole(roles);
-				user.setPassword(getEncodedPassword(user.getPassword()));
-				createAndSendConfirmationTokenViaEmail(user);
-				return userDao.save(user);
+				userToBeSaved.setStatus("inactive");
+				userToBeSaved.setRole(roles);
+				userToBeSaved.setPassword(getEncodedPassword(userToBeSaved.getPassword()));
+				createAndSendConfirmationTokenViaEmail(userToBeSaved);
+				return userDao.save(userToBeSaved);
 			}
 		}
 	}
+
 
 	public void createAndSendConfirmationTokenViaEmail(User user) throws MessagingException {
 		ConfirmationToken confirmationToken = new ConfirmationToken(user);
