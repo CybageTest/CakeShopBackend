@@ -35,7 +35,6 @@ build/
 
 ### Sonar Scanner ###
 .scannerwork/
-sonar-project.properties
 sonar-project.properties.bak
 env.properties
 
