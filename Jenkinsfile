@@ -15,7 +15,7 @@ pipeline {
             }
             steps {
                 withSonarQubeEnv(installationName:'SonarQube', credentialsId: 'SONARQUBE_TOKEN') {
-                    bat '${scannerHome}/bin/sonar-scanner.bat'
+                    bat "${scannerHome}/bin/sonar-scanner.bat"
                 }
             }
         }
