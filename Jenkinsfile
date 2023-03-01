@@ -9,13 +9,20 @@ pipeline {
                 bat 'mvn clean install'
             }
         }
- 		stage('SonarQube Analysis'){
-        	steps{
-        			withSonarQubeEnv(installationName:'SonarQube', credentialsId: 'SONARQUBE_TOKEN') {
-    					bat sonar-scanner	
-				}
-        	}
-        }
+         stage('SonarQube Analysis'){
+            environment {
+                scannerHome = tool 'SonarQubeScanner'
+            }
+            steps{
+                    withSonarQubeEnv(installationName:'SonarQube', credentialsId: 'SONARQUBE_TOKEN') {
+                        -D sonar.projectKey=my-app1 \
+                        -D sonar.language=java \
+                        -D sonar.sources=my-app/src/main \
+                        -D sonar.tests=my-app/src/test \
+                        -D sonar.host.url=http://172.27.12.78:8000/"""
+                    }
+            }
+         }
         stage('Build Docker Image') {
             steps {
                 script {
