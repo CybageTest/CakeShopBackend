@@ -10,10 +10,10 @@ pipeline {
             }
         }
         stage('SonarQube Analysis') {
-            steps {
-                environment {
+            environment {
                     scannerHome = tool 'SonarQubeScanner'
                 }
+            steps {
                 withSonarQubeEnv(installationName:'SonarQube', credentialsId: 'SONARQUBE_TOKEN') {
                         bat """-D sonar.projectKey=CAKESHOP_BACKEND \
                         -D sonar.language=java \
