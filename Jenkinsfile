@@ -12,14 +12,10 @@ pipeline {
         stage('SonarQube Analysis') {
             environment {
                     scannerHome = tool 'SonarQubeScanner'
-                }
+            }
             steps {
                 withSonarQubeEnv(installationName:'SonarQube', credentialsId: 'SONARQUBE_TOKEN') {
-                        bat """-D sonar.projectKey=CAKESHOP_BACKEND \
-                        -D sonar.language=java \
-                        -D sonar.sources=my-app/src/main \
-                        -D sonar.tests=my-app/src/test \
-                        -D sonar.host.url=http://172.27.12.78:8000/"""
+                    bat '${scannerHome}/bin/sonar-scanner.bat'
                 }
             }
         }
