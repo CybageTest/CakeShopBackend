@@ -13,6 +13,7 @@ import com.google.common.cache.LoadingCache;
 public class OtpService {
 	public static final Integer EXPIRE_MINS=5;
 	private LoadingCache otpCache;
+	private static final Random RANDOM= new Random();
 	
 	public OtpService() {
 		super();
@@ -30,8 +31,7 @@ public class OtpService {
 	}
 		
 	public int generateotp(String key) {
-		Random random = new Random();
-		int otp = 100000 + random.nextInt(900000);
+		int otp = 100000 + RANDOM.nextInt(900000);
 		otpCache.put(key, otp);
 		return otp;
 	}

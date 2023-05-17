@@ -80,33 +80,22 @@ public class UserController {
 	@GetMapping(value = "/validateOtp/{username}/{otp}")
 	public String validateOtp(@PathVariable String username, @PathVariable("otp") int otpnum) {
 		System.out.println("Validate Otp Username: " + username);
-		// Validate the OTP
+
 		if (attempts != 0) {
-			if (otpnum >= 0) {
-				int serverOtp = otpService.getOtp(username);
-				if (serverOtp > 0) {
-					if (otpnum == serverOtp) {
-						otpService.clearOtp(username);
-						System.out.println("Valid Box Server: " + serverOtp);
-						System.out.println("Valid Box OtpNum: " + otpnum);
-						return "Entered OTP is valid";
-					} else {
-						System.out.println("Invalid Box Server: " + serverOtp);
-						System.out.println("Invalid Box OtpNum: " + otpnum);
-						attempts--;
-						return ("Entered OTP is wrong! You've " + (attempts + 1) + " attempts remaining!");
-					}
-				} else {
-					return "Please login again";
-				}
+			int serverOtp = otpService.getOtp(username);
+			if (otpnum == serverOtp) {
+				otpService.clearOtp(username);
+				return "Entered OTP is valid";
 			} else {
-				return "Please enter valid OTP";
+				attempts--;
+				return ("Entered OTP is wrong! You've " + (attempts + 1) + " attempts remaining!");
 			}
 		} else {
 			attempts = 3;
 			otpService.clearOtp(username);
 			return "You're account is blocked. Please try again after 5 minutes.";
 		}
+
 	}
 
 }

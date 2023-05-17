@@ -18,6 +18,8 @@ import com.littlejoys.dao.IUserDao;
 import com.littlejoys.entity.JwtRequest;
 import com.littlejoys.entity.JwtResponse;
 import com.littlejoys.entity.User;
+import com.littlejoys.exception.InvalidCredentialsException;
+import com.littlejoys.exception.UserDisabledException;
 import com.littlejoys.util.JwtUtil;
 
 @Service
@@ -27,10 +29,10 @@ public class JwtService implements UserDetailsService {
 
 	@Autowired
 	private JwtUtil jwtUtil;
-	
+
 	@Autowired
 	private OtpService otpService;
-	
+
 	@Autowired
 	private EmailService emailService;
 
@@ -43,24 +45,24 @@ public class JwtService implements UserDetailsService {
 		authenticate(username, password);
 		final UserDetails userDetails = loadUserByUsername(username);
 		String newJwtToken = jwtUtil.generateToken(userDetails);
-		User user= userDao.findById(username).get();
-		int otp= otpService.generateotp(username);
+		User user = userDao.findById(username).get();
+		int otp = otpService.generateotp(username);
 		String message = ("Your OTP for login is " + otp + " and will be valid for 5 minutes.");
-		System.out.println("OTP JWT: "+message );
-		emailService.sendEmail(user.getEmail(), "Otp for login", message);
+		System.out.println("OTP JWT: " + message);
+		// emailService.sendEmail(user.getEmail(), "Otp for login", message);
 		return new JwtResponse(user, newJwtToken);
 	}
 
-	private void authenticate(String username, String password) throws Exception {
+	void authenticate(String username, String password) throws UserDisabledException, InvalidCredentialsException {
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 		} catch (DisabledException e) {
-			throw new Exception("User is disabled" + e);
+			throw new UserDisabledException("User is disabled...! Please contact administrator");
 		} catch (BadCredentialsException e) {
-			throw new Exception("BAD CREDENTIALS" + e);
+			throw new InvalidCredentialsException("Invalid usename and password. Please try again..!");
 		}
 	}
-	
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = userDao.findById(username).get();
@@ -72,7 +74,7 @@ public class JwtService implements UserDetailsService {
 		throw new UsernameNotFoundException("Username not found");
 	}
 
-	private Set getAuthority(User user) {
+	Set getAuthority(User user) {
 		Set authorities = new HashSet<>();
 
 		user.getRole().forEach(role -> {
