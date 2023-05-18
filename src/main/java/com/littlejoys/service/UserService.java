@@ -23,6 +23,9 @@ import com.littlejoys.exception.ResourceNotFoundException;
 
 @Service
 public class UserService {
+	final String ACTIVE = "active";
+	final String INACTIVE = "inactive";
+	
 	@Autowired
 	private IUserDao userDao;
 
@@ -54,13 +57,9 @@ public class UserService {
 		Set<Role> userRoles = new HashSet<>();
 		userRoles.add(userRole);
 
-		User adminUser = new User("admin", "admin@mail.com", getEncodedPassword("admin@123"), "9850909009", "active",
+		User adminUser = new User("admin", "admin@mail.com", getEncodedPassword("admin@123"), "9850909009", ACTIVE,
 				null, adminRoles, null);
 		userDao.save(adminUser);
-
-//		User sampleUser= new User("abhi", "abhi@mail.com", getEncodedPassword("abhi@123"), "1234567890", "active", userRoles);		
-//		userDao.save(sampleUser);
-
 	}
 
 	public String getEncodedPassword(String password) {
@@ -70,7 +69,7 @@ public class UserService {
 	public User createNewUser(UserDTO userDTO) throws ResourceAlreadyExistException, MessagingException {
 		User userToBeSaved = modelMapper.map(userDTO, User.class);
 		if (userDTO.getStatus() != null) {
-			userToBeSaved.setStatus("active");
+			userToBeSaved.setStatus(ACTIVE);
 			return userDao.save(userToBeSaved);
 		} else {
 
@@ -89,7 +88,7 @@ public class UserService {
 			} else if (userToBeFoundByMobile != null) {
 				throw new ResourceAlreadyExistException("A user with that mobile already exist");
 			} else {
-				userToBeSaved.setStatus("inactive");
+				userToBeSaved.setStatus(INACTIVE);
 				userToBeSaved.setRole(roles);
 				userToBeSaved.setPassword(getEncodedPassword(userToBeSaved.getPassword()));
 				createAndSendConfirmationTokenViaEmail(userToBeSaved);
@@ -156,10 +155,10 @@ public class UserService {
 	public String enableUser(String userName) throws ResourceAlreadyExistException {
 		User userToBeFound = userDao.findByName(userName);
 		if (userToBeFound != null) {
-			if (userToBeFound.getStatus().equals("active")) {
+			if (userToBeFound.getStatus().equals(ACTIVE)) {
 				throw new ResourceAlreadyExistException("Account is already active for " + userName);
 			}
-			userToBeFound.setStatus("active");
+			userToBeFound.setStatus(ACTIVE);
 			userDao.save(userToBeFound);
 			return "Status changed to active for " + userName;
 		} else {
@@ -170,10 +169,10 @@ public class UserService {
 	public String disableUser(String userName) throws ResourceAlreadyExistException {
 		User userToBeFound = userDao.findByName(userName);
 		if (userToBeFound != null) {
-			if (userToBeFound.getStatus().equals("inactive")) {
+			if (userToBeFound.getStatus().equals(INACTIVE)) {
 				throw new ResourceAlreadyExistException("Account is already disabled for " + userName);
 			}
-			userToBeFound.setStatus("inactive");
+			userToBeFound.setStatus(INACTIVE);
 			userDao.save(userToBeFound);
 			return "Status changed to inactive for " + userName;
 		} else {
