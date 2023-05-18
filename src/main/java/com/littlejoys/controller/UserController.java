@@ -3,6 +3,7 @@ package com.littlejoys.controller;
 import javax.annotation.PostConstruct;
 import javax.mail.MessagingException;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +28,7 @@ import com.littlejoys.service.UserService;
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
-
+	public static final Logger logger = Logger.getLogger(UserController.class);
 	private int attempts = 3;
 
 	@Autowired
@@ -79,8 +80,7 @@ public class UserController {
 
 	@GetMapping(value = "/validateOtp/{username}/{otp}")
 	public String validateOtp(@PathVariable String username, @PathVariable("otp") int otpnum) {
-		System.out.println("Validate Otp Username: " + username);
-
+		logger.info("Validate Otp Username: " + username);
 		if (attempts != 0) {
 			int serverOtp = otpService.getOtp(username);
 			if (otpnum == serverOtp) {

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.littlejoys.dto.OrderDTO;
 import com.littlejoys.entity.CakeCategory;
 import com.littlejoys.entity.Order;
+import com.littlejoys.exception.ResourceNotFoundException;
 import com.littlejoys.service.OrderService;
 
 @RestController
@@ -41,7 +42,7 @@ public class OrderController {
 	}
 
 	@DeleteMapping("/deleteOrder/{id}")
-	public ResponseEntity<OrderDTO> deleteOrderById(@PathVariable long id) throws Exception {
+	public ResponseEntity<OrderDTO> deleteOrderById(@PathVariable long id) throws ResourceNotFoundException {
 		return new ResponseEntity<>(orderService.deleteOrderById(id), HttpStatus.OK);
 	}
 

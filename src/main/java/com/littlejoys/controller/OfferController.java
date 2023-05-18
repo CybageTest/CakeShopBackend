@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.littlejoys.dto.OfferDTO;
 import com.littlejoys.entity.Offer;
 import com.littlejoys.exception.ResourceAlreadyExistException;
+import com.littlejoys.exception.ResourceNotFoundException;
 import com.littlejoys.service.OfferService;
 
 @RestController
@@ -47,7 +48,7 @@ public class OfferController {
 	}
 
 	@PutMapping("/editOffer/{id}")
-	public ResponseEntity<?> editOfferById(@PathVariable long id, @RequestBody OfferDTO offerDTO) throws Exception {
+	public ResponseEntity<?> editOfferById(@PathVariable long id, @RequestBody OfferDTO offerDTO) throws ResourceNotFoundException {
 		return new ResponseEntity<>(offerService.editOfferById(id, offerDTO), HttpStatus.OK);
 	}
 

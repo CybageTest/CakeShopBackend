@@ -21,6 +21,7 @@ import com.littlejoys.entity.Cake;
 import com.littlejoys.entity.CakeCategory;
 import com.littlejoys.entity.CakeFlavours;
 import com.littlejoys.entity.CakeOccasions;
+import com.littlejoys.exception.ResourceNotFoundException;
 import com.littlejoys.service.CakeService;
 
 @CrossOrigin("*")
@@ -32,7 +33,7 @@ public class CakeController {
 	private CakeService cakeService;
 
 	@PostMapping("/")
-	public ResponseEntity<?> addCake(@RequestBody CakeDTO cakeDto) {
+	public ResponseEntity<Cake> addCake(@RequestBody CakeDTO cakeDto) {
 		return new ResponseEntity<>(cakeService.addCake(cakeDto), HttpStatus.CREATED);
 	}
 
@@ -67,12 +68,12 @@ public class CakeController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteCakeById(@PathVariable long id) throws Exception {
+	public ResponseEntity<CakeDTO> deleteCakeById(@PathVariable long id) throws ResourceNotFoundException {
 		return new ResponseEntity<>(cakeService.deleteCakeById(id), HttpStatus.OK);
 	}
 
 	@PutMapping("/editCake/{id}")
-	public ResponseEntity<?> editCakeById(@PathVariable long id, @RequestBody CakeDTO cakeDTO) throws Exception {
+	public ResponseEntity<?> editCakeById(@PathVariable long id, @RequestBody CakeDTO cakeDTO) throws ResourceNotFoundException {
 		return ResponseEntity.ok(cakeService.editCakeById(id, cakeDTO));
 	}
 

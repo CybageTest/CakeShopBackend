@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.littlejoys.dto.AddOnsDTO;
 import com.littlejoys.entity.AddOns;
+import com.littlejoys.exception.ResourceNotFoundException;
 import com.littlejoys.service.AddOnsService;
 
 @RestController
@@ -25,7 +26,7 @@ public class AddOnsController {
 	private AddOnsService addOnsService;
 
 	@PostMapping("/")
-	public ResponseEntity<?> addAddOns(@RequestBody AddOnsDTO addOnsDTO) {
+	public ResponseEntity<AddOns> addAddOns(@RequestBody AddOnsDTO addOnsDTO) {
 		return new ResponseEntity<>(addOnsService.addAddOns(addOnsDTO), HttpStatus.CREATED);
 	}
 
@@ -45,12 +46,13 @@ public class AddOnsController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<AddOnsDTO> deleteAddOnsById(@PathVariable long id) throws Exception {
+	public ResponseEntity<AddOnsDTO> deleteAddOnsById(@PathVariable long id) throws ResourceNotFoundException {
 		return new ResponseEntity<>(addOnsService.deleteAddOnById(id), HttpStatus.OK);
 	}
 
 	@PutMapping("/editAddon/{id}")
-	public ResponseEntity<?> editAddOnsById(@PathVariable long id, @RequestBody AddOnsDTO addOnsDTO) throws Exception {
+	public ResponseEntity<?> editAddOnsById(@PathVariable long id, @RequestBody AddOnsDTO addOnsDTO)
+			throws ResourceNotFoundException {
 		return new ResponseEntity<>(addOnsService.editAddOnById(id, addOnsDTO), HttpStatus.OK);
 	}
 

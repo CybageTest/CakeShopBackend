@@ -16,7 +16,6 @@ public class CorsConfig {
 
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				// TODO Auto-generated method stub
 				registry.addMapping("/**").allowedMethods(GET, POST, PUT, DELETE)
 				.allowedHeaders("*")
 				.allowedOriginPatterns("*")
