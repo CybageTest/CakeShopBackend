@@ -23,8 +23,8 @@ import com.littlejoys.exception.ResourceNotFoundException;
 
 @Service
 public class UserService {
-	final String ACTIVE = "active";
-	final String INACTIVE = "inactive";
+	static final String ACTIVE = "active";
+	static final String INACTIVE = "inactive";
 	
 	@Autowired
 	private IUserDao userDao;
