@@ -24,9 +24,9 @@ class ICakeDaoTest {
 
 	private Cake cake1;
 	private Cake cake2;
-	private CakeCategory category;
-	private CakeOccasions occasions;
-	private CakeFlavours flavours;
+	private CakeCategory category = CakeCategory.EGG;;
+	private CakeOccasions occasions = CakeOccasions.SPECIAL_DAYS;;
+	private CakeFlavours flavours = CakeFlavours.CHOCOLATE;;
 	List<Cake> expectedCakes = new ArrayList<>();
 
 	public ICakeDaoTest() {
@@ -35,9 +35,6 @@ class ICakeDaoTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		category = CakeCategory.EGG;
-		occasions = CakeOccasions.SPECIAL_DAYS;
-		flavours = CakeFlavours.CHOCOLATE;
 		cake1 = new Cake();
 		cake1.setCategory(category);
 		cake1.setOccasions(occasions);
