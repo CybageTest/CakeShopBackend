@@ -175,7 +175,7 @@ public class UserService {
 			}
 			userToBeFound.setStatus("inactive");
 			userDao.save(userToBeFound);
-			return "Status changed to active for " + userName;
+			return "Status changed to inactive for " + userName;
 		} else {
 			throw new ResourceNotFoundException("User does not exist..!");
 		}
