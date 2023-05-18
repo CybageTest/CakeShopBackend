@@ -98,4 +98,14 @@ public class UserController {
 
 	}
 
+	@PatchMapping("/enableuser/{name}")
+	public String enableUser(@PathVariable String name) throws ResourceAlreadyExistException {
+		return userService.enableUser(name);
+	}
+
+	@PatchMapping("/disableuser/{name}")
+	public String disableUser(@PathVariable String name) throws ResourceAlreadyExistException {
+		return userService.disableUser(name);
+	}
+
 }

@@ -153,4 +153,32 @@ public class UserService {
 		}
 	}
 
+	public String enableUser(String userName) throws ResourceAlreadyExistException {
+		User userToBeFound = userDao.findByName(userName);
+		if (userToBeFound != null) {
+			if (userToBeFound.getStatus().equals("active")) {
+				throw new ResourceAlreadyExistException("Account is already active for " + userName);
+			}
+			userToBeFound.setStatus("active");
+			userDao.save(userToBeFound);
+			return "Status changed to active for " + userName;
+		} else {
+			throw new ResourceNotFoundException("User does not exist..!");
+		}
+	}
+	
+	public String disableUser(String userName) throws ResourceAlreadyExistException {
+		User userToBeFound = userDao.findByName(userName);
+		if (userToBeFound != null) {
+			if (userToBeFound.getStatus().equals("inactive")) {
+				throw new ResourceAlreadyExistException("Account is already disabled for " + userName);
+			}
+			userToBeFound.setStatus("inactive");
+			userDao.save(userToBeFound);
+			return "Status changed to active for " + userName;
+		} else {
+			throw new ResourceNotFoundException("User does not exist..!");
+		}
+	}
+
 }
