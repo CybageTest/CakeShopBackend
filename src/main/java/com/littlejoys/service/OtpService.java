@@ -11,10 +11,10 @@ import com.google.common.cache.LoadingCache;
 
 @Service
 public class OtpService {
-	public static final Integer EXPIRE_MINS=5;
+	public static final Integer EXPIRE_MINS = 5;
 	private LoadingCache otpCache;
-	private static final Random RANDOM= new Random();
-	
+	private static final Random RANDOM = new Random();
+
 	public OtpService() {
 		super();
 		otpCache = CacheBuilder.newBuilder().expireAfterWrite(EXPIRE_MINS, TimeUnit.MINUTES).build(new CacheLoader() {
@@ -27,9 +27,9 @@ public class OtpService {
 				// TODO Auto-generated method stub
 				return 0;
 			}
-		});	
+		});
 	}
-		
+
 	public int generateotp(String key) {
 		int otp = 100000 + RANDOM.nextInt(900000);
 		otpCache.put(key, otp);
@@ -48,5 +48,4 @@ public class OtpService {
 		otpCache.invalidate(key);
 	}
 
-	
 }
