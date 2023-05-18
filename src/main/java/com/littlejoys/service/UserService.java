@@ -166,7 +166,7 @@ public class UserService {
 			throw new ResourceNotFoundException("User does not exist..!");
 		}
 	}
-	
+
 	public String disableUser(String userName) throws ResourceAlreadyExistException {
 		User userToBeFound = userDao.findByName(userName);
 		if (userToBeFound != null) {

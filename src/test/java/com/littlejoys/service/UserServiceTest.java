@@ -1,5 +1,6 @@
 package com.littlejoys.service;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
@@ -14,6 +15,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.littlejoys.dao.IRoleDao;
 import com.littlejoys.dao.IUserDao;
@@ -36,6 +39,9 @@ class UserServiceTest {
 
 	@Mock
 	private IRoleDao roleDao;
+
+	@Mock
+	private PasswordEncoder passwordEncoder;
 
 	private User user;
 	private UserDTO userDTO;
@@ -159,6 +165,18 @@ class UserServiceTest {
 		assertEquals("Status changed to inactive for " + userName, result);
 		assertEquals("inactive", userToBeFound.getStatus());
 		Mockito.verify(userDao, Mockito.times(1)).save(Mockito.any(User.class));
+	}
+
+	@Test
+	void testGetEncodedPassword() {
+		String rawPassword = "myPassword";
+		String encodedPassword = passwordEncoder.encode(rawPassword);
+
+		Mockito.when(passwordEncoder.encode(Mockito.anyString())).thenReturn(encodedPassword);
+
+		String result = userService.getEncodedPassword(rawPassword);
+
+		assertEquals(encodedPassword, result);
 	}
 
 }
