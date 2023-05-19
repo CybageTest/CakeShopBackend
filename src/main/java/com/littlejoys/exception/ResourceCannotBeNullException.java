@@ -14,7 +14,4 @@ public class ResourceCannotBeNullException extends RuntimeException {
 		super(message);
 	}
 
-	public ResourceCannotBeNullException() {
-		// TODO Auto-generated constructor stub
-	}
 }
