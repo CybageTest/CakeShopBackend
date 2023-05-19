@@ -74,7 +74,6 @@ class OfferServiceTest {
 		long offerId = 10;
 
 		when(offerDao.findById(offerId)).thenReturn(Optional.of(offer));
-		System.out.println(offer);
 		OfferDTO foundOfferDTO = offerService.findOfferById(offerId);
 		OfferDTO expectedOfferDTO = modelMapper.map(offer, OfferDTO.class);
 

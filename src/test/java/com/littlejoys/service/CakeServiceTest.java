@@ -6,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -142,10 +144,15 @@ class CakeServiceTest {
 	}
 
 	@Test
-	void testFindCakeById() {
-		long id = 12356;
-		when(cakeDao.findById(id)).thenReturn(Optional.of(cake));
-		assertEquals(id, cake.getId());
+	void testFindCakeById_ValidId_CakeReturned() {
+		long cakeId = 12356;
+
+		when(cakeDao.findById(cakeId)).thenReturn(Optional.of(cake));
+		CakeDTO foundCakeDTO = cakeService.findCakeById(cakeId);
+		CakeDTO expectedCakeDTO = modelMapper.map(cake, CakeDTO.class);
+
+		assertEquals(expectedCakeDTO, foundCakeDTO);
+		verify(cakeDao, times(1)).findById(cakeId);
 	}
 
 	@Test

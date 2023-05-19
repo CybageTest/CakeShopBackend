@@ -1,11 +1,19 @@
 package com.littlejoys.service;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.mail.MessagingException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,9 +24,11 @@ import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.littlejoys.dao.IConfirmationTokenDao;
 import com.littlejoys.dao.IRoleDao;
 import com.littlejoys.dao.IUserDao;
 import com.littlejoys.dto.UserDTO;
+import com.littlejoys.entity.ConfirmationToken;
 import com.littlejoys.entity.Role;
 import com.littlejoys.entity.User;
 import com.littlejoys.exception.ResourceAlreadyExistException;
@@ -36,10 +46,16 @@ class UserServiceTest {
 	private IUserDao userDao;
 
 	@Mock
+	private EmailService emailService;
+
+	@Mock
 	private IRoleDao roleDao;
 
 	@Mock
 	private PasswordEncoder passwordEncoder;
+
+	@Mock
+	private IConfirmationTokenDao confirmationTokenDao;
 
 	private User user;
 	private UserDTO userDTO;
@@ -51,17 +67,19 @@ class UserServiceTest {
 		Set<Role> role = new HashSet<>();
 		role.add(userRole);
 		user = new User("testUser", "test@mail.com", "test@123", "9850909090", "inactive", null, role, null);
-		userDTO = new UserDTO("testUserDto", "testDto@mail.com", "testDto@123", "9850909090", "inactive", null, role,
-				null);
+		userDTO = new UserDTO("testUser", "test@mail.com", "test@123", "9850909090", "inactive", null, role, null);
 	}
 
 	@Test
-	void testGetUserById() {
-		String name = "testUser";
-		when(userDao.findByName(name)).thenReturn(user);
-		UserDTO mappedUser = modelMapper.map(user, UserDTO.class);
-		UserDTO expectedUser = userService.getUserById(name);
-		assertEquals(expectedUser, mappedUser);
+	void testGetUserById_ValidName_UserFound() {
+		String username = "testUser";
+		when(userDao.findByName(username)).thenReturn(user);
+
+		UserDTO foundUserDTO = userService.getUserById(username);
+		UserDTO expectedUserDTO = modelMapper.map(user, UserDTO.class);
+
+		assertEquals(expectedUserDTO, foundUserDTO);
+		verify(userDao, times(1)).findByName(username);
 	}
 
 	@Test
@@ -112,7 +130,7 @@ class UserServiceTest {
 	}
 
 	@Test
-	 void testDisableUser_NonExistingUser_ShouldThrowException() throws ResourceAlreadyExistException {
+	void testDisableUser_NonExistingUser_ShouldThrowException() throws ResourceAlreadyExistException {
 		String userName = "nonexistinguser";
 
 		Mockito.when(userDao.findByName(Mockito.anyString())).thenReturn(null);
@@ -122,7 +140,7 @@ class UserServiceTest {
 	}
 
 	@Test
-	 void testDisableUser_InactiveUser_ShouldThrowException() throws ResourceAlreadyExistException {
+	void testDisableUser_InactiveUser_ShouldThrowException() throws ResourceAlreadyExistException {
 		String userName = "testuser";
 		User userToBeFound = new User();
 		userToBeFound.setName(userName);
@@ -161,6 +179,42 @@ class UserServiceTest {
 		String result = userService.getEncodedPassword(rawPassword);
 
 		assertEquals(encodedPassword, result);
+	}
+
+	@Test
+	void testCreateAndSendConfirmationTokenViaEmail() throws MessagingException {
+		ConfirmationToken confirmationToken = new ConfirmationToken(user);
+		String expectedEmailBody = "To confirm your account, please click here : "
+				+ "http://172.27.232.112:8080/api/user/confirm-account?token="
+				+ confirmationToken.getConfirmationToken();
+		String expectedEmailSubject = "Complete Registration!";
+		when(confirmationTokenDao.save(any(ConfirmationToken.class))).thenReturn(confirmationToken);
+
+		userService.createAndSendConfirmationTokenViaEmail(user);
+
+		verify(confirmationTokenDao, times(1)).save(any(ConfirmationToken.class));
+	}
+
+	@Test
+	void testCheckIfValidOldPassword_ValidPassword_ReturnsTrue() {
+		String oldPasswordToMatch = "oldPassword";
+		when(passwordEncoder.matches(eq(oldPasswordToMatch), eq(user.getPassword()))).thenReturn(true);
+
+		boolean result = userService.checkIfValidOldPassword(user, oldPasswordToMatch);
+
+		assertTrue(result);
+		verify(passwordEncoder, times(1)).matches(eq(oldPasswordToMatch), eq(user.getPassword()));
+	}
+
+	@Test
+	void testCheckIfValidOldPassword_InvalidPassword_ReturnsFalse() {
+		String oldPasswordToMatch = "oldPassword";
+		when(passwordEncoder.matches(eq(oldPasswordToMatch), eq(user.getPassword()))).thenReturn(false);
+
+		boolean result = userService.checkIfValidOldPassword(user, oldPasswordToMatch);
+
+		assertFalse(result);
+		verify(passwordEncoder, times(1)).matches(eq(oldPasswordToMatch), eq(user.getPassword()));
 	}
 
 }

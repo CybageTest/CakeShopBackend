@@ -36,13 +36,15 @@ class OrderControllerTest {
 	@Test
 	void testAddOrder() {
 		OrderDTO orderDTO = new OrderDTO();
-		OrderDTO expectedOrderDTO = new OrderDTO();
-		Mockito.when(orderService.addOrder(orderDTO)).thenReturn(expectedOrderDTO);
+		Order createdOrder = new Order();
+		Mockito.when(orderService.addOrder(orderDTO)).thenReturn(createdOrder);
 
-		ResponseEntity<OrderDTO> response = orderController.addOrder(orderDTO);
+		ResponseEntity<Order> expectedResponse = new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
+		ResponseEntity<Order> actualResponse = orderController.addOrder(orderDTO);
 
-		assertEquals(HttpStatus.CREATED, response.getStatusCode());
-		assertEquals(expectedOrderDTO, response.getBody());
+		assertEquals(expectedResponse, actualResponse);
+		assertEquals(HttpStatus.CREATED, actualResponse.getStatusCode());
+		assertEquals(createdOrder, actualResponse.getBody());
 		Mockito.verify(orderService, Mockito.times(1)).addOrder(orderDTO);
 	}
 

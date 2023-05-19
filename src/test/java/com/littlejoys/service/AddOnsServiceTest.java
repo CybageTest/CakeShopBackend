@@ -5,6 +5,8 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -82,10 +84,15 @@ class AddOnsServiceTest {
 	}
 
 	@Test
-	void testFindAddOnById() {
-		long id = 1234;
-		when(addOnsDao.findById(id)).thenReturn(Optional.of(addOns));
-		assertEquals(id, addOns.getId());
+	void testFindAddOnById_ValidId_AddOnReturned() {
+		long addOnId = 12356;
+
+		when(addOnsDao.findById(addOnId)).thenReturn(Optional.of(addOns));
+		AddOnsDTO foundAddOnDTO = addOnsService.findAddOnById(addOnId);
+		AddOnsDTO expectedAddOnDTO = modelMapper.map(addOns, AddOnsDTO.class);
+
+		assertEquals(expectedAddOnDTO, foundAddOnDTO);
+		verify(addOnsDao, times(1)).findById(addOnId);
 	}
 
 	@Test

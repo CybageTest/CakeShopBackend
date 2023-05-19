@@ -43,10 +43,11 @@ public class AddOnsService {
 	}
 
 	public AddOnsDTO findAddOnById(long id) {
-		AddOnsDTO addOnsDTO = modelMapper.map(addonDao.findById(id), AddOnsDTO.class);
-		if (addOnsDTO != null) {
-			logger.info("Found AddOn: " + addOnsDTO + " for ID: " + id);
-			return addOnsDTO;
+		Optional<AddOns> addOnOptional = addonDao.findById(id);
+		if (addOnOptional.isPresent()) {
+			AddOns addOnFound = addOnOptional.get();
+			logger.info("Found AddOn: " + addOnFound + " for ID: " + id);
+			return modelMapper.map(addOnFound, AddOnsDTO.class);
 		} else {
 			throw new ResourceNotFoundException("Addon(id) does not exist");
 		}
