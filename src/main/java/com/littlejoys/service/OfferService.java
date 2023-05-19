@@ -39,10 +39,11 @@ public class OfferService {
 	}
 
 	public OfferDTO findOfferById(long id) {
-		OfferDTO offerDTO = modelMapper.map(offerDao.findById(id), OfferDTO.class);
-		if (offerDTO != null) {
-			logger.info("Found Offer: " + offerDTO + " for ID: " + id);
-			return offerDTO;
+		Optional<Offer> offerOptional = offerDao.findById(id);
+		if (offerOptional.isPresent()) {
+			Offer offerToFind = offerOptional.get();
+			logger.info("Found Offer: " + offerToFind + " for ID: " + id);
+			return modelMapper.map(offerToFind, OfferDTO.class);
 		} else {
 			throw new ResourceNotFoundException("Offer(id) does not exist");
 		}
