@@ -9,14 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.littlejoys.entity.Role;
 import com.littlejoys.service.RoleService;
 
-
 @RestController
 @RequestMapping("/api/role")
 public class RoleController {
-	
+
 	@Autowired
 	private RoleService roleService;
-	
+
 	@PostMapping("/")
 	public Role createNewRole(@RequestBody Role role) {
 		return roleService.createNewRole(role);
