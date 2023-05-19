@@ -1,13 +1,17 @@
 package com.littlejoys.service;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -15,6 +19,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 
@@ -40,17 +45,19 @@ class CakeServiceTest {
 
 	private Cake cake;
 	private CakeDTO cakeDTO;
+	private CakeCategory category = CakeCategory.EGG;
+	private CakeOccasions occasion = CakeOccasions.BIRTHDAY;
+	private CakeFlavours flavour = CakeFlavours.CHOCOLATE;
+	private List<Cake> expectedCakes = new ArrayList<>();
 
 	@BeforeEach
 	void setUp() throws Exception {
 		MockitoAnnotations.openMocks(this);
-
-		cakeDTO = new CakeDTO(12356, "lava cake", 123.456, "swwet cake", 1, CakeFlavours.CHOCOLATE, CakeCategory.EGG,
-				CakeOccasions.BIRTHDAY, null);
-
-		cake = new Cake(12356, "lava cake", 123.456, "swwet cake", 1, CakeFlavours.CHOCOLATE, CakeCategory.EGG,
-				CakeOccasions.BIRTHDAY, null);
-
+		cakeDTO = new CakeDTO(12356, "lava cake", 123.456, "swwet cake", 1, flavour, category, occasion, null);
+		cake = new Cake(12356, "lava cake", 123.456, "swwet cake", 1, flavour, category, occasion, null);
+		expectedCakes = Arrays.asList(
+				new Cake(12500, "TestCakeName 1", 1234, "TestDescription 1", 1, flavour, category, occasion, null),
+				new Cake(12501, "TestCakeName 2", 1234, "TestDescription 1", 1, flavour, category, occasion, null));
 	}
 
 	@Test
@@ -70,38 +77,30 @@ class CakeServiceTest {
 	}
 
 	@Test
-	void testGetAllOccasions() {
-		assertAll(() -> assertEquals(CakeOccasions.BIRTHDAY, CakeOccasions.valueOf("BIRTHDAY")),
-				() -> assertEquals(CakeOccasions.WEDDING, CakeOccasions.valueOf("WEDDING")),
-				() -> assertEquals(CakeOccasions.ANNIVERSARIES, CakeOccasions.valueOf("ANNIVERSARIES")),
-				() -> assertEquals(CakeOccasions.BABY_SHOWER, CakeOccasions.valueOf("BABY_SHOWER")),
-				() -> assertEquals(CakeOccasions.VALENTINE_SPECIALS, CakeOccasions.valueOf("VALENTINE_SPECIALS")),
-				() -> assertEquals(CakeOccasions.CHRISTMAS, CakeOccasions.valueOf("CHRISTMAS")),
-				() -> assertEquals(CakeOccasions.SPECIAL_DAYS, CakeOccasions.valueOf("SPECIAL_DAYS")));
+	void testGetAllOccasions_ReturnsAllOccasions() {
+		CakeOccasions[] expectedOccasions = CakeOccasions.values();
+		CakeOccasions[] actualOccasions = cakeService.getAllOccasions();
+
+		assertNotNull(actualOccasions);
+		assertArrayEquals(expectedOccasions, actualOccasions);
 	}
 
 	@Test
-	void testGetAllCategories() {
-		assertAll(() -> assertEquals(CakeCategory.EGG, CakeCategory.valueOf("EGG")),
-				() -> assertEquals(CakeCategory.EGGLESS, CakeCategory.valueOf("EGGLESS")));
+	void testGetAllCategories_ReturnsAllCategories() {
+		CakeCategory[] expectedCategories = CakeCategory.values();
+		CakeCategory[] actualCategories = cakeService.getAllCategories();
+
+		assertNotNull(actualCategories);
+		assertArrayEquals(expectedCategories, actualCategories);
 	}
 
 	@Test
-	void testGetAllFlavours() {
-		assertAll(() -> assertEquals(CakeFlavours.CHOCOLATE, CakeFlavours.valueOf("CHOCOLATE")),
-				() -> assertEquals(CakeFlavours.VANILLA, CakeFlavours.valueOf("VANILLA")),
-				() -> assertEquals(CakeFlavours.STRAWBERRY, CakeFlavours.valueOf("STRAWBERRY")),
-				() -> assertEquals(CakeFlavours.MANGO, CakeFlavours.valueOf("MANGO")),
-				() -> assertEquals(CakeFlavours.RASBERRY, CakeFlavours.valueOf("RASBERRY")),
-				() -> assertEquals(CakeFlavours.BLUEBERRY, CakeFlavours.valueOf("BLUEBERRY")),
-				() -> assertEquals(CakeFlavours.BLACK_FOREST, CakeFlavours.valueOf("BLACK_FOREST")),
-				() -> assertEquals(CakeFlavours.BANANA, CakeFlavours.valueOf("BANANA")),
-				() -> assertEquals(CakeFlavours.BUTTERSCOTCH, CakeFlavours.valueOf("BUTTERSCOTCH")),
-				() -> assertEquals(CakeFlavours.RED_VELVET, CakeFlavours.valueOf("RED_VELVET")),
-				() -> assertEquals(CakeFlavours.FRUIT, CakeFlavours.valueOf("FRUIT")),
-				() -> assertEquals(CakeFlavours.PINEAPPLE, CakeFlavours.valueOf("PINEAPPLE")),
-				() -> assertEquals(CakeFlavours.RASMALAI, CakeFlavours.valueOf("RASMALAI")),
-				() -> assertEquals(CakeFlavours.CHEESECAKE, CakeFlavours.valueOf("CHEESECAKE")));
+	void testGetAllFlavours_ReturnsAllFlavours() {
+		CakeFlavours[] expectedFlavours = CakeFlavours.values();
+		CakeFlavours[] actualFlavours = cakeService.getAllFlavours();
+
+		assertNotNull(actualFlavours);
+		assertArrayEquals(expectedFlavours, actualFlavours);
 	}
 
 	@Test
@@ -157,27 +156,6 @@ class CakeServiceTest {
 	}
 
 	@Test
-	void testFindCakeByCategory() {
-		when(modelMapper.map(any(CakeDTO.class), any())).thenReturn(cake);
-		CakeCategory categoryToCheck = CakeCategory.EGG;
-		assertEquals(categoryToCheck, cake.getCategory());
-	}
-
-	@Test
-	void testFindCakeByOccasions() {
-		when(modelMapper.map(any(CakeDTO.class), any())).thenReturn(cake);
-		CakeOccasions occassionToCheck = CakeOccasions.BIRTHDAY;
-		assertEquals(occassionToCheck, cake.getOccasions());
-	}
-
-	@Test
-	void testFindCakeByFlavours() {
-		when(modelMapper.map(any(CakeDTO.class), any())).thenReturn(cake);
-		CakeFlavours flavourToCheck = CakeFlavours.CHOCOLATE;
-		assertEquals(flavourToCheck, cake.getFlavours());
-	}
-
-	@Test
 	void testDeleteCakeById() {
 		long id = 12356;
 
@@ -186,7 +164,74 @@ class CakeServiceTest {
 		CakeDTO expectedCakeDTO = cakeService.deleteCakeById(id);
 
 		assertEquals(expectedCakeDTO, mappedCakeDTO);
+	}
 
+	@Test
+	void testWhenIdNotFoundForDeleting_ShouldThrowException() {
+		long id = 9876;
+		Throwable thrown = assertThrows(ResourceNotFoundException.class, () -> cakeService.deleteCakeById(id));
+		assertEquals("Cake(id) does not exist", thrown.getMessage());
+	}
+
+	@Test
+	void testFindCakeByCategory_ReturnsCakesByCategory() {
+		when(cakeDao.findByCategory(category)).thenReturn(expectedCakes);
+
+		List<Cake> actualCakes = cakeService.findCakeByCategory(category);
+
+		assertNotNull(actualCakes);
+		assertEquals(expectedCakes.size(), actualCakes.size());
+		assertEquals(expectedCakes, actualCakes);
+	}
+
+	@Test
+	void testFindCakeByOccasions_ReturnsCakesByOccasions() {
+		when(cakeDao.findByOccasions(occasion)).thenReturn(expectedCakes);
+
+		List<Cake> actualCakes = cakeService.findCakeByOccasions(occasion);
+
+		assertNotNull(actualCakes);
+		assertEquals(expectedCakes.size(), actualCakes.size());
+		assertEquals(expectedCakes, actualCakes);
+	}
+
+	@Test
+	void testFindCakeByFlavours_ReturnsCakesByFlavours() {
+		when(cakeDao.findByFlavours(flavour)).thenReturn(expectedCakes);
+
+		List<Cake> actualCakes = cakeService.findCakeByFlavours(flavour);
+
+		assertNotNull(actualCakes);
+		assertEquals(expectedCakes.size(), actualCakes.size());
+		assertEquals(expectedCakes, actualCakes);
+	}
+
+	@Test
+	void testEditCakeById_ExistingId_ReturnsUpdatedCake() throws ResourceNotFoundException {
+		long id = 12356;
+
+		Cake updatedCake = new Cake();
+		updatedCake.setId(id);
+		updatedCake.setCakeName("Updated Cake name");
+		updatedCake.setDescription("Updated cake description");
+
+		Mockito.when(cakeDao.findById(id)).thenReturn(Optional.of(cake));
+		Mockito.when(modelMapper.map(cakeDTO, Cake.class)).thenReturn(updatedCake);
+		Mockito.when(cakeDao.save(updatedCake)).thenReturn(updatedCake);
+
+		Map<String, Cake> result = cakeService.editCakeById(id, cakeDTO);
+
+		assertNotNull(result);
+		assertTrue(result.containsKey("Cake updated"));
+		assertEquals(updatedCake, result.get("Cake updated"));
+	}
+
+	@Test
+	void testEditCakeById_NonExistingId_ThrowsResourceNotFoundException() {
+		long id = 999;
+		Mockito.when(cakeDao.findById(id)).thenReturn(Optional.empty());
+
+		assertThrows(ResourceNotFoundException.class, () -> cakeService.editCakeById(id, cakeDTO));
 	}
 
 }

@@ -131,7 +131,6 @@ class AddOnsServiceTest {
 
 	@Test
 	void testEditAddOnById_ExistingId_ReturnsUpdatedAddOn() throws ResourceNotFoundException {
-		addOns = new AddOns(1234, "Entity addon", 50, "Test Addon Entity description", null);
 		long id = 1234;
 
 		AddOns updatedAddOn = new AddOns();
@@ -148,6 +147,15 @@ class AddOnsServiceTest {
 		assertNotNull(result);
 		assertTrue(result.containsKey("AddOn updated"));
 		assertEquals(updatedAddOn, result.get("AddOn updated"));
+	}
+
+	@Test
+	void testEditAddOnById_NonExistingId_ThrowsResourceNotFoundException() {
+		long id = 999;
+
+		Mockito.when(addOnsDao.findById(id)).thenReturn(Optional.empty());
+
+		assertThrows(ResourceNotFoundException.class, () -> addOnsService.editAddOnById(id, addOnsDTO));
 	}
 
 }
