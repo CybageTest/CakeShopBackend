@@ -73,7 +73,6 @@ class UserServiceTest {
 
 	@Test
 	void testEnableUser_InactiveUser_ShouldEnableUser() throws ResourceAlreadyExistException {
-		// Arrange
 		String userName = "testuser";
 		User userToBeFound = new User();
 		userToBeFound.setName(userName);
@@ -82,10 +81,8 @@ class UserServiceTest {
 		Mockito.when(userDao.findByName(Mockito.anyString())).thenReturn(userToBeFound);
 		Mockito.when(userDao.save(Mockito.any(User.class))).thenReturn(userToBeFound);
 
-		// Act
 		String result = userService.enableUser(userName);
 
-		// Assert
 		assertEquals("Status changed to active for " + userName, result);
 		assertEquals("active", userToBeFound.getStatus());
 		Mockito.verify(userDao, Mockito.times(1)).save(Mockito.any(User.class));
@@ -93,7 +90,6 @@ class UserServiceTest {
 
 	@Test
 	void testEnableUser_ActiveUser_ShouldThrowException() throws ResourceAlreadyExistException {
-		// Arrange
 		String userName = "testuser";
 		User userToBeFound = new User();
 		userToBeFound.setName(userName);
@@ -101,38 +97,32 @@ class UserServiceTest {
 
 		Mockito.when(userDao.findByName(Mockito.anyString())).thenReturn(userToBeFound);
 
-		// Act and Assert
 		assertThrows(ResourceAlreadyExistException.class, () -> userService.enableUser(userName));
 		Mockito.verify(userDao, Mockito.times(0)).save(Mockito.any(User.class));
 	}
 
 	@Test
 	void testEnableUser_NonExistingUser_ShouldThrowException() throws ResourceAlreadyExistException {
-		// Arrange
 		String userName = "nonexistinguser";
 
 		Mockito.when(userDao.findByName(Mockito.anyString())).thenReturn(null);
 
-		// Act and Assert
 		assertThrows(ResourceNotFoundException.class, () -> userService.enableUser(userName));
 		Mockito.verify(userDao, Mockito.times(0)).save(Mockito.any(User.class));
 	}
 
 	@Test
-	public void testDisableUser_NonExistingUser_ShouldThrowException() throws ResourceAlreadyExistException {
-		// Arrange
+	 void testDisableUser_NonExistingUser_ShouldThrowException() throws ResourceAlreadyExistException {
 		String userName = "nonexistinguser";
 
 		Mockito.when(userDao.findByName(Mockito.anyString())).thenReturn(null);
 
-		// Act and Assert
 		assertThrows(ResourceNotFoundException.class, () -> userService.disableUser(userName));
 		Mockito.verify(userDao, Mockito.times(0)).save(Mockito.any(User.class));
 	}
 
 	@Test
-	public void testDisableUser_InactiveUser_ShouldThrowException() throws ResourceAlreadyExistException {
-		// Arrange
+	 void testDisableUser_InactiveUser_ShouldThrowException() throws ResourceAlreadyExistException {
 		String userName = "testuser";
 		User userToBeFound = new User();
 		userToBeFound.setName(userName);
@@ -140,14 +130,12 @@ class UserServiceTest {
 
 		Mockito.when(userDao.findByName(Mockito.anyString())).thenReturn(userToBeFound);
 
-		// Act and Assert
 		assertThrows(ResourceAlreadyExistException.class, () -> userService.disableUser(userName));
 		Mockito.verify(userDao, Mockito.times(0)).save(Mockito.any(User.class));
 	}
 
 	@Test
 	void testDisableUser_ActiveUser_ShouldDisableUser() throws ResourceAlreadyExistException {
-		// Arrange
 		String userName = "testuser";
 		User userToBeFound = new User();
 		userToBeFound.setName(userName);
@@ -156,10 +144,8 @@ class UserServiceTest {
 		Mockito.when(userDao.findByName(Mockito.anyString())).thenReturn(userToBeFound);
 		Mockito.when(userDao.save(Mockito.any(User.class))).thenReturn(userToBeFound);
 
-		// Act
 		String result = userService.disableUser(userName);
 
-		// Assert
 		assertEquals("Status changed to inactive for " + userName, result);
 		assertEquals("inactive", userToBeFound.getStatus());
 		Mockito.verify(userDao, Mockito.times(1)).save(Mockito.any(User.class));

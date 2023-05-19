@@ -1,5 +1,7 @@
 package com.littlejoys.service;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -7,6 +9,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -14,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 
@@ -103,6 +107,13 @@ class AddOnsServiceTest {
 	}
 
 	@Test
+	void testWhenIdNotFoundForDeleting_ShouldThrowException() {
+		long id = 1236;
+		Throwable thrown = assertThrows(ResourceNotFoundException.class, () -> addOnsService.deleteAddOnById(id));
+		assertEquals("AddOns(id) does not exist", thrown.getMessage());
+	}
+
+	@Test
 	void testGetAllAddOns() {
 		AddOns addOns1 = new AddOns(1234, "Test addList 1", 50, "Test Addon DTO description", null);
 		AddOns addOns2 = new AddOns(1234, "Test addList 2", 50, "Test Addon Entity description", null);
@@ -116,6 +127,27 @@ class AddOnsServiceTest {
 				.collect(Collectors.toList());
 
 		assertEquals(expectedAddOnsList, addOnsDTOList);
+	}
+
+	@Test
+	void testEditAddOnById_ExistingId_ReturnsUpdatedAddOn() throws ResourceNotFoundException {
+		addOns = new AddOns(1234, "Entity addon", 50, "Test Addon Entity description", null);
+		long id = 1234;
+
+		AddOns updatedAddOn = new AddOns();
+		updatedAddOn.setId(id);
+		updatedAddOn.setName("Updated AddOn name");
+		updatedAddOn.setDescription("Updated addon description");
+
+		Mockito.when(addOnsDao.findById(id)).thenReturn(Optional.of(addOns));
+		Mockito.when(modelMapper.map(addOnsDTO, AddOns.class)).thenReturn(updatedAddOn);
+		Mockito.when(addOnsDao.save(updatedAddOn)).thenReturn(updatedAddOn);
+
+		Map<String, Object> result = addOnsService.editAddOnById(id, addOnsDTO);
+
+		assertNotNull(result);
+		assertTrue(result.containsKey("AddOn updated"));
+		assertEquals(updatedAddOn, result.get("AddOn updated"));
 	}
 
 }
