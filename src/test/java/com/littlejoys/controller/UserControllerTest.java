@@ -189,4 +189,36 @@ class UserControllerTest {
 		Mockito.verify(otpService, Mockito.never()).clearOtp(username);
 	}
 
+	@Test
+	void testEnableUser_ValidUser_ReturnsSuccessMessage() throws ResourceAlreadyExistException {
+		Mockito.when(userService.enableUser(username)).thenReturn("Status changed to active for " + username);
+
+		String result = userController.enableUser(username);
+
+		assertEquals("Status changed to active for " + username, result);
+	}
+
+	@Test
+	void testEnableUser_InvalidUser_ThrowsResourceAlreadyExistException() throws ResourceAlreadyExistException {
+		Mockito.when(userService.enableUser(username)).thenThrow(ResourceAlreadyExistException.class);
+
+		assertThrows(ResourceAlreadyExistException.class, () -> userController.enableUser(username));
+	}
+
+	@Test
+	void testDisableUser_ValidUser_ReturnsSuccessMessage() throws ResourceAlreadyExistException {
+		Mockito.when(userService.disableUser(username)).thenReturn("Status changed to inactive for " + username);
+
+		String result = userController.disableUser(username);
+
+		assertEquals("Status changed to inactive for " + username, result);
+	}
+
+	@Test
+	void testDisableUser_InvalidUser_ThrowsResourceAlreadyExistException() throws ResourceAlreadyExistException {
+		Mockito.when(userService.disableUser(username)).thenThrow(ResourceAlreadyExistException.class);
+
+		assertThrows(ResourceAlreadyExistException.class, () -> userController.disableUser(username));
+	}
+
 }
