@@ -14,6 +14,7 @@ public class OrderDTO {
 	private Double shippingCost;
 	private Double totalCost;
 	private String address;
+	private float weight;
 	private Set<Cake> cakes;
 	private User user;
 	private Set<Offer> offer;
@@ -23,7 +24,7 @@ public class OrderDTO {
 
 	}
 
-	public OrderDTO(long id, String messageOnCake, double shippingCost, double totalCost, String address,
+	public OrderDTO(long id, String messageOnCake, Double shippingCost, Double totalCost, String address, float weight,
 			Set<Cake> cakes, User user, Set<Offer> offer, Set<AddOns> addons) {
 		super();
 		this.id = id;
@@ -31,6 +32,7 @@ public class OrderDTO {
 		this.shippingCost = shippingCost;
 		this.totalCost = totalCost;
 		this.address = address;
+		this.weight = weight;
 		this.cakes = cakes;
 		this.user = user;
 		this.offer = offer;
@@ -109,11 +111,27 @@ public class OrderDTO {
 		this.addons = addons;
 	}
 
+	public float getWeight() {
+		return weight;
+	}
+
+	public void setWeight(float weight) {
+		this.weight = weight;
+	}
+
+	public void setShippingCost(Double shippingCost) {
+		this.shippingCost = shippingCost;
+	}
+
+	public void setTotalCost(Double totalCost) {
+		this.totalCost = totalCost;
+	}
+
 	@Override
 	public String toString() {
 		return "OrderDTO [id=" + id + ", messageOnCake=" + messageOnCake + ", shippingCost=" + shippingCost
-				+ ", totalCost=" + totalCost + ", address=" + address + ", cakes=" + cakes + ", user=" + user
-				+ ", offer=" + offer + ", addons=" + addons + "]";
+				+ ", totalCost=" + totalCost + ", address=" + address + ", weight=" + weight + ", cakes=" + cakes
+				+ ", user=" + user + ", offer=" + offer + ", addons=" + addons + "]";
 	}
 
 }

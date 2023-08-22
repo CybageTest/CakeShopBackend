@@ -13,7 +13,6 @@ public class CakeDTO {
 	private String cakeName;
 	private double price;
 	private String description;
-	private int weight;
 	private CakeFlavours flavours;
 	private CakeCategory category;
 	private CakeOccasions occasions;
@@ -23,14 +22,13 @@ public class CakeDTO {
 
 	}
 
-	public CakeDTO(long id, String cakeName, double price, String description, int weight, CakeFlavours flavours,
+	public CakeDTO(long id, String cakeName, double price, String description, CakeFlavours flavours,
 			CakeCategory category, CakeOccasions occasions, Set<Order> order) {
 		super();
 		this.id = id;
 		this.cakeName = cakeName;
 		this.price = price;
 		this.description = description;
-		this.weight = weight;
 		this.flavours = flavours;
 		this.category = category;
 		this.occasions = occasions;
@@ -69,14 +67,6 @@ public class CakeDTO {
 		this.description = description;
 	}
 
-	public int getWeight() {
-		return weight;
-	}
-
-	public void setWeight(int weight) {
-		this.weight = weight;
-	}
-
 	public CakeFlavours getFlavours() {
 		return flavours;
 	}
@@ -111,9 +101,9 @@ public class CakeDTO {
 
 	@Override
 	public String toString() {
-		return "Cake [id=" + id + ", cakeName=" + cakeName + ", price=" + price + ", description=" + description
-				+ ", weight=" + weight + ", flavours=" + flavours + ", category=" + category + ", occasions="
-				+ occasions + ", order=" + order + "]";
+		return "CakeDTO [id=" + id + ", cakeName=" + cakeName + ", price=" + price + ", description=" + description
+				+ ", flavours=" + flavours + ", category=" + category + ", occasions=" + occasions + ", order=" + order
+				+ "]";
 	}
 
 }

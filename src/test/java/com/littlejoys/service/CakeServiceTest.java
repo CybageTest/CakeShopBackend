@@ -55,11 +55,11 @@ class CakeServiceTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		MockitoAnnotations.openMocks(this);
-		cakeDTO = new CakeDTO(12356, "lava cake", 123.456, "swwet cake", 1, flavour, category, occasion, null);
-		cake = new Cake(12356, "lava cake", 123.456, "swwet cake", 1, flavour, category, occasion, null);
+		cakeDTO = new CakeDTO(12356, "lava cake", 123.456, "swwet cake",  flavour, category, occasion, null);
+		cake = new Cake(12356, "lava cake", 123.456, "swwet cake",  flavour, category, occasion, null);
 		expectedCakes = Arrays.asList(
-				new Cake(12500, "TestCakeName 1", 1234, "TestDescription 1", 1, flavour, category, occasion, null),
-				new Cake(12501, "TestCakeName 2", 1234, "TestDescription 1", 1, flavour, category, occasion, null));
+				new Cake(12500, "TestCakeName 1", 1234, "TestDescription 1",  flavour, category, occasion, null),
+				new Cake(12501, "TestCakeName 2", 1234, "TestDescription 1",  flavour, category, occasion, null));
 	}
 
 	@Test
@@ -107,9 +107,9 @@ class CakeServiceTest {
 
 	@Test
 	void testAddCakeList() {
-		CakeDTO cakeDTO1 = new CakeDTO(12356, "TestCakeName 1", 1234, "TestDescription 1", 1, CakeFlavours.BANANA,
+		CakeDTO cakeDTO1 = new CakeDTO(12356, "TestCakeName 1", 1234, "TestDescription 1",  CakeFlavours.BANANA,
 				CakeCategory.EGG, CakeOccasions.BIRTHDAY, null);
-		CakeDTO cakeDTO2 = new CakeDTO(12357, "TestCakeName 2", 1234, "TestDescription 2", 1, CakeFlavours.BANANA,
+		CakeDTO cakeDTO2 = new CakeDTO(12357, "TestCakeName 2", 1234, "TestDescription 2",  CakeFlavours.BANANA,
 				CakeCategory.EGG, CakeOccasions.BIRTHDAY, null);
 		List<CakeDTO> cakeDTOList = Arrays.asList(cakeDTO1, cakeDTO2);
 
@@ -127,9 +127,9 @@ class CakeServiceTest {
 
 	@Test
 	void testGetAllCakes() {
-		Cake cake1 = new Cake(12356, "TestCakeName 1", 1234, "TestDescription 1", 1, CakeFlavours.BANANA,
+		Cake cake1 = new Cake(12356, "TestCakeName 1", 1234, "TestDescription 1",  CakeFlavours.BANANA,
 				CakeCategory.EGG, CakeOccasions.BIRTHDAY, null);
-		Cake cake2 = new Cake(12357, "TestCakeName 2", 1234, "TestDescription 2", 1, CakeFlavours.BANANA,
+		Cake cake2 = new Cake(12357, "TestCakeName 2", 1234, "TestDescription 2",  CakeFlavours.BANANA,
 				CakeCategory.EGG, CakeOccasions.BIRTHDAY, null);
 		List<Cake> cakeList = Arrays.asList(cake1, cake2);
 

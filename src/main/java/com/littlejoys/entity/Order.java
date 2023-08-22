@@ -22,6 +22,7 @@ public class Order {
 	private Double shippingCost;
 	private Double totalCost;
 	private String address;
+	private float weight;
 
 	@ManyToMany(cascade = CascadeType.MERGE)
 	private Set<Cake> cakes;
@@ -39,14 +40,15 @@ public class Order {
 
 	}
 
-	public Order(long id, String messageOnCake, double shippingCost, double totalCost, String address, Set<Cake> cakes,
-			User user, Set<Offer> offer, Set<AddOns> addons) {
+	public Order(long id, String messageOnCake, Double shippingCost, Double totalCost, String address, float weight,
+			Set<Cake> cakes, User user, Set<Offer> offer, Set<AddOns> addons) {
 		super();
 		this.id = id;
 		this.messageOnCake = messageOnCake;
 		this.shippingCost = shippingCost;
 		this.totalCost = totalCost;
 		this.address = address;
+		this.weight = weight;
 		this.cakes = cakes;
 		this.user = user;
 		this.offer = offer;
@@ -125,11 +127,19 @@ public class Order {
 		this.addons = addons;
 	}
 
+	public float getWeight() {
+		return weight;
+	}
+
+	public void setWeight(float weight) {
+		this.weight = weight;
+	}
+
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", messageOnCake=" + messageOnCake + ", shippingCost=" + shippingCost
-				+ ", totalCost=" + totalCost + ", address=" + address + ", cakes=" + cakes + ", user=" + user
-				+ ", offer=" + offer + ", addons=" + addons + "]";
+				+ ", totalCost=" + totalCost + ", address=" + address + ", weight=" + weight + ", cakes=" + cakes
+				+ ", user=" + user + ", offer=" + offer + ", addons=" + addons + "]";
 	}
 
 }

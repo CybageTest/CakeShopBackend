@@ -26,7 +26,6 @@ public class Cake {
 	private double price;
 	@Column(columnDefinition = "varchar(255) default 'Preparation starts after receiving the order. No storage.' ")
 	private String description;
-	private int weight;
 
 	@Enumerated(EnumType.STRING)
 	private CakeFlavours flavours;
@@ -45,14 +44,13 @@ public class Cake {
 
 	}
 
-	public Cake(long id, String cakeName, double price, String description, int weight, CakeFlavours flavours,
+	public Cake(long id, String cakeName, double price, String description, CakeFlavours flavours,
 			CakeCategory category, CakeOccasions occasions, Set<Order> order) {
 		super();
 		this.id = id;
 		this.cakeName = cakeName;
 		this.price = price;
 		this.description = description;
-		this.weight = weight;
 		this.flavours = flavours;
 		this.category = category;
 		this.occasions = occasions;
@@ -91,14 +89,6 @@ public class Cake {
 		this.description = description;
 	}
 
-	public int getWeight() {
-		return weight;
-	}
-
-	public void setWeight(int weight) {
-		this.weight = weight;
-	}
-
 	public CakeFlavours getFlavours() {
 		return flavours;
 	}
@@ -134,8 +124,8 @@ public class Cake {
 	@Override
 	public String toString() {
 		return "Cake [id=" + id + ", cakeName=" + cakeName + ", price=" + price + ", description=" + description
-				+ ", weight=" + weight + ", flavours=" + flavours + ", category=" + category + ", occasions="
-				+ occasions + ", order=" + order + "]";
+				+ ", flavours=" + flavours + ", category=" + category + ", occasions=" + occasions + ", order=" + order
+				+ "]";
 	}
 
 }

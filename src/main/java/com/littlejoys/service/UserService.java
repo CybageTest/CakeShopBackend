@@ -91,7 +91,7 @@ public class UserService {
 				userToBeSaved.setStatus(INACTIVE);
 				userToBeSaved.setRole(roles);
 				userToBeSaved.setPassword(getEncodedPassword(userToBeSaved.getPassword()));
-				createAndSendConfirmationTokenViaEmail(userToBeSaved);
+				//createAndSendConfirmationTokenViaEmail(userToBeSaved);
 				return userDao.save(userToBeSaved);
 			}
 		}

@@ -50,15 +50,15 @@ class OrderServiceTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		MockitoAnnotations.openMocks(this);
-		Cake cake1 = new Cake(12356, "lava cake", 123.456, "swwet cake", 1, null, category, null, null);
-		Cake cake2 = new Cake(12357, "lava cake", 123.456, "swwet cake", 1, null, category, null, null);
+		Cake cake1 = new Cake(12356, "lava cake", 123.456, "swwet cake", null, category, null, null);
+		Cake cake2 = new Cake(12357, "lava cake", 123.456, "swwet cake", null, category, null, null);
 		cakes.add(cake1);
 		cakes.add(cake2);
-		orderDTO = new OrderDTO(12800, "Test message", 1000, 1100, "test address", cakes, null, null, null);
-		order = new Order(12800, "Test message", 1000, 1100, "test address", cakes, null, null, null);
+		orderDTO = new OrderDTO(12800, "Test message", 1000.00, 1100.00, "test address", 1, cakes, null, null, null);
+		order = new Order(12800, "Test message", 1000.00, 1100.00, "test address", 1, cakes, null, null, null);
 		expectedOrders = Arrays.asList(
-				new Order(12500, "Test message 1", 1000, 1100, "test address 1", cakes, null, null, null),
-				new Order(12500, "Test message 2", 1000, 1100, "test address 2", cakes, null, null, null));
+				new Order(12500, "Test message 1", 1000.00, 1100.00, "test address 1", 1, cakes, null, null, null),
+				new Order(12500, "Test message 2", 1000.00, 1100.00, "test address 2", 1, cakes, null, null, null));
 	}
 
 	@Test
